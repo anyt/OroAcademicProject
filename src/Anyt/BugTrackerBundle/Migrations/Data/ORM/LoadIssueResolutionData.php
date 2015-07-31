@@ -9,6 +9,18 @@ use Anyt\BugTrackerBundle\Entity\IssueResolution;
 
 class LoadIssueResolutionData extends AbstractFixture
 {
+
+    protected static $types = [
+        IssueResolution::TYPE_UNSEROLVED => 'Unresolved',
+        IssueResolution::TYPE_FIXED => 'Fixed',
+        IssueResolution::TYPE_WONT_FIX => 'Won\'t fix',
+        IssueResolution::TYPE_DUPLICATE => 'Duplicate',
+        IssueResolution::TYPE_INCOMPLETE => 'Incomplete',
+        IssueResolution::TYPE_CANNOT_REPRODUCE => 'Cannot reproduce',
+        IssueResolution::TYPE_DONE => 'Done',
+        IssueResolution::TYPE_WONT_DO => 'Won\'t do',
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -16,7 +28,7 @@ class LoadIssueResolutionData extends AbstractFixture
     {
         $priorityRepository = $manager->getRepository('AnytBugTrackerBundle:IssueResolution');
 
-        $types = IssueResolution::getTypes();
+        $types = self::$types;
 
         foreach ($types as $weight => $resolutionType) {
             /** @var IssueResolution $IssueResolution */
