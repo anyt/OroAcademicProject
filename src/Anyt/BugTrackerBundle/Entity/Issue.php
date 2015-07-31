@@ -8,6 +8,9 @@ use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
+use Anyt\BugTrackerBundle\Model\ExtendIssue;
 
 /**
  * Issue.
@@ -15,9 +18,10 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
  * @ORM\Table(name="anyt_bugtracker_issue")
  * @ORM\Entity
  * @HasLifecycleCallbacks
+ * @Config
  *
  */
-class Issue implements Taggable
+class Issue extends ExtendIssue implements Taggable
 {
     const TYPE_BUG = 'bug';
     const TYPE_TAKS = 'task';
@@ -131,11 +135,20 @@ class Issue implements Taggable
 
     /**
      * @var ArrayCollection
+     * @ConfigField(
+     *      defaultValues={
+     *          "merge"={
+     *              "display"=true
+     *          }
+     *      }
+     * )
      */
     protected $tags;
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->collaborators = new ArrayCollection();
         $this->relatedIssues = new ArrayCollection();
     }
