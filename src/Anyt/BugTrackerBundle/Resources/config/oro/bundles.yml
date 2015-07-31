@@ -1,0 +1,2 @@
+bundles:
+    - { name: Anyt\BugTrackerBundle\AnytBugTrackerBundle }
