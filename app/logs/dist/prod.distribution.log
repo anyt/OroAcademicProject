@@ -1,5 +1,0 @@
-[2015-07-30 11:32:03] oro_distribution.INFO: oro/platform updating begin [] []
-[2015-07-30 11:32:03] oro_distribution.INFO: Updating composer.json oro/platform : * [] []
-[2015-07-30 11:32:03] oro_distribution.INFO: Executing ""/usr/bin/php" "/Users/yatsenco/Sites/academic/platform-application/app/console" cache:clear --no-warmup --env=prod" [] []
-[2015-07-30 11:32:11] oro_distribution.INFO: Clearing the cache for the prod environment with debug false
- [] []
