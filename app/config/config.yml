@@ -52,6 +52,8 @@ assetic:
 doctrine:
     dbal:
         default_connection:   default
+        types:
+            datetime: Anyt\BugTrackerBundle\DoctrineExtensions\DBAL\Types\UTCDateTimeType
         connections:
             default:
                 driver:       "%database_driver%"

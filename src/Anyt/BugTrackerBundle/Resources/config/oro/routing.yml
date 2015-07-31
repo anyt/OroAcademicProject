@@ -1,0 +1,4 @@
+AnytBugTrackerBundle:
+        resource: "@AnytBugTrackerBundle/Controller/"
+        type:     annotation
+        prefix:   /
