@@ -131,4 +131,15 @@ class IssueResolution
     {
         return $this->issues;
     }
+
+    /**
+     * @param ArrayCollection $issues
+     * @return IssueResolution
+     */
+    public function setIssues($issues)
+    {
+        $this->issues = $issues;
+
+        return $this;
+    }
 }

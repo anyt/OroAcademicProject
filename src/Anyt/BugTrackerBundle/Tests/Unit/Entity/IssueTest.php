@@ -25,7 +25,7 @@ class IssueTest extends AbstractEntityTestCase
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $user = $this->getMock('Oro\Bundle\UserBundle\Entity\User');
 
-        $this->setEntityId();
+//        $this->setEntityId();
 
         $summary = 'Lorem ipsum';
         $code = 'ISSUE-123';
@@ -40,6 +40,7 @@ class IssueTest extends AbstractEntityTestCase
         $relatedIssues = new ArrayCollection();
         $priority = $this->getMock('Anyt\BugTrackerBundle\Entity\IssuePriority');
         $resolution = $this->getMock('Anyt\BugTrackerBundle\Entity\IssueResolution');
+        $tags = new ArrayCollection();
 
         return [
             'summary' => ['summary', $summary, $summary],
@@ -50,10 +51,11 @@ class IssueTest extends AbstractEntityTestCase
             'type' => ['type', $type, $type],
             'reporter' => ['reporter', $reporter, $reporter],
             'assignee' => ['assignee', $assignee, $assignee],
-            'collaborators ' => ['collaborators ', $collaborators, $collaborators],
+            'collaborators' => ['collaborators', $collaborators, $collaborators],
             'relatedIssues' => ['relatedIssues', $relatedIssues, $relatedIssues],
             'priority' => ['priority', $priority, $priority],
             'resolution' => ['resolution', $resolution, $resolution],
+            'tags' => ['tags', $tags, $tags],
         ];
     }
 
@@ -70,7 +72,7 @@ class IssueTest extends AbstractEntityTestCase
 
     public function testDoPostPersist()
     {
-        $entity = new Issue();
+        $entity = $this->entity;
         $this->setEntityId();
         $this->assertEquals(self::TEST_ID, $entity->getId());
         $entity->doPostPersist();

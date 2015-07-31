@@ -111,7 +111,7 @@ class Issue implements Taggable
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")}
      * )
      */
-    protected $relatesIssues;
+    protected $relatedIssues;
 
     /**
      * @var IssuePriority
@@ -137,7 +137,7 @@ class Issue implements Taggable
     public function __construct()
     {
         $this->collaborators = new ArrayCollection();
-        $this->relatesIssues = new ArrayCollection();
+        $this->relatedIssues = new ArrayCollection();
     }
 
     /**
@@ -182,6 +182,17 @@ class Issue implements Taggable
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * @param string $code
+     * @return Issue
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
     }
 
     /**
@@ -338,11 +349,97 @@ class Issue implements Taggable
     }
 
     /**
-     * @return ArrayCollection
+     * @param User $collaborator
+     *
+     * @return Issue
      */
-    public function getRelatesIssues()
+    public function addCollaborator(User $collaborator)
     {
-        return $this->relatesIssues;
+        if (!$this->getCollaborators()->contains($collaborator)) {
+            $this->getCollaborators()->add($collaborator);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ArrayCollection $collaborators
+     *
+     * @return Issue
+     */
+    public function setCollaborators(Collection $collaborators)
+    {
+        $this->collaborators = $collaborators;
+
+        return $this;
+    }
+
+    /**
+     * @param User $collaborator
+     *
+     * @return Issue
+     */
+    public function removeCollaborator(User $collaborator)
+    {
+        if ($this->getCollaborators()->contains($collaborator)) {
+            $this->getCollaborators()->removeElement($collaborator);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getRelatedIssues()
+    {
+        return $this->relatedIssues;
+    }
+
+    /**
+     * Add specified relatedIssue
+     *
+     * @param Issue $relatedIssue
+     *
+     * @return Issue
+     */
+    public function addRelatedIssue(Issue $relatedIssue)
+    {
+        if (!$this->getRelatedIssues()->contains($relatedIssue)) {
+            $this->getRelatedIssues()->add($relatedIssue);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set relatedIssues collection
+     *
+     * @param Collection $relatedIssues
+     *
+     * @return Issue
+     */
+    public function setRelatedIssues(Collection $relatedIssues)
+    {
+        $this->relatedIssues = $relatedIssues;
+
+        return $this;
+    }
+
+    /**
+     * Remove specified relatedIssue
+     *
+     * @param Issue $relatedIssue
+     *
+     * @return Issue
+     */
+    public function removeRelatedIssue(Issue $relatedIssue)
+    {
+        if ($this->getRelatedIssues()->contains($relatedIssue)) {
+            $this->getRelatedIssues()->removeElement($relatedIssue);
+        }
+
+        return $this;
     }
 
     /**

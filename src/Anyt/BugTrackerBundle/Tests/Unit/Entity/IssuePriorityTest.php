@@ -22,13 +22,13 @@ class IssuePriorityTest extends AbstractEntityTestCase
         $name = IssuePriority::TYPE_BLOCKER;
         $title = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam';
         $weight = 5;
-        $issue = $this->getMock('Anyt\BugTrackerBundle\Entity\Issue');
+        $issues = $this->getMock('Doctrine\Common\Collections\ArrayCollection');
 
         return [
             'name' => ['name', $name, $name],
             'title' => ['title', $title, $title],
             'weight' => ['weight', $weight, $weight],
-            'issue' => ['issue', $issue, $issue],
+            'issues' => ['issues', $issues, $issues],
 
         ];
     }

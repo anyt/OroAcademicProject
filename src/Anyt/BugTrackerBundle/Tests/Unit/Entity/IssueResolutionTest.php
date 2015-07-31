@@ -11,7 +11,7 @@ class IssueResolutionTest extends AbstractEntityTestCase
      */
     public function getEntityFQCN()
     {
-        return 'Anyt\BugTrackerBundle\Entity\IssuePriority';
+        return 'Anyt\BugTrackerBundle\Entity\IssueResolution';
     }
 
     /**
@@ -21,12 +21,12 @@ class IssueResolutionTest extends AbstractEntityTestCase
     {
         $name = IssueResolution::TYPE_DONE;
         $title = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam';
-        $issue = $this->getMock('Anyt\BugTrackerBundle\Entity\Issue');
+        $issues = $this->getMock('Doctrine\Common\Collections\ArrayCollection');
 
         return [
             'name' => ['name', $name, $name],
             'title' => ['title', $title, $title],
-            'issue' => ['issue', $issue, $issue],
+            'issues' => ['issues', $issues, $issues],
 
         ];
     }

@@ -154,4 +154,17 @@ class IssuePriority
     {
         return $this->issues;
     }
+
+    /**
+     * @param ArrayCollection $issues
+     * @return IssuePriority
+     */
+    public function setIssues($issues)
+    {
+        $this->issues = $issues;
+
+        return $this;
+    }
+
+
 }
