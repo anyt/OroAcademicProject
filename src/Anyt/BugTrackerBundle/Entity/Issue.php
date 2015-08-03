@@ -42,7 +42,7 @@ class Issue implements Taggable
 
     /**
      * @var string
-     * @ORM\Column(name="code", type="string", length=64)
+     * @ORM\Column(name="code", type="string", length=64, nullable=true)
      */
     private $code;
 
