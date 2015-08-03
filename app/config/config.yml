@@ -143,6 +143,8 @@ stof_doctrine_extensions:
         default:
             translatable:     true
             tree:             true
+            timestampable:    true
+            sluggable:        true
 
 services:
     twig.extension.intl:

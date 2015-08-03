@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * IssuePriority.
  *
- * @ORM\Table(name="anyt_bugtracker_issue_priority")
+ * @ORM\Table(name="anyt_bt_issue_priority")
  * @ORM\Entity
  */
 class IssuePriority

@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * IssueResolution.
  *
- * @ORM\Table(name="anyt_bugtracker_issue_resolution")
+ * @ORM\Table(name="anyt_bt_issue_resolution")
  * @ORM\Entity
  */
 class IssueResolution

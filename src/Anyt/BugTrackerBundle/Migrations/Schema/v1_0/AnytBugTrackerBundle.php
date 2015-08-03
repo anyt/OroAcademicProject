@@ -1,25 +1,15 @@
 <?php
 
-namespace Anyt\BugTrackerBundle\Migrations\Schema;
+namespace Anyt\BugTrackerBundle\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
-use Oro\Bundle\MigrationBundle\Migration\Installation;
+
+use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
+use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 
-/**
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.ExcessiveClassLength)
- */
-class AnytBugTrackerBundleInstaller implements Installation
+class AnytBugTrackerBundle implements Migration
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getMigrationVersion()
-    {
-        return 'v1_0';
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -122,4 +112,5 @@ class AnytBugTrackerBundleInstaller implements Installation
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
     }
+
 }

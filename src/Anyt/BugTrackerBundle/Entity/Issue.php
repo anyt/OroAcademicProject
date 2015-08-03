@@ -2,6 +2,7 @@
 
 namespace Anyt\BugTrackerBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Oro\Bundle\TagBundle\Entity\Taggable;
@@ -15,7 +16,7 @@ use Anyt\BugTrackerBundle\Model\ExtendIssue;
 /**
  * Issue.
  *
- * @ORM\Table(name="anyt_bugtracker_issue")
+ * @ORM\Table(name="anyt_bt_issue")
  * @ORM\Entity
  * @HasLifecycleCallbacks
  * @Config
@@ -45,7 +46,7 @@ class Issue extends ExtendIssue implements Taggable
 
     /**
      * @var string
-     * @ORM\Column(name="code", type="string", length=64)
+     * @ORM\Column(name="code", type="string", length=64, nullable=true)
      */
     private $code;
 
@@ -376,7 +377,7 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
-     * @param ArrayCollection $collaborators
+     * @param Collection $collaborators
      *
      * @return Issue
      */

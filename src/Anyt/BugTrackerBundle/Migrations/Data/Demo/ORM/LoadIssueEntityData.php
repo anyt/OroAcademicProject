@@ -71,7 +71,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
     public function getDependencies()
     {
         return array(
-            'OroCRM\Bundle\DemoDataBundle\Migrations\Data\Demo\ORM\LoadUsersData',
+            'Anyt\BugTrackerBundle\Migrations\Data\Demo\ORM\LoadUserData',
         );
     }
 
