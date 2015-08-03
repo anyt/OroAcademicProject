@@ -2,7 +2,8 @@ Anyt\BugTrackerBundle\Entity\Issue:
     properties:
         summary:
           - NotBlank: ~
-          - MaxLength: 254
+          - Length:
+              max: 254
         code:
           - NotBlank: ~
         description:
@@ -19,7 +20,8 @@ Anyt\BugTrackerBundle\Entity\IssuePriority:
           - NotBlank: ~
         title:
           - NotBlank: ~
-          - MaxLength: 254
+          - Length:
+              max: 254
         weight:
           - Range:
               min: 1
@@ -32,6 +34,7 @@ Anyt\BugTrackerBundle\Entity\IssueResolution:
           - NotBlank: ~
         title:
           - NotBlank: ~
-          - MaxLength: 254
+          - Length:
+              max: 254
         issue:
           - NotBlank: ~

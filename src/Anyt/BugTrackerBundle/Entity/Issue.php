@@ -19,7 +19,28 @@ use Anyt\BugTrackerBundle\Model\ExtendIssue;
  * @ORM\Table(name="anyt_bt_issue")
  * @ORM\Entity
  * @HasLifecycleCallbacks
- * @Config
+ * @Config(
+ *      routeName="anyt_issue_index",
+ *      routeView="anyt_issue_view",
+ *      defaultValues={
+ *          "dataaudit"={
+ *              "auditable"=true
+ *          },
+ *          "entity"={
+ *              "icon"="icon-list-alt",
+ *              "context-grid"="issues-for-context-grid"
+ *          },
+ *          "ownership"={
+ *              "owner_type"="USER",
+ *              "owner_field_name"="owner",
+ *              "owner_column_name"="user_owner_id"
+ *          },
+ *          "security"={
+ *              "type"="ACL"
+ *          }
+ *      }
+
+ * )
  *
  */
 class Issue extends ExtendIssue implements Taggable
@@ -84,9 +105,9 @@ class Issue extends ExtendIssue implements Taggable
      *
      * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_reporter_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    protected $reporter;
+    protected $owner;
 
     /**
      * @var User
@@ -284,19 +305,19 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * @return User
      */
-    public function getReporter()
+    public function getOwner()
     {
-        return $this->reporter;
+        return $this->owner;
     }
 
     /**
-     * @param mixed $reporter
+     * @param mixed $owner
      *
      * @return Issue
      */
-    public function setReporter(User $reporter)
+    public function setOwner(User $owner)
     {
-        $this->reporter = $reporter;
+        $this->owner = $owner;
 
         return $this;
     }

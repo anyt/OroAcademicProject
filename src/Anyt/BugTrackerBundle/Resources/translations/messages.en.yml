@@ -15,7 +15,7 @@ anyt:
         id.label:                   Id
         priority.label:             Priority
         related_issues.label:       Related issues
-        reporter.label:             Reporter
+        owner.label:             Reporter
         resolution.label:           Resolution
         summary.label:              Summary
         type.label:                 Type

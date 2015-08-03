@@ -34,7 +34,7 @@ class IssueTest extends AbstractEntityTestCase
         $created = $now;
         $updated = $now;
         $type = Issue::TYPE_BUG;
-        $reporter = $user;
+        $owner = $user;
         $assignee = $user;
         $collaborators = new ArrayCollection();
         $relatedIssues = new ArrayCollection();
@@ -49,7 +49,7 @@ class IssueTest extends AbstractEntityTestCase
             'created' => ['created', $created, $created],
             'updated' => ['updated', $updated, $updated],
             'type' => ['type', $type, $type],
-            'reporter' => ['reporter', $reporter, $reporter],
+            'owner' => ['owner', $owner, $owner],
             'assignee' => ['assignee', $assignee, $assignee],
             'collaborators' => ['collaborators', $collaborators, $collaborators],
             'relatedIssues' => ['relatedIssues', $relatedIssues, $relatedIssues],

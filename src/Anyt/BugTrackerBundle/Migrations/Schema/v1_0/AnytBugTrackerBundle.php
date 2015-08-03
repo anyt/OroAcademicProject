@@ -34,7 +34,7 @@ class AnytBugTrackerBundle implements Migration
         $table = $schema->createTable('anyt_bt_issue');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('resolution_id', 'integer', ['notnull' => false]);
-        $table->addColumn('user_reporter_id', 'integer', ['notnull' => false]);
+        $table->addColumn('user_owner_id', 'integer', ['notnull' => false]);
         $table->addColumn('priority_id', 'integer', ['notnull' => false]);
         $table->addColumn('user_assignee_id', 'integer', ['notnull' => false]);
         $table->addColumn('summary', 'string', ['length' => 255]);
@@ -44,7 +44,7 @@ class AnytBugTrackerBundle implements Migration
         $table->addColumn('updated', 'datetime', []);
         $table->addColumn('type', 'string', ['length' => 255]);
         $table->setPrimaryKey(['id']);
-        $table->addIndex(['user_reporter_id'], 'IDX_CD22DC248D42F60', []);
+        $table->addIndex(['user_owner_id'], 'IDX_CD22DC248D42F60', []);
         $table->addIndex(['user_assignee_id'], 'IDX_CD22DC2F0F7B4F5', []);
         $table->addIndex(['priority_id'], 'IDX_CD22DC2497B19F9', []);
         $table->addIndex(['resolution_id'], 'IDX_CD22DC212A1C43A', []);
@@ -95,7 +95,7 @@ class AnytBugTrackerBundle implements Migration
         );
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_user'),
-            ['user_reporter_id'],
+            ['user_owner_id'],
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );

@@ -106,7 +106,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
 
         $priority = $this->getRandomEntity('AnytBugTrackerBundle:IssuePriority');
         $resolution = $this->getRandomEntity('AnytBugTrackerBundle:IssueResolution');
-        $reporter = $this->getRandomEntity('OroUserBundle:User');
+        $owner = $this->getRandomEntity('OroUserBundle:User');
         $assignee = $this->getRandomEntity('OroUserBundle:User');
 
 
@@ -118,7 +118,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
             ->setType(array_rand(Issue::getTypes()))
             ->setPriority($priority)
             ->setResolution($resolution)
-            ->setReporter($reporter)
+            ->setOwner($owner)
             ->setAssignee($assignee)
         ;
 

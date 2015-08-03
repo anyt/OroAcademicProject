@@ -1,0 +1,118 @@
+datagrid:
+    issues-grid:
+        source:
+            acl_resource: anyt_issue_view
+            type: orm
+            query:
+                select:
+                    - i.id
+                    - i.summary
+                    - i.code
+                    - i.created
+                    - i.updated
+                    - i.type
+#                    - i.owner.id
+#                    - i.owner.firstName
+#                    - i.owner.lastName
+#                    - i.assignee
+#                    - i.priority
+#                    - i.resolution
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+#                join:
+#                    left:
+#                        - { join: i.owner, alias: owner}
+#                        - { join: i.assignee, alias: assignee}
+#                        - { join: i.priority, alias: priority}
+#                        - { join: i.resolution, alias: resolution}
+        columns:
+            summary:
+                label: Summary
+                frontend_type: date
+            code:
+                label: Code
+            created:
+                label: Created
+                frontend_type: datetime
+            updated:
+                label: Updated
+                frontend_type: datetime
+            type:
+                label: Type
+            owner:
+                type: twig
+                label: orocrm.case.datagrid.owner.label
+                frontend_type: html
+                template: AnytBugTrackerBundle:Issue:Datagrid/Property/owner.html.twig
+#            assignee:
+#                label: Assignee
+#                frontend_type: date
+#            priority:
+#                label: Priority
+#                frontend_type: date
+#            resolution:
+#                label: Resolution
+#                frontend_type: date
+        properties:
+            id: ~
+            update_link:
+                type: url
+                route: anyt_issue_update
+                params:
+                    - id
+            view_link:
+                type: url
+                route: anyt_issue_view
+                params:
+                    - id
+            delete_link:
+                type: url
+                route: anyt_api_delete_issue
+                params:
+                    - id
+#        sorters:
+#            columns:
+#                model:
+#                    data_name: i.model
+#                seats:
+#                    data_name: i.seats
+#                boughtAt:
+#                    data_name: i.boughtAt
+#                leasedUntil:
+#                    data_name: i.leasedUntil
+#            default:
+#                model: ASC
+#        filters:
+#            columns:
+#                model:
+#                    type: string
+#                    data_name: i.model
+#                seats:
+#                    type: number
+#                    data_name: i.seats
+#                boughtAt:
+#                    type: date
+#                    data_name: i.boughtAt
+#                leasedUntil:
+#                    type: date
+#                    data_name: i.leasedUntil
+        actions:
+            view:
+                type:          navigate
+                label:         View
+                link:          view_link
+                icon:          eye-open
+                acl_resource:  anyt_issue_view
+                rowAction:     true
+            update:
+                type:          navigate
+                label:         Update
+                link:          update_link
+                icon:          edit
+                acl_resource:  anyt_issue_update
+            delete:
+                type:          delete
+                label:         Delete
+                link:          delete_link
+                icon:          trash
+                acl_resource:  anyt_issue_delete
