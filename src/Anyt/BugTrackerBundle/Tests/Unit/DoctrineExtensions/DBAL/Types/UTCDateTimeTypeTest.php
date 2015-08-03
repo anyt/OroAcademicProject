@@ -32,7 +32,7 @@ class UTCDateTimeTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertToDatabaseValue()
     {
-        $date = new \DateTime(self::DATE_FORMATTED);
+        $date = new \DateTime(self::DATE_FORMATTED, new \DateTimeZone('UTC'));
         $value = $this->object->convertToDatabaseValue($date, $this->platform);
         $this->assertEquals(self::DATE_FORMATTED, $value);
 
@@ -44,7 +44,7 @@ class UTCDateTimeTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertToPHPValue()
     {
-        $date = new \DateTime(self::DATE_FORMATTED);
+        $date = new \DateTime(self::DATE_FORMATTED, new \DateTimeZone('UTC'));
         $value = $this->object->convertToPHPValue(self::DATE_FORMATTED, $this->platform);
         $this->assertEquals($date, $value);
 
