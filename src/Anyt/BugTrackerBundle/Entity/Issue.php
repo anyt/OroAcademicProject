@@ -8,7 +8,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Anyt\BugTrackerBundle\Model\ExtendIssue;
@@ -18,7 +17,6 @@ use Anyt\BugTrackerBundle\Model\ExtendIssue;
  *
  * @ORM\Table(name="anyt_bt_issue")
  * @ORM\Entity
- * @HasLifecycleCallbacks
  * @Config(
  *      routeName="anyt_issue_index",
  *      routeView="anyt_issue_view",
@@ -39,7 +37,6 @@ use Anyt\BugTrackerBundle\Model\ExtendIssue;
  *              "type"="ACL"
  *          }
  *      }
-
  * )
  *
  */
@@ -543,11 +540,5 @@ class Issue extends ExtendIssue implements Taggable
         $this->tags = $tags;
 
         return $this;
-    }
-
-    /** @ORM\PostPersist */
-    public function doPostPersist()
-    {
-        $this->code = sprintf('ISSUE-%d', $this->id);
     }
 }

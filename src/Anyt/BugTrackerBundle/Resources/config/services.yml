@@ -1,0 +1,10 @@
+parameters:
+    anyt.issue.code.generator.class: Anyt\BugTrackerBundle\IssueCodeGenerator\BasicGenerator
+services:
+    anyt.issue.code.listener:
+        class: Anyt\BugTrackerBundle\EventListener\IssueCodeListener
+        arguments: [@anyt.issue.code.generator]
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+    anyt.issue.code.generator:
+        class: '%anyt.issue.code.generator.class%'

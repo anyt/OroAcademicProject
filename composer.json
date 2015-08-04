@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "oro/platform": "*"
+        "oro/platform": "1.7.*"
     },
     "config": {
         "component-dir": "web/bundles/components",

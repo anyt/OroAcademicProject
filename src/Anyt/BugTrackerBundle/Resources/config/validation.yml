@@ -4,8 +4,6 @@ Anyt\BugTrackerBundle\Entity\Issue:
           - NotBlank: ~
           - Length:
               max: 254
-        code:
-          - NotBlank: ~
         description:
           - NotBlank: ~
         created:
