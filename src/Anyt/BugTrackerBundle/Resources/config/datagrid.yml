@@ -7,10 +7,10 @@ datagrid:
                 select:
                     - i.id
                     - i.summary
-                    - i.code
-                    - i.created
-                    - i.updated
-                    - i.type
+#                    - i.code
+#                    - i.created
+#                    - i.updated
+#                    - i.type
 #                    - i.owner.id
 #                    - i.owner.firstName
 #                    - i.owner.lastName
@@ -28,22 +28,21 @@ datagrid:
         columns:
             summary:
                 label: Summary
-                frontend_type: date
-            code:
-                label: Code
-            created:
-                label: Created
-                frontend_type: datetime
-            updated:
-                label: Updated
-                frontend_type: datetime
-            type:
-                label: Type
-            owner:
-                type: twig
-                label: orocrm.case.datagrid.owner.label
-                frontend_type: html
-                template: AnytBugTrackerBundle:Issue:Datagrid/Property/owner.html.twig
+#            code:
+#                label: Code
+#            created:
+#                label: Created
+#                frontend_type: datetime
+#            updated:
+#                label: Updated
+#                frontend_type: datetime
+#            type:
+#                label: Type
+#            owner:
+#                type: twig
+#                label: orocrm.case.datagrid.owner.label
+#                frontend_type: html
+#                template: AnytBugTrackerBundle:Issue:Datagrid/Property/owner.html.twig
 #            assignee:
 #                label: Assignee
 #                frontend_type: date
@@ -53,23 +52,23 @@ datagrid:
 #            resolution:
 #                label: Resolution
 #                frontend_type: date
-        properties:
-            id: ~
-            update_link:
-                type: url
-                route: anyt_issue_update
-                params:
-                    - id
-            view_link:
-                type: url
-                route: anyt_issue_view
-                params:
-                    - id
-            delete_link:
-                type: url
-                route: anyt_api_delete_issue
-                params:
-                    - id
+#        properties:
+#            id: ~
+#            update_link:
+#                type: url
+#                route: anyt_issue_update
+#                params:
+#                    - id
+#            view_link:
+#                type: url
+#                route: anyt_issue_view
+#                params:
+#                    - id
+#            delete_link:
+#                type: url
+#                route: anyt_api_delete_issue
+#                params:
+#                    - id
 #        sorters:
 #            columns:
 #                model:
@@ -96,23 +95,23 @@ datagrid:
 #                leasedUntil:
 #                    type: date
 #                    data_name: i.leasedUntil
-        actions:
-            view:
-                type:          navigate
-                label:         View
-                link:          view_link
-                icon:          eye-open
-                acl_resource:  anyt_issue_view
-                rowAction:     true
-            update:
-                type:          navigate
-                label:         Update
-                link:          update_link
-                icon:          edit
-                acl_resource:  anyt_issue_update
-            delete:
-                type:          delete
-                label:         Delete
-                link:          delete_link
-                icon:          trash
-                acl_resource:  anyt_issue_delete
+#        actions:
+#            view:
+#                type:          navigate
+#                label:         View
+#                link:          view_link
+#                icon:          eye-open
+#                acl_resource:  anyt_issue_view
+#                rowAction:     true
+#            update:
+#                type:          navigate
+#                label:         Update
+#                link:          update_link
+#                icon:          edit
+#                acl_resource:  anyt_issue_update
+#            delete:
+#                type:          delete
+#                label:         Delete
+#                link:          delete_link
+#                icon:          trash
+#                acl_resource:  anyt_issue_delete
