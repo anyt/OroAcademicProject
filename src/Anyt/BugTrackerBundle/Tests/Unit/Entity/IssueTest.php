@@ -69,13 +69,4 @@ class IssueTest extends AbstractEntityTestCase
 
         $this->assertSame(self::TEST_ID, $this->entity->getTaggableId());
     }
-
-    public function testDoPostPersist()
-    {
-        $entity = $this->entity;
-        $this->setEntityId();
-        $this->assertEquals(self::TEST_ID, $entity->getId());
-        $entity->doPostPersist();
-        $this->assertEquals('ISSUE-123', $entity->getCode());
-    }
 }

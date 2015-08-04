@@ -8,3 +8,33 @@ services:
             - { name: doctrine.event_listener, event: postPersist }
     anyt.issue.code.generator:
         class: '%anyt.issue.code.generator.class%'
+    anyt.issue.manager.api:
+        class: Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - Anyt\BugTrackerBundle\Entity\Issue
+            - "@doctrine.orm.entity_manager"
+    anyt.form.type.issue.api:
+        class:                                      Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+        arguments:
+            - @router
+            - @oro_entity.entity_name_resolver
+            - @oro_security.security_facade
+        tags:
+            - { name: form.type, alias: issue }
+
+    anyt.form.issue.api:
+        class:                                      Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["issue", "issue", null]
+
+    anyt.form.handler.issue.api:
+        class:                                      Anyt\BugTrackerBundle\Form\Handler\IssueHandler
+        scope: request
+        arguments:
+            - @anyt.form.issue.api
+            - @request
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }

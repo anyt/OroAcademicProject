@@ -61,6 +61,11 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
     protected $container;
 
     /**
+     * @var Organization
+     */
+    protected $organization;
+
+    /**
      * @var array
      */
     protected $entitiesCount;
@@ -81,6 +86,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
     public function load(ObjectManager $manager)
     {
         $this->entityManager = $manager;
+        $this->organization = $this->getReference('default_organization');
 
         for ($i = 0; $i < self::ISSUES_COUNT; ++$i) {
 //            $summary = self::$fixtureText[$i];
@@ -119,7 +125,8 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
             ->setPriority($priority)
             ->setResolution($resolution)
             ->setOwner($owner)
-            ->setAssignee($assignee);
+            ->setAssignee($assignee)
+            ->setOrganization($this->organization);
 
         return $issue;
     }

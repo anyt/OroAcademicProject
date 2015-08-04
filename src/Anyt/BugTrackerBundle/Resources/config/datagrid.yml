@@ -52,23 +52,23 @@ datagrid:
 #            resolution:
 #                label: Resolution
 #                frontend_type: date
-#        properties:
-#            id: ~
-#            update_link:
-#                type: url
-#                route: anyt_issue_update
-#                params:
-#                    - id
-#            view_link:
-#                type: url
-#                route: anyt_issue_view
-#                params:
-#                    - id
-#            delete_link:
-#                type: url
-#                route: anyt_api_delete_issue
-#                params:
-#                    - id
+        properties:
+            id: ~
+            update_link:
+                type: url
+                route: anyt_issue_update
+                params:
+                    - id
+            view_link:
+                type: url
+                route: anyt_issue_view
+                params:
+                    - id
+            delete_link:
+                type: url
+                route: anyt_api_delete_issue
+                params:
+                    - id
 #        sorters:
 #            columns:
 #                model:
@@ -95,23 +95,23 @@ datagrid:
 #                leasedUntil:
 #                    type: date
 #                    data_name: i.leasedUntil
-#        actions:
-#            view:
-#                type:          navigate
-#                label:         View
-#                link:          view_link
-#                icon:          eye-open
-#                acl_resource:  anyt_issue_view
-#                rowAction:     true
-#            update:
-#                type:          navigate
-#                label:         Update
-#                link:          update_link
-#                icon:          edit
-#                acl_resource:  anyt_issue_update
-#            delete:
-#                type:          delete
-#                label:         Delete
-#                link:          delete_link
-#                icon:          trash
-#                acl_resource:  anyt_issue_delete
+        actions:
+            view:
+                type:          navigate
+                label:         View
+                link:          view_link
+                icon:          eye-open
+                acl_resource:  anyt_issue_view
+                rowAction:     true
+            update:
+                type:          navigate
+                label:         Update
+                link:          update_link
+                icon:          edit
+                acl_resource:  anyt_issue_update
+            delete:
+                type:          delete
+                label:         Delete
+                link:          delete_link
+                icon:          trash
+                acl_resource:  anyt_issue_delete

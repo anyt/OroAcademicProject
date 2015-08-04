@@ -19,5 +19,9 @@ anyt:
         resolution.label:           Resolution
         summary.label:              Summary
         type.label:                 Type
+        type.bug.label:             Bug
+        type.task.label:            Task
+        type.story.label:           Story
+        type.subtask.label:         Subtask
         updated.label:              Updated
         description.label:          Description

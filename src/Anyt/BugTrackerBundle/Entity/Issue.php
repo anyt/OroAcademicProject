@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Anyt\BugTrackerBundle\Model\ExtendIssue;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 /**
  * Issue.
@@ -31,7 +32,9 @@ use Anyt\BugTrackerBundle\Model\ExtendIssue;
  *          "ownership"={
  *              "owner_type"="USER",
  *              "owner_field_name"="owner",
- *              "owner_column_name"="user_owner_id"
+ *              "owner_column_name"="user_owner_id",
+ *              "organization_field_name"="organization",
+ *              "organization_column_name"="organization_id"
  *          },
  *          "security"={
  *              "type"="ACL"
@@ -100,15 +103,6 @@ class Issue extends ExtendIssue implements Taggable
     /**
      * @var User
      *
-     * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-     * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id", onDelete="SET NULL")
-     */
-    protected $owner;
-
-    /**
-     * @var User
-     *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_assignee_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -118,7 +112,7 @@ class Issue extends ExtendIssue implements Taggable
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Oro\Bundle\UserBundle\Entity\User")
-     * @ORM\JoinTable(name="anyt_bugtracker_issue_to_collaborators",
+     * @ORM\JoinTable(name="anyt_bt_issue_to_collaborators",
      *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")}
      * )
@@ -129,7 +123,7 @@ class Issue extends ExtendIssue implements Taggable
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="Issue")
-     * @ORM\JoinTable(name="anyt_bugtracker_issue_to_related_issues",
+     * @ORM\JoinTable(name="anyt_bt_issue_to_issues",
      *      joinColumns={@ORM\JoinColumn(name="ticket_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")}
      * )
@@ -163,6 +157,23 @@ class Issue extends ExtendIssue implements Taggable
      * )
      */
     protected $tags;
+
+    /**
+     * @var User
+     *
+     * @Gedmo\Blameable(on="create")
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $owner;
+
+    /**
+     * @var Organization
+     *
+     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
+     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $organization;
 
     public function __construct()
     {
@@ -297,26 +308,6 @@ class Issue extends ExtendIssue implements Taggable
     public function getUpdated()
     {
         return $this->updated;
-    }
-
-    /**
-     * @return User
-     */
-    public function getOwner()
-    {
-        return $this->owner;
-    }
-
-    /**
-     * @param mixed $owner
-     *
-     * @return Issue
-     */
-    public function setOwner(User $owner)
-    {
-        $this->owner = $owner;
-
-        return $this;
     }
 
     /**
@@ -540,5 +531,48 @@ class Issue extends ExtendIssue implements Taggable
         $this->tags = $tags;
 
         return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * @param mixed $owner
+     *
+     * @return Issue
+     */
+    public function setOwner(User $owner)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Set organization
+     *
+     * @param Organization $organization
+     * @return Issue
+     */
+    public function setOrganization(Organization $organization = null)
+    {
+        $this->organization = $organization;
+
+        return $this;
+    }
+
+    /**
+     * Get organization
+     *
+     * @return Organization
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
     }
 }

@@ -33,7 +33,7 @@
         'entity':      form.vars.value,
         'indexPath':   path('anyt_issue_index'),
         'indexLabel': 'anyt.bugtracker.issue.entity_label'|trans,
-        'entityTitle': form.vars.value.model
+        'entityTitle': form.vars.value.summary
         } %}
         {{ parent() }}
     {% else %}
