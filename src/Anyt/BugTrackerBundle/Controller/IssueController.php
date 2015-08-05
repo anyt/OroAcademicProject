@@ -13,7 +13,7 @@ use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 
 use Anyt\BugTrackerBundle\Entity\Issue;
 use Symfony\Component\HttpFoundation\Request;
-
+use Anyt\BugTrackerBundle\Exception\IssueTypeNotAllowedException;
 
 class IssueController extends Controller
 {
@@ -35,7 +35,7 @@ class IssueController extends Controller
     /**
      * Create issue form
      *
-     * @Route("/create", name="anyt_issue_create")
+     * @Route("/create/{parent}", name="anyt_issue_create", defaults={"parent"= false})
      * @Acl(
      *      id="anyt_issue_create",
      *      type="entity",
@@ -44,9 +44,21 @@ class IssueController extends Controller
      * )
      * @Template("AnytBugTrackerBundle:Issue:update.html.twig")
      */
-    public function createAction()
+    public function createAction(Issue $parent = null)
     {
-        return $this->update(new Issue());
+        if (null !== $parent) {
+            if (!$parent->isAllowedParent()) {
+                return $this->createNotFoundException();
+            }
+            $issue = new Issue();
+            $issue
+                ->setType(Issue::TYPE_SUBTASK)
+                ->setParent($parent);
+        } else {
+            $issue = new Issue();
+        }
+
+        return $this->update($issue);
     }
 
     /**

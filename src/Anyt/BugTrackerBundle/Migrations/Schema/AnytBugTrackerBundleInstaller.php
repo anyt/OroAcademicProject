@@ -48,6 +48,7 @@ class AnytBugTrackerBundleInstaller implements Installation
         $table = $schema->createTable('anyt_bt_issue');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
+        $table->addColumn('parent_id', 'integer', ['notnull' => false]);
         $table->addColumn('user_assignee_id', 'integer', ['notnull' => false]);
         $table->addColumn('priority_id', 'integer', ['notnull' => false]);
         $table->addColumn('resolution_id', 'integer', ['notnull' => false]);
@@ -64,6 +65,7 @@ class AnytBugTrackerBundleInstaller implements Installation
         $table->addIndex(['priority_id'], 'IDX_CD22DC2497B19F9', []);
         $table->addIndex(['resolution_id'], 'IDX_CD22DC212A1C43A', []);
         $table->addIndex(['organization_id'], 'IDX_69EA008332C8A3DE', []);
+        $table->addIndex(['parent_id'], 'IDX_69EA0083727ACA70', []);
     }
 
     /**
@@ -138,6 +140,12 @@ class AnytBugTrackerBundleInstaller implements Installation
             ['organization_id'],
             ['id'],
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('anyt_bt_issue'),
+            ['parent_id'],
+            ['id'],
+            ['onDelete' => null, 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_user'),

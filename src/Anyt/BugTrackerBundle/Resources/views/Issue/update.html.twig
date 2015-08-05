@@ -4,7 +4,8 @@
 {% if form.vars.value.id %}
     {% set formAction = path('anyt_issue_update', { 'id': form.vars.value.id }) %}
 {% else %}
-    {% set formAction = path('anyt_issue_create') %}
+    {% set actionParams = form.vars.value.parent is not null ? {'parent': form.vars.value.parent.id} : {} %}
+    {% set formAction = path('anyt_issue_create', actionParams) %}
 {% endif %}
 
 {% block navButtons %}
@@ -44,24 +45,25 @@
 
 {% block content_data %}
     {% set id = 'issue-edit' %}
-
+    {% set data = [
+    form_row(form.summary),
+    form_row(form.description),
+    form_row(form.assignee),
+    form_row(form.priority),
+    form_row(form.resolution),
+    form_row(form.tags),
+    ] %}
+    {% if form.type is defined %}
+        {% set data = [form_row(form.type)]|merge(data) %}
+    {% endif %}
     {% set dataBlocks = [{
     'title': 'General'|trans,
     'class': 'active',
     'subblocks': [{
     'title': '',
-    'data': [
-    form_row(form.summary),
-    form_row(form.description),
-    form_row(form.assignee),
-    form_row(form.type),
-    form_row(form.priority),
-    form_row(form.resolution),
-    form_row(form.tags),
-    ]
+    'data': data
     }]
-    }]
-    %}
+    }] %}
     {% set data = {
     'formErrors': form_errors(form)? form_errors(form) : null,
     'dataBlocks': dataBlocks,

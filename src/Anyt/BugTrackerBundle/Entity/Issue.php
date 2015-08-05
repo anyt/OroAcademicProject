@@ -2,6 +2,7 @@
 
 namespace Anyt\BugTrackerBundle\Entity;
 
+use Anyt\BugTrackerBundle\Exception\IssueTypeNotAllowedException;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -175,12 +176,28 @@ class Issue extends ExtendIssue implements Taggable
      */
     protected $organization;
 
+
+    /**
+     * @var ArrayCollection|Issue[]
+     *
+     * @ORM\OneToMany(targetEntity="Anyt\BugTrackerBundle\Entity\Issue", mappedBy="parent")
+     */
+    protected $children;
+
+    // ...
+    /**
+     * @ORM\ManyToOne(targetEntity="Anyt\BugTrackerBundle\Entity\Issue", inversedBy="children")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     **/
+    private $parent;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->collaborators = new ArrayCollection();
         $this->relatedIssues = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
     /**
@@ -575,4 +592,99 @@ class Issue extends ExtendIssue implements Taggable
     {
         return $this->organization;
     }
+
+
+    public function isAllowedParent()
+    {
+        return in_array($this->getType(), self::getAllowedParents(), true);
+    }
+
+    public static function getAllowedParents()
+    {
+        return [self::TYPE_STORY];
+    }
+
+    public function isAllowedChild()
+    {
+        return in_array($this->getType(), self::getAllowedChildren(), true);
+    }
+
+    public static function getAllowedChildren()
+    {
+        return [self::TYPE_SUBTASK];
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param User $collaborator
+     *
+     * @return Issue
+     */
+    public function addChildren(Issue $child)
+    {
+        if (!$child->isAllowedChild()) {
+            throw new IssueTypeNotAllowedException('Subtasks allowed only for stories', 500);
+        }
+        if (!$this->getChildren()->contains($child)) {
+            $this->getChildren()->add($child);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ArrayCollection|Issue[] $children
+     */
+    public function setChildren($children)
+    {
+        foreach ($children as $child) {
+            if (!$child->isAllowedChild()) {
+                throw new IssueTypeNotAllowedException('Subtasks allowed only for stories', 500);
+            }
+        }
+
+        $this->children = $children;
+    }
+
+    /**
+     * @param Issue $issue
+     *
+     * @return Issue
+     */
+    public function removeChildren(Issue $issue)
+    {
+        if ($this->getChildren()->contains($issue)) {
+            $this->getChildren()->removeElement($issue);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param mixed $parent
+     */
+    public function setParent(Issue $parent)
+    {
+        if (!$parent->isAllowedParent()) {
+            throw new IssueTypeNotAllowedException('Subtasks allowed only for stories', 500);
+        }
+        $this->parent = $parent;
+    }
+
+
 }

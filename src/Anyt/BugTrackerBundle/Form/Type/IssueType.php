@@ -5,6 +5,8 @@ namespace Anyt\BugTrackerBundle\Form\Type;
 use Anyt\BugTrackerBundle\Entity\Issue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class IssueType extends AbstractType
@@ -14,21 +16,8 @@ class IssueType extends AbstractType
         $builder
             ->add('summary', null, ['label' => 'anyt.bugtracker.issue.summary.label'])
             ->add('description', null, ['label' => 'anyt.bugtracker.issue.description.label'])
-            ->add(
-                'type',
-                'choice',
-                [
-                    'label' => 'anyt.bugtracker.issue.type.label',
-                    'choices' => [
-                        Issue::TYPE_BUG => 'anyt.bugtracker.issue.type.bug.label',
-                        Issue::TYPE_TAKS => 'anyt.bugtracker.issue.type.task.label',
-                        Issue::TYPE_STORY => 'anyt.bugtracker.issue.type.story.label',
-                        Issue::TYPE_SUBTASK => 'anyt.bugtracker.issue.type.subtask.label',
-                    ]
-                ]
-            )
             ->add('assignee', 'oro_user_select', ['label' => 'anyt.bugtracker.issue.assignee.label'])
-//          @todo  ->add('relatedIssues', 'oro_multiple_entity')
+//          @todo can implement this after the search index only ->add('relatedIssues', 'oro_multiple_entity')
             ->add(
                 'priority',
                 'entity',
@@ -52,8 +41,32 @@ class IssueType extends AbstractType
                 array(
                     'label' => 'oro.tag.entity_plural_label'
                 )
-            )
-            ;
+            );
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) {
+                /** @var Issue $issue */
+                $issue = $event->getData();
+                $form = $event->getForm();
+                $type = $issue->getType();
+
+                if (null === $type || Issue::TYPE_SUBTASK !== $type) {
+                    $form->add(
+                        'type',
+                        'choice',
+                        [
+                            'label' => 'anyt.bugtracker.issue.type.label',
+                            'choices' => [
+                                Issue::TYPE_BUG => 'anyt.bugtracker.issue.type.bug.label',
+                                Issue::TYPE_TAKS => 'anyt.bugtracker.issue.type.task.label',
+                                Issue::TYPE_STORY => 'anyt.bugtracker.issue.type.story.label',
+                            ]
+                        ]
+                    );
+                }
+            }
+        );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
