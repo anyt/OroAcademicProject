@@ -5,13 +5,27 @@ namespace Anyt\BugTrackerBundle\Migrations\Schema;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
+use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
+use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
+
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  */
-class AnytBugTrackerBundleInstaller implements Installation
+class AnytBugTrackerBundleInstaller implements Installation, NoteExtensionAwareInterface
 {
+    /** @var NoteExtension */
+    protected $noteExtension;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setNoteExtension(NoteExtension $noteExtension)
+    {
+        $this->noteExtension = $noteExtension;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -36,6 +50,9 @@ class AnytBugTrackerBundleInstaller implements Installation
         $this->addAnytBtIssueForeignKeys($schema);
         $this->addAnytBtIssueToCollaboratorsForeignKeys($schema);
         $this->addAnytBtIssueToIssuesForeignKeys($schema);
+
+        /** Add notes */
+        $this->noteExtension->addNoteAssociation($schema, 'anyt_bt_issue');
     }
 
     /**
