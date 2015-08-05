@@ -15,10 +15,13 @@
         }
     ],
     "require": {
-        "oro/platform": "1.x-dev"
+        "oro/platform": "1.7.*"
     },
     "config": {
-        "component-dir": "web/bundles/components"
+        "component-dir": "web/bundles/components",
+        "github-oauth": {
+            "github.com": "7d68fbefa5a0ecd2707b0a8be67ba243e87c6dc9"
+        }
     },
     "scripts": {
         "post-install-cmd": [

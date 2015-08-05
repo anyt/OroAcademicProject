@@ -1,0 +1,38 @@
+Anyt\BugTrackerBundle\Entity\Issue:
+    properties:
+        summary:
+          - NotBlank: ~
+          - Length:
+              max: 254
+        description:
+          - NotBlank: ~
+        created:
+          - DateTime: ~
+        updated:
+          - DateTime: ~
+        type:
+          - Choice: { callback: getTypes }
+Anyt\BugTrackerBundle\Entity\IssuePriority:
+    properties:
+        name:
+          - NotBlank: ~
+        title:
+          - NotBlank: ~
+          - Length:
+              max: 254
+        weight:
+          - Range:
+              min: 1
+              max: 20
+        issue:
+          - NotBlank: ~
+Anyt\BugTrackerBundle\Entity\IssueResolution:
+    properties:
+        name:
+          - NotBlank: ~
+        title:
+          - NotBlank: ~
+          - Length:
+              max: 254
+        issue:
+          - NotBlank: ~

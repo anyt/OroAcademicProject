@@ -1,0 +1,22 @@
+oro_menu_config:
+    items:
+        bt_tab:
+            label: Bug Tracker
+            uri:   '#'
+            extras:
+                position: 300
+        bt_tab_link:
+            label: Issues
+            route: anyt_issue_index
+            extras:
+                routes: ['/^anyt_issue_/']
+                description: Issues
+    tree:
+        application_menu:
+            children:
+                bt_tab:
+                    children:
+                        bt_tab_link: ~
+
+oro_titles:
+    anyt_issue_index: Issues list
