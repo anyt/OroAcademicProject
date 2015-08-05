@@ -51,7 +51,7 @@ class IssueType extends AbstractType
                 $form = $event->getForm();
                 $type = $issue->getType();
 
-                if (null === $type || Issue::TYPE_SUBTASK !== $type) {
+                if (null === $type) {
                     $form->add(
                         'type',
                         'choice',
