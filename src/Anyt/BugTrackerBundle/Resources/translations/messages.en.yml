@@ -25,3 +25,5 @@ anyt:
         type.subtask.label:         Subtask
         updated.label:              Updated
         description.label:          Description
+        parent.label:               Parent
+        children.label:             Children

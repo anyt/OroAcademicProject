@@ -125,4 +125,16 @@ class IssueController extends Controller
             'form' => $form->createView(),
         );
     }
+
+    /**
+     * @Route("/widget/grid/{id}", name="anyt_issue_children_widget_items", requirements={"id"="\d+"}))
+     * @AclAncestor("anyt_issue_view")
+     * @Template("AnytBugTrackerBundle:Issue/widget:children.html.twig")
+     * @param Issue $issue
+     * @return array
+     */
+    public function childrenAction(Issue $issue)
+    {
+        return ['entity' => $issue];
+    }
 }

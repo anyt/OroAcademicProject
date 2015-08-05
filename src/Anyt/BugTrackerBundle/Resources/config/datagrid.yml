@@ -1,5 +1,6 @@
 datagrid:
     issues-grid:
+        extended_entity_name: Anyt\BugTrackerBundle\Entity\Issue
         source:
             acl_resource: anyt_issue_view
             type: orm
@@ -115,3 +116,42 @@ datagrid:
                 link:          delete_link
                 icon:          trash
                 acl_resource:  anyt_issue_delete
+
+    issues-children-grid:
+        extended_entity_name: Anyt\BugTrackerBundle\Entity\Issue
+        source:
+            acl_resource: anyt_issue_view
+            type: orm
+            query:
+                select:
+                    - i.id
+                    - i.summary
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+                where:
+                    and:
+                        - i.parent = :id
+            bind_parameters:
+                - id
+        columns:
+            summary:
+                label: Summary
+        properties:
+            id: ~
+            view_link:
+                type: url
+                route: anyt_issue_view
+                params: [ id ]
+        actions:
+            view:
+                type:         navigate
+                label:        oro.grid.action.view
+                link:         view_link
+                icon:         eye-open
+                acl_recource: anyt_issue_view
+                rowAction:    true
+        options:
+            toolbarOptions:
+                hide: true
+                pagination:
+                    hide: true

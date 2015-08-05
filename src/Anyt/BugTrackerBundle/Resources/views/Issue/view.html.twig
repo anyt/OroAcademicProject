@@ -48,9 +48,18 @@
                     {{ UI.renderProperty('anyt.bugtracker.issue.description.label'|trans, entity.description) }}
                     {{ UI.renderProperty('anyt.bugtracker.issue.assignee.label'|trans, entity.assignee) }}
                     {{ UI.renderProperty('anyt.bugtracker.issue.type.label'|trans,
-                    ('anyt.bugtracker.issue.type.' ~entity.type ~ '.label')|trans) }}
+                    ('anyt.bugtracker.issue.type.' ~ entity.type ~ '.label')|trans) }}
                     {{ UI.renderProperty('anyt.bugtracker.issue.priority.label'|trans, entity.priority.title) }}
                     {{ UI.renderProperty('anyt.bugtracker.issue.resolution.label'|trans, entity.resolution.title) }}
+                    {% if entity.parent is not null %}
+                        {% set parentView %}
+                            <a href="{{ path('anyt_issue_view', {'id': entity.parent.id}) }}">{{ entity.parent.summary }}</a>
+                        {% endset %}
+                        {{ UI.renderHtmlProperty('anyt.bugtracker.issue.parent.label'|trans, parentView) }}
+                    {% endif %}
+                    {% if entity.children is not empty %}
+                        {#{{ UI.renderProperty('anyt.bugtracker.issue.children.label'|trans, entity.children.title) }}#}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -65,12 +74,34 @@
     }
     ] %}
 
+    {% if entity.children is not empty %}
+        {% set chilrenItemsWidget %}
+            {{ oro_widget_render({
+                'widgetType': 'block',
+                'url': path('anyt_issue_children_widget_items', {id: entity.id})
+            }) }}
+        {% endset %}
+
+        {% set dataBlocks = dataBlocks|merge([
+        {
+        'title': 'anyt.bugtracker.issue.children.label'|trans,
+        'subblocks': [
+        {'data' : [chilrenItemsWidget] }
+        ]
+        }
+        ]) %}
+    {% endif %}
+
+
+
     {% set id = 'issueView' %}
     {% set data = { 'dataBlocks': dataBlocks } %}
     {{ parent() }}
 {% endblock content_data %}
 
 {% block stats %}
-    <li>{{ 'oro.ui.created_at'|trans }}: {{ breadcrumbs.entity.created ? breadcrumbs.entity.created|oro_format_datetime : 'N/A' }}</li>
-    <li>{{ 'oro.ui.updated_at'|trans }}: {{ breadcrumbs.entity.updated ? breadcrumbs.entity.updated|oro_format_datetime : 'N/A' }}</li>
+    <li>{{ 'oro.ui.created_at'|trans }}
+        : {{ breadcrumbs.entity.created ? breadcrumbs.entity.created|oro_format_datetime : 'N/A' }}</li>
+    <li>{{ 'oro.ui.updated_at'|trans }}
+        : {{ breadcrumbs.entity.updated ? breadcrumbs.entity.updated|oro_format_datetime : 'N/A' }}</li>
 {% endblock stats %}
