@@ -1,0 +1,8 @@
+{% set assignedToId = record.getValue('assigned.id') %}
+{% if resource_granted('oro_user_user_view') and assigned.id %}
+    <a href="{{ path('oro_user_view', {id: assigned.id}) }}">
+        {{ value }}
+    </a>
+{% else %}
+    {{ value }}
+{% endif %}
