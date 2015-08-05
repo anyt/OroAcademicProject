@@ -23,7 +23,3 @@ oro_default:
 oro_auto_routing:
     resource: .
     type:     oro_auto
-
-oro_expose:
-    resource: .
-    type:     oro_expose

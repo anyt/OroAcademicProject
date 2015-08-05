@@ -1,0 +1,3 @@
+orocrm_case_case_api:
+    resource:     "@AnytBugTrackerBundle/Controller/Api/Rest/IssueController.php"
+    type:         rest
