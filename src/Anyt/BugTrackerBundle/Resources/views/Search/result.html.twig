@@ -1,0 +1,32 @@
+{#
+    Available variables:
+    * entity       - issue entity Anyt\BugTrackerBundle\Entity\Issue or null
+    * indexer_item - indexer item Oro\Bundle\SearchBundle\Query\Result\Item
+#}
+{% extends 'OroSearchBundle:Search:searchResultItem.html.twig' %}
+
+
+{% set recordUrl = indexer_item.recordUrl %}
+
+{% set title = indexer_item.recordTitle %}
+{% set entityType = oro_entity_config_value(indexer_item.entityName, 'label')|trans %}
+{% set ownerLink %}
+    <a href="{{ path('oro_user_view', {id: entity.owner.id}) }}">{{ entity.owner|oro_format_name }}</a>
+{% endset %}
+{% set assigneeLink %}
+    {% if entity.assignee is not null %}
+        <a href="{{ path('oro_user_view', {id: entity.assignee.id}) }}">{{ entity.assignee|oro_format_name }}</a>
+    {% else %}
+        {{ 'N/A'|trans }}
+    {% endif %}
+{% endset %}
+{% set entityInfo = [
+{'title': 'anyt.bugtracker.issue.code.label'|trans, 'value': entity.code},
+{'title': 'anyt.bugtracker.issue.type.label'|trans, 'value': ('anyt.bugtracker.issue.type.' ~ entity.type ~ '.label')|trans},
+{'title': 'anyt.bugtracker.issue.owner.label'|trans, 'value': ownerLink},
+{'title': 'anyt.bugtracker.issue.assignee.label'|trans, 'value': assigneeLink},
+{'title': 'anyt.bugtracker.issue.priority.label'|trans, 'value': entity.priority.title},
+{'title': 'anyt.bugtracker.issue.resolution.label'|trans, 'value': entity.resolution.title},
+{'title': 'oro.ui.created_at'|trans, 'value': entity.created ? entity.created|oro_format_datetime : 'N/A'},
+{'title': 'oro.ui.updated_at'|trans, 'value': entity.updated ? entity.updated|oro_format_datetime : 'N/A'},
+] %}
