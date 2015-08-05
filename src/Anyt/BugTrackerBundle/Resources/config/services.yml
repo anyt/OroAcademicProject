@@ -6,6 +6,10 @@ services:
         arguments: [@anyt.issue.code.generator]
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+    anyt.issue.note.listener:
+        class: Anyt\BugTrackerBundle\EventListener\NoteListener
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
     anyt.issue.code.generator:
         class: '%anyt.issue.code.generator.class%'
 #    anyt.issue.manager.api:
