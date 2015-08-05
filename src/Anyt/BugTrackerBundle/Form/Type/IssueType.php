@@ -49,9 +49,8 @@ class IssueType extends AbstractType
                 /** @var Issue $issue */
                 $issue = $event->getData();
                 $form = $event->getForm();
-                $type = $issue->getType();
-
-                if (null === $type) {
+                // display type field only for new issues without predefined type
+                if (null === $issue->getType() && null === $issue->getId()) {
                     $form->add(
                         'type',
                         'choice',

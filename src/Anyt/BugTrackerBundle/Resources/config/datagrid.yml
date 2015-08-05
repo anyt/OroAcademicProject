@@ -7,52 +7,58 @@ datagrid:
             query:
                 select:
                     - i.id
+                    - i.code
                     - i.summary
-#                    - i.code
-#                    - i.created
-#                    - i.updated
-#                    - i.type
-#                    - i.owner.id
-#                    - i.owner.firstName
-#                    - i.owner.lastName
-#                    - i.assignee
-#                    - i.priority
-#                    - i.resolution
+                    - i.type
+                    - priorityEntity.title as priority
+                    - resolutionEntity.title as resolution
+                    - ownerEntity.id as ownerId
+                    - CONCAT(ownerEntity.firstName, CONCAT(' ', ownerEntity.lastName)) as owner
+                    - assigneeEntity.id as assigneeId
+                    - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
+                    - i.created
+                    - i.updated
                 from:
                     - { table: AnytBugTrackerBundle:Issue, alias: i }
-#                join:
-#                    left:
-#                        - { join: i.owner, alias: owner}
-#                        - { join: i.assignee, alias: assignee}
-#                        - { join: i.priority, alias: priority}
-#                        - { join: i.resolution, alias: resolution}
+                join:
+                    left:
+                        - { join: i.owner, alias: ownerEntity}
+                        - { join: i.assignee, alias: assigneeEntity}
+                        - { join: i.priority, alias: priorityEntity}
+                        - { join: i.resolution, alias: resolutionEntity}
+                orderBy:
+                    - column: i.updated
+                      dir: desc
         columns:
+            code:
+                label: anyt.bugtracker.issue.code.label
             summary:
-                label: Summary
-#            code:
-#                label: Code
-#            created:
-#                label: Created
-#                frontend_type: datetime
-#            updated:
-#                label: Updated
-#                frontend_type: datetime
-#            type:
-#                label: Type
-#            owner:
-#                type: twig
-#                label: orocrm.case.datagrid.owner.label
-#                frontend_type: html
-#                template: AnytBugTrackerBundle:Issue:Datagrid/Property/owner.html.twig
-#            assignee:
-#                label: Assignee
-#                frontend_type: date
-#            priority:
-#                label: Priority
-#                frontend_type: date
-#            resolution:
-#                label: Resolution
-#                frontend_type: date
+                label: anyt.bugtracker.issue.summary.label
+            type:
+                type: twig
+                label: anyt.bugtracker.issue.type.label
+                frontend_type: html
+                template: AnytBugTrackerBundle:Issue:Datagrid/Property/type.html.twig
+            priority:
+                label: anyt.bugtracker.issue.priority.label
+            resolution:
+                label: anyt.bugtracker.issue.resolution.label
+            owner:
+                type: twig
+                label: anyt.bugtracker.issue.owner.label
+                frontend_type: html
+                template: AnytBugTrackerBundle:Issue:Datagrid/Property/owner.html.twig
+            assignee:
+                type: twig
+                label: anyt.bugtracker.issue.assignee.label
+                frontend_type: html
+                template: AnytBugTrackerBundle:Issue:Datagrid/Property/assignee.html.twig
+            created:
+                label: Created
+                frontend_type: datetime
+            updated:
+                label: Updated
+                frontend_type: datetime
         properties:
             id: ~
             update_link:
