@@ -1,6 +1,12 @@
 <?php
 
+
+
+
 namespace Anyt\BugTrackerBundle\Controller;
+
+
+
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -135,6 +141,26 @@ class IssueController extends Controller
      */
     public function childrenAction(Issue $issue)
     {
-        return ['entity' => $issue];
+        return  ['entity' => $issue];
+    }
+
+    /**
+     * @Route("/owner/{userId}", name="anyt_issue_owner_items", requirements={"userId"="\d+"})
+     * @AclAncestor("anyt_issue_view")
+     * @Template("AnytBugTrackerBundle:Issue/widget:ownerItems.html.twig")
+     */
+    public function ownerItemsAction($userId)
+    {
+        return ['userId' => $userId];
+    }
+
+    /**
+     * @Route("/assignee/{userId}", name="anyt_issue_assignee_items", requirements={"userId"="\d+"})
+     * @AclAncestor("anyt_issue_view")
+     * @Template("AnytBugTrackerBundle:Issue/widget:assigneeItems.html.twig")
+     */
+    public function assigneeItemsAction($userId)
+    {
+        return ['userId' => $userId];
     }
 }

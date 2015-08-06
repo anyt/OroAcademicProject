@@ -15,7 +15,7 @@ anyt:
         id.label:                   Id
         priority.label:             Priority
         related_issues.label:       Related issues
-        owner.label:             Reporter
+        owner.label:                Reporter
         resolution.label:           Resolution
         summary.label:              Summary
         type.label:                 Type
@@ -27,3 +27,5 @@ anyt:
         description.label:          Description
         parent.label:               Parent
         children.label:             Children
+      user_owner_items.label:       Reported issues
+      user_assignee_items.label:    Assigned issues
