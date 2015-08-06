@@ -1,12 +1,6 @@
 <?php
 
-
-
-
 namespace Anyt\BugTrackerBundle\Controller;
-
-
-
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -15,11 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 
 use Anyt\BugTrackerBundle\Entity\Issue;
 use Symfony\Component\HttpFoundation\Request;
-use Anyt\BugTrackerBundle\Exception\IssueTypeNotAllowedException;
 
 class IssueController extends Controller
 {
@@ -32,16 +24,18 @@ class IssueController extends Controller
      *      class="AnytBugTrackerBundle:Issue"
      * )
      * @Template()
+     * @param Issue $issue
+     * @return array
      */
     public function viewAction(Issue $issue)
     {
-        return array('entity' => $issue);
+        return ['entity' => $issue];
     }
 
     /**
      * Create issue form
      *
-     * @Route("/create/{parent}", name="anyt_issue_create", defaults={"parent"= false})
+     * @Route("/create", name="anyt_issue_create")
      * @Acl(
      *      id="anyt_issue_create",
      *      type="entity",
@@ -49,22 +43,37 @@ class IssueController extends Controller
      *      class="AnytBugTrackerBundle:Issue"
      * )
      * @Template("AnytBugTrackerBundle:Issue:update.html.twig")
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function createAction(Issue $parent = null)
+    public function createAction(Request $request)
     {
-        if (null !== $parent) {
-            if (!$parent->isAllowedParent()) {
+        $issue = new Issue();
+
+        if (null !== $parentId = $request->query->get('parent')) {
+            $parent = $this->getDoctrine()->getManager()->find('AnytBugTrackerBundle:Issue', $parentId);
+
+            if (!$parent || !$parent->isAllowedParent()) {
                 return $this->createNotFoundException();
             }
-            $issue = new Issue();
             $issue
                 ->setType(Issue::TYPE_SUBTASK)
                 ->setParent($parent);
-        } else {
-            $issue = new Issue();
         }
 
-        return $this->update($issue);
+        if (null !== $assigneeId = $request->query->get('assignee')) {
+            $assignee = $this->getDoctrine()->getManager()->find('OroUserBundle:User', $assigneeId);
+
+            if (!$assignee) {
+                return $this->createNotFoundException();
+            }
+            $issue
+                ->setAssignee($assignee);
+        }
+        $formAction = $this->get('oro_entity.routing_helper')
+            ->generateUrlByRequest('anyt_issue_create', $this->getRequest());
+
+        return $this->update($issue, $formAction);
     }
 
     /**
@@ -78,10 +87,15 @@ class IssueController extends Controller
      *      class="AnytBugTrackerBundle:Issue"
      * )
      * @Template()
+     * @param Issue $entity
+     * @return array
      */
     public function updateAction(Issue $entity)
     {
-        return $this->update($entity);
+        $formAction = $this->get('oro_entity.routing_helper')
+            ->generateUrlByRequest('anyt_issue_update', $this->getRequest(), ['id' => $entity->getId()]);
+
+        return $this->update($entity, $formAction);
     }
 
     /**
@@ -103,10 +117,13 @@ class IssueController extends Controller
 
     /**
      * @param Issue $entity
+     * @param string $formAction
      * @return array
      */
-    protected function update(Issue $entity)
+    protected function update(Issue $entity, $formAction)
     {
+        $saved = false;
+
         $request = $this->getRequest();
         $form = $this->get('form.factory')->create('anyt_issue', $entity);
         $form->handleRequest($request);
@@ -115,21 +132,22 @@ class IssueController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($entity);
             $entityManager->flush();
-
-            return $this->get('oro_ui.router')->redirectAfterSave(
-                array(
-                    'route' => 'anyt_issue_update',
-                    'parameters' => array('id' => $entity->getId()),
-                ),
-                array('route' => 'anyt_issue_index'),
-                $entity
-            );
+            if (!$this->getRequest()->get('_widgetContainer')) {
+                return $this->get('oro_ui.router')->redirectAfterSave(
+                    ['route' => 'anyt_issue_update', 'parameters' => ['id' => $entity->getId()],],
+                    ['route' => 'anyt_issue_index'],
+                    $entity
+                );
+            }
+            $saved = true;
         }
 
-        return array(
+        return [
             'entity' => $entity,
             'form' => $form->createView(),
-        );
+            'saved' => $saved,
+            'formAction' => $formAction
+        ];
     }
 
     /**
@@ -141,13 +159,15 @@ class IssueController extends Controller
      */
     public function childrenAction(Issue $issue)
     {
-        return  ['entity' => $issue];
+        return ['entity' => $issue];
     }
 
     /**
      * @Route("/owner/{userId}", name="anyt_issue_owner_items", requirements={"userId"="\d+"})
      * @AclAncestor("anyt_issue_view")
      * @Template("AnytBugTrackerBundle:Issue/widget:ownerItems.html.twig")
+     * @param $userId
+     * @return array
      */
     public function ownerItemsAction($userId)
     {
@@ -158,6 +178,8 @@ class IssueController extends Controller
      * @Route("/assignee/{userId}", name="anyt_issue_assignee_items", requirements={"userId"="\d+"})
      * @AclAncestor("anyt_issue_view")
      * @Template("AnytBugTrackerBundle:Issue/widget:assigneeItems.html.twig")
+     * @param $userId
+     * @return array
      */
     public function assigneeItemsAction($userId)
     {

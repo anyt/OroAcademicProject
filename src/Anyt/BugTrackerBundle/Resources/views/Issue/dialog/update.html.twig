@@ -1,0 +1,62 @@
+{% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
+
+<div class="widget-content">
+    {% if saved is defined and saved %}
+        <script type="text/javascript">
+            require(['underscore', 'orotranslation/js/translator', 'oroui/js/widget-manager',
+                     'oroui/js/messenger', 'oroui/js/mediator'],
+                    function (_, __, widgetManager, messenger, mediator) {
+                        widgetManager.getWidgetInstance({{ app.request.get('_wid')|json_encode|raw }},
+                                function (widget) {
+                                    messenger.notificationFlashMessage('success', __('Issue created successfully'));
+                                    mediator.trigger('widget_success:' + widget.getAlias());
+                                    mediator.trigger('widget_success:' + widget.getWid());
+                                    widget.remove();
+                                });
+                    });
+        </script>
+    {% else %}
+    {% if not form.vars.valid and form.vars.errors|length %}
+        <div class="alert alert-error">
+            <div class="message">
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    {% endif %}
+
+        {% if form.vars.value.id %}
+            {% set formAction = path('anyt_issue_update', { 'id': form.vars.value.id }) %}
+        {% else %}
+            {% set formAction = path('anyt_issue_create', app.request.query.all()) %}
+        {% endif %}
+        <div class="form-container">
+            <form id="{{ form.vars.id }}" name="{{ form.vars.name }}" action="{{ formAction }}" method="post">
+                <fieldset class="form form-horizontal">
+                    <div class="span6">
+                        {% if form.type is defined %}
+                            {{ form_row(form.type) }}
+                        {% endif %}
+                        {{ form_row(form.owner) }}
+                        {{ form_row(form.summary) }}
+                        {{ form_row(form.description) }}
+                        {{ form_row(form.assignee) }}
+                    </div>
+                    <div class="span6">
+                        {{ form_row(form.priority) }}
+                        {{ form_row(form.resolution) }}
+                        {{ form_row(form.tags) }}
+                    </div>
+                    <div class="span6">
+                        {{ form_rest(form) }}
+                    </div>
+                    <div class="widget-actions form-actions">
+                        <button class="btn" type="reset">{{ 'Cancel'|trans }}</button>
+
+                        <button class="btn btn-primary" type="submit">{{ 'Save'|trans }}</button>
+                    </div>
+                </fieldset>
+            </form>
+            {{ oro_form_js_validation(form) }}
+        </div>
+    {% endif %}
+</div>

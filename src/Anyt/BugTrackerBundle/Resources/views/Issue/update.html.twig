@@ -4,8 +4,7 @@
 {% if form.vars.value.id %}
     {% set formAction = path('anyt_issue_update', { 'id': form.vars.value.id }) %}
 {% else %}
-    {% set actionParams = form.vars.value.parent is not null ? {'parent': form.vars.value.parent.id} : {} %}
-    {% set formAction = path('anyt_issue_create', actionParams) %}
+    {% set formAction = path('anyt_issue_create', app.request.query.all()) %}
 {% endif %}
 
 {% block navButtons %}

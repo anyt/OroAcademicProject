@@ -3,6 +3,9 @@ placeholders:
         items:
             anyt_issue_owner_list: ~
             anyt_issue_assignee_list: ~
+    view_navButtons_before:
+        items:
+            anyt_issue_create_button: ~
 items:
     anyt_issue_owner_list:
         template: AnytBugTrackerBundle:Issue:ownerItems.html.twig
@@ -12,3 +15,7 @@ items:
         template: AnytBugTrackerBundle:Issue:assigneeItems.html.twig
         applicable: @oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_user.entity.class%)
         acl: anyt_issue_view
+    anyt_issue_create_button:
+        template: AnytBugTrackerBundle:Issue:createIssueButton.html.twig
+        applicable: @oro_ui.placeholder.filter->isInstanceOf($entity$, %oro_user.entity.class%)
+        acl: anyt_issue_create

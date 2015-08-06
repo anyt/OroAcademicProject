@@ -4,7 +4,7 @@
 {% set pageTitle = 'anyt.bugtracker.issue.entity_plural_label'|trans %}
 
 {% block navButtons %}
-    {% if resource_granted('anyt_issue_view') %}
+    {% if resource_granted('anyt_issue_create') %}
         <div class="btn-group">
             {{ UI.addButton({
                 'path': path('anyt_issue_create'),
