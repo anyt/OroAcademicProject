@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
-
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,7 +17,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
     /**
      * @var array
      */
-    static protected $fixtureText = array(
+    protected static $fixtureText = array(
         'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
         'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
         'Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.',
@@ -43,9 +42,10 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
 
     /**
      * @todo
+     *
      * @var array
      */
-    static protected $relatedEntities = array(
+    protected static $relatedEntities = array(
         'AnytBugTrackerBundle:Contact' => 'setRelatedContact',
         'AnytBugTrackerBundle:Account' => 'setRelatedAccount',
     );
@@ -89,7 +89,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
         $this->organization = $this->getReference('default_organization');
 
         for ($i = 0; $i < self::ISSUES_COUNT; ++$i) {
-//            $summary = self::$fixtureText[$i];
+            //            $summary = self::$fixtureText[$i];
 //
 //            if ($manager->getRepository('AnytBugTrackerBundle:IssueEntity')->findOneBySummary($summary)) {
 //                // Case with this title is already exist
@@ -105,11 +105,11 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
 
     /**
      * @param string $subject
+     *
      * @return Issue|null
      */
     protected function createIssueEntity()
     {
-
         $priority = $this->getRandomEntity('AnytBugTrackerBundle:IssuePriority');
         $resolution = $this->getRandomEntity('AnytBugTrackerBundle:IssueResolution');
         $owner = $this->getRandomEntity('OroUserBundle:User');
@@ -133,6 +133,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
 
     /**
      * @param string $entityName
+     *
      * @return object|null
      */
     protected function getRandomEntity($entityName)
@@ -150,17 +151,18 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
                 ->getSingleResult();
         }
 
-        return null;
+        return;
     }
 
     /**
      * @param string $entityName
+     *
      * @return int
      */
     protected function getEntityCount($entityName)
     {
         if (!isset($this->entitiesCount[$entityName])) {
-            $this->entitiesCount[$entityName] = (int)$this->entityManager->createQueryBuilder()
+            $this->entitiesCount[$entityName] = (int) $this->entityManager->createQueryBuilder()
                 ->select('COUNT(e)')
                 ->from($entityName, 'e')
                 ->getQuery()

@@ -134,6 +134,7 @@ class IssueResolution
 
     /**
      * @param ArrayCollection $issues
+     *
      * @return IssueResolution
      */
     public function setIssues($issues)

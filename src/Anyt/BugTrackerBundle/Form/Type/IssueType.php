@@ -23,7 +23,7 @@ class IssueType extends AbstractType
                 'entity',
                 [
                     'class' => 'Anyt\BugTrackerBundle\Entity\IssuePriority',
-                    'property' => 'title'
+                    'property' => 'title',
                 ]
             )
             ->add(
@@ -31,7 +31,7 @@ class IssueType extends AbstractType
                 'entity',
                 [
                     'class' => 'Anyt\BugTrackerBundle\Entity\IssueResolution',
-                    'property' => 'title'
+                    'property' => 'title',
                 ]
             )
             // tags
@@ -39,7 +39,7 @@ class IssueType extends AbstractType
                 'tags',
                 'oro_tag_select',
                 array(
-                    'label' => 'oro.tag.entity_plural_label'
+                    'label' => 'oro.tag.entity_plural_label',
                 )
             );
 
@@ -60,7 +60,7 @@ class IssueType extends AbstractType
                                 Issue::TYPE_BUG => 'anyt.bugtracker.issue.type.bug.label',
                                 Issue::TYPE_TAKS => 'anyt.bugtracker.issue.type.task.label',
                                 Issue::TYPE_STORY => 'anyt.bugtracker.issue.type.story.label',
-                            ]
+                            ],
                         ]
                     );
                 }

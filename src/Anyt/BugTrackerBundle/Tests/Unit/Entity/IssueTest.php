@@ -10,7 +10,7 @@ class IssueTest extends AbstractEntityTestCase
     const TEST_ID = 123;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntityFQCN()
     {
@@ -18,7 +18,7 @@ class IssueTest extends AbstractEntityTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSetDataProvider()
     {

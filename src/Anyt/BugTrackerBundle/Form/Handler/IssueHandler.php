@@ -1,18 +1,13 @@
 <?php
 
-
 namespace Anyt\BugTrackerBundle\Form\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-
 use Oro\Bundle\TagBundle\Entity\TagManager;
 use Oro\Bundle\TagBundle\Form\Handler\TagHandlerInterface;
-
 use Anyt\BugTrackerBundle\Entity\Issue;
-
 
 class IssueHandler implements TagHandlerInterface
 {
@@ -37,22 +32,21 @@ class IssueHandler implements TagHandlerInterface
     protected $tagManager;
 
     /**
-     *
      * @param FormInterface $form
      * @param Request       $request
      * @param ObjectManager $manager
      */
     public function __construct(FormInterface $form, Request $request, ObjectManager $manager)
     {
-        $this->form    = $form;
+        $this->form = $form;
         $this->request = $request;
         $this->manager = $manager;
     }
 
     /**
-     * Process form
+     * Process form.
      *
-     * @param  Issue $entity
+     * @param Issue $entity
      *
      * @return bool True on successful processing, false otherwise
      */
@@ -74,7 +68,7 @@ class IssueHandler implements TagHandlerInterface
     }
 
     /**
-     * "Success" form handler
+     * "Success" form handler.
      *
      * @param Issue $entity
      */

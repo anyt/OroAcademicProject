@@ -5,7 +5,6 @@ namespace Anyt\BugTrackerBundle\Tests\Unit\Form\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 use Anyt\BugTrackerBundle\Form\Type\IssueType;
 
 class IssueTypeTest extends \PHPUnit_Framework_TestCase

@@ -43,6 +43,8 @@ datagrid:
                 icon:          eye-open
                 acl_resource:  anyt_issue_view
                 rowAction:     true
+        options:
+            entityHint: issue
     issues-grid:
         extends: issue-base-view-grid
         source:

@@ -7,7 +7,7 @@ use Anyt\BugTrackerBundle\Entity\IssueResolution;
 class IssueResolutionTest extends AbstractEntityTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntityFQCN()
     {
@@ -15,7 +15,7 @@ class IssueResolutionTest extends AbstractEntityTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSetDataProvider()
     {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Anyt\BugTrackerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -7,10 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
-
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Oro\Bundle\DataAuditBundle\Tests\Unit\Fixture\Repository\UserRepository;
 use Oro\Bundle\TagBundle\Entity\TagManager;
 use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
@@ -40,7 +39,7 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface, D
     {
         return [
             'Anyt\BugTrackerBundle\Migrations\Data\Demo\ORM\LoadGroupData',
-            'Anyt\BugTrackerBundle\Migrations\Data\Demo\ORM\LoadBusinessUnitData'
+            'Anyt\BugTrackerBundle\Migrations\Data\Demo\ORM\LoadBusinessUnitData',
         ];
     }
 
@@ -53,7 +52,6 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface, D
         $this->group = $entityManager->getRepository('OroUserBundle:Group');
         $this->user = $entityManager->getRepository('OroUserBundle:User');
         $this->tagManager = $container->get('oro_tag.tag.manager');
-
     }
 
     public function load(ObjectManager $manager)
@@ -85,7 +83,7 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface, D
                     array(
                         $this->getBusinessUnit($manager, 'Acme, General'),
                         $this->getBusinessUnit($manager, 'Acme, East'),
-                        $this->getBusinessUnit($manager, 'Acme, West')
+                        $this->getBusinessUnit($manager, 'Acme, West'),
                     )
                 )
             );
@@ -95,13 +93,12 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface, D
         }
         $this->addReference('default_sale', $sale);
         $userManager->updateUser($sale);
-
-
     }
 
     /**
      * @param ObjectManager $manager
      * @param $name
+     *
      * @return BusinessUnit
      */
     protected function getBusinessUnit(ObjectManager $manager, $name)

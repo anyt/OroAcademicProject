@@ -2,7 +2,6 @@
 
 namespace OroCRM\Bundle\CaseBundle\Migrations\Data\ORM;
 
-use Anyt\BugTrackerBundle\Entity\Issue;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Anyt\BugTrackerBundle\Entity\IssuePriority;
@@ -31,7 +30,6 @@ class LoadIssuePriorityData extends AbstractFixture
 
             $manager->persist($issuePriority);
         }
-
 
         $manager->flush();
     }

@@ -5,17 +5,13 @@ namespace Anyt\BugTrackerBundle\Controller\Api\Rest;
 use Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Response;
-
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Routing\ClassResourceInterface;
-
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-
 use Oro\Bundle\SoapBundle\Form\Handler\ApiFormHandler;
 use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
 
@@ -26,7 +22,7 @@ use Oro\Bundle\SoapBundle\Controller\Api\Rest\RestController;
 class IssueController extends RestController implements ClassResourceInterface
 {
     /**
-     * REST GET list
+     * REST GET list.
      *
      * @QueryParam(
      *      name="page",
@@ -45,18 +41,19 @@ class IssueController extends RestController implements ClassResourceInterface
      *      resource=true
      * )
      * @AclAncestor("anyt_issue_view")
+     *
      * @return Response
      */
     public function cgetAction()
     {
-        $page = (int)$this->getRequest()->get('page', 1);
-        $limit = (int)$this->getRequest()->get('limit', self::ITEMS_PER_PAGE);
+        $page = (int) $this->getRequest()->get('page', 1);
+        $limit = (int) $this->getRequest()->get('limit', self::ITEMS_PER_PAGE);
 
         return $this->handleGetListRequest($page, $limit);
     }
 
     /**
-     * REST GET item
+     * REST GET item.
      *
      * @param string $id
      *
@@ -65,6 +62,7 @@ class IssueController extends RestController implements ClassResourceInterface
      *      resource=true
      * )
      * @AclAncestor("anyt_issue_view")
+     *
      * @return Response
      */
     public function getAction($id)
@@ -73,7 +71,7 @@ class IssueController extends RestController implements ClassResourceInterface
     }
 
     /**
-     * REST PUT
+     * REST PUT.
      *
      * @param int $id Issue item id
      *
@@ -82,6 +80,7 @@ class IssueController extends RestController implements ClassResourceInterface
      *      resource=true
      * )
      * @AclAncestor("anyt_issue_update")
+     *
      * @return Response
      */
     public function putAction($id)
@@ -90,7 +89,7 @@ class IssueController extends RestController implements ClassResourceInterface
     }
 
     /**
-     * Create new issue
+     * Create new issue.
      *
      * @ApiDoc(
      *      description="Create new issue",
@@ -104,7 +103,7 @@ class IssueController extends RestController implements ClassResourceInterface
     }
 
     /**
-     * REST DELETE
+     * REST DELETE.
      *
      * @param int $id
      *
@@ -118,6 +117,7 @@ class IssueController extends RestController implements ClassResourceInterface
      *      permission="DELETE",
      *      class="AnytBugTrackerBundle:Issue"
      * )
+     *
      * @return Response
      */
     public function deleteAction($id)
@@ -126,7 +126,7 @@ class IssueController extends RestController implements ClassResourceInterface
     }
 
     /**
-     * Get entity Manager
+     * Get entity Manager.
      *
      * @return ApiEntityManager
      */

@@ -7,7 +7,7 @@ use Anyt\BugTrackerBundle\Entity\IssuePriority;
 class IssuePriorityTest extends AbstractEntityTestCase
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getEntityFQCN()
     {
@@ -15,7 +15,7 @@ class IssuePriorityTest extends AbstractEntityTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSetDataProvider()
     {

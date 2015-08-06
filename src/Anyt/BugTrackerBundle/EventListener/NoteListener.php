@@ -6,10 +6,8 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Anyt\BugTrackerBundle\Entity\Issue;
 use Oro\Bundle\NoteBundle\Entity\Note;
 
-
 /**
- * Class NoteListener
- * @package Anyt\BugTrackerBundle\EventListener
+ * Class NoteListener.
  */
 class NoteListener
 {
@@ -55,6 +53,5 @@ class NoteListener
 
             $this->uow->recomputeSingleEntityChangeSet($classMetadata, $issue);
         }
-
     }
 }

@@ -8,7 +8,6 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtension;
 use Oro\Bundle\NoteBundle\Migration\Extension\NoteExtensionAwareInterface;
 
-
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessiveClassLength)
@@ -39,24 +38,24 @@ class AnytBugTrackerBundleInstaller implements Installation, NoteExtensionAwareI
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        /** Tables generation **/
+        /* Tables generation **/
         $this->createAnytBtIssueTable($schema);
         $this->createAnytBtIssuePriorityTable($schema);
         $this->createAnytBtIssueResolutionTable($schema);
         $this->createAnytBtIssueToCollaboratorsTable($schema);
         $this->createAnytBtIssueToIssuesTable($schema);
 
-        /** Foreign keys generation **/
+        /* Foreign keys generation **/
         $this->addAnytBtIssueForeignKeys($schema);
         $this->addAnytBtIssueToCollaboratorsForeignKeys($schema);
         $this->addAnytBtIssueToIssuesForeignKeys($schema);
 
-        /** Add notes */
+        /* Add notes */
         $this->noteExtension->addNoteAssociation($schema, 'anyt_bt_issue');
     }
 
     /**
-     * Create anyt_bt_issue table
+     * Create anyt_bt_issue table.
      *
      * @param Schema $schema
      */
@@ -86,7 +85,7 @@ class AnytBugTrackerBundleInstaller implements Installation, NoteExtensionAwareI
     }
 
     /**
-     * Create anyt_bt_issue_priority table
+     * Create anyt_bt_issue_priority table.
      *
      * @param Schema $schema
      */
@@ -101,7 +100,7 @@ class AnytBugTrackerBundleInstaller implements Installation, NoteExtensionAwareI
     }
 
     /**
-     * Create anyt_bt_issue_resolution table
+     * Create anyt_bt_issue_resolution table.
      *
      * @param Schema $schema
      */
@@ -115,7 +114,7 @@ class AnytBugTrackerBundleInstaller implements Installation, NoteExtensionAwareI
     }
 
     /**
-     * Create anyt_bt_issue_to_collaborators table
+     * Create anyt_bt_issue_to_collaborators table.
      *
      * @param Schema $schema
      */
@@ -130,7 +129,7 @@ class AnytBugTrackerBundleInstaller implements Installation, NoteExtensionAwareI
     }
 
     /**
-     * Create anyt_bt_issue_to_issues table
+     * Create anyt_bt_issue_to_issues table.
      *
      * @param Schema $schema
      */

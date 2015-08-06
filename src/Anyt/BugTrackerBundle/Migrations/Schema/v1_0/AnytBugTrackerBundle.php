@@ -3,15 +3,13 @@
 namespace Anyt\BugTrackerBundle\Migrations\Schema\v1_0;
 
 use Doctrine\DBAL\Schema\Schema;
-
 use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
 
 class AnytBugTrackerBundle implements Migration
 {
     /**
-    /**
+     /**
      * {@inheritdoc}
      */
     public function getMigrationVersion()
@@ -24,21 +22,21 @@ class AnytBugTrackerBundle implements Migration
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        /** Tables generation **/
+        /* Tables generation **/
         $this->createAnytBtIssueTable($schema);
         $this->createAnytBtIssuePriorityTable($schema);
         $this->createAnytBtIssueResolutionTable($schema);
         $this->createAnytBtIssueToCollaboratorsTable($schema);
         $this->createAnytBtIssueToIssuesTable($schema);
 
-        /** Foreign keys generation **/
+        /* Foreign keys generation **/
         $this->addAnytBtIssueForeignKeys($schema);
         $this->addAnytBtIssueToCollaboratorsForeignKeys($schema);
         $this->addAnytBtIssueToIssuesForeignKeys($schema);
     }
 
     /**
-     * Create anyt_bt_issue table
+     * Create anyt_bt_issue table.
      *
      * @param Schema $schema
      */
@@ -68,7 +66,7 @@ class AnytBugTrackerBundle implements Migration
     }
 
     /**
-     * Create anyt_bt_issue_priority table
+     * Create anyt_bt_issue_priority table.
      *
      * @param Schema $schema
      */
@@ -83,7 +81,7 @@ class AnytBugTrackerBundle implements Migration
     }
 
     /**
-     * Create anyt_bt_issue_resolution table
+     * Create anyt_bt_issue_resolution table.
      *
      * @param Schema $schema
      */
@@ -97,7 +95,7 @@ class AnytBugTrackerBundle implements Migration
     }
 
     /**
-     * Create anyt_bt_issue_to_collaborators table
+     * Create anyt_bt_issue_to_collaborators table.
      *
      * @param Schema $schema
      */
@@ -112,7 +110,7 @@ class AnytBugTrackerBundle implements Migration
     }
 
     /**
-     * Create anyt_bt_issue_to_issues table
+     * Create anyt_bt_issue_to_issues table.
      *
      * @param Schema $schema
      */

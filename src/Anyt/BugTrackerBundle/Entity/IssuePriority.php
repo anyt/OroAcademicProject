@@ -157,6 +157,7 @@ class IssuePriority
 
     /**
      * @param ArrayCollection $issues
+     *
      * @return IssuePriority
      */
     public function setIssues($issues)
@@ -165,6 +166,4 @@ class IssuePriority
 
         return $this;
     }
-
-
 }

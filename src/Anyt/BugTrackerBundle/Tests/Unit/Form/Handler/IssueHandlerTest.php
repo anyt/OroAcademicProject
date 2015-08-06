@@ -3,10 +3,8 @@
 namespace Anyt\BugTrackerBundle\Tests\Unit\Form\Handler;
 
 use Doctrine\Common\Persistence\ObjectManager;
-
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-
 use Anyt\BugTrackerBundle\Entity\Issue;
 use Anyt\BugTrackerBundle\Form\Handler\IssueHandler;
 
@@ -49,7 +47,7 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->entity  = new Issue();
+        $this->entity = new Issue();
         $this->handler = new IssueHandler($this->form, $this->request, $this->manager);
         $this->handler->setTagManager(
             $this->getMockBuilder('Oro\Bundle\TagBundle\Entity\TagManager')
@@ -57,7 +55,6 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
                 ->getMock()
         );
     }
-
 
     public function testProcessUnsupportedRequest()
     {
@@ -95,7 +92,7 @@ class IssueHandlerTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array('POST'),
-            array('PUT')
+            array('PUT'),
         );
     }
 

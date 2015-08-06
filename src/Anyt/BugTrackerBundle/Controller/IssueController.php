@@ -3,13 +3,10 @@
 namespace Anyt\BugTrackerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-
 use Oro\Bundle\SecurityBundle\Annotation\Acl;
 use Oro\Bundle\SecurityBundle\Annotation\AclAncestor;
-
 use Anyt\BugTrackerBundle\Entity\Issue;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,7 +21,9 @@ class IssueController extends Controller
      *      class="AnytBugTrackerBundle:Issue"
      * )
      * @Template()
+     *
      * @param Issue $issue
+     *
      * @return array
      */
     public function viewAction(Issue $issue)
@@ -33,7 +32,7 @@ class IssueController extends Controller
     }
 
     /**
-     * Create issue form
+     * Create issue form.
      *
      * @Route("/create", name="anyt_issue_create")
      * @Acl(
@@ -43,7 +42,9 @@ class IssueController extends Controller
      *      class="AnytBugTrackerBundle:Issue"
      * )
      * @Template("AnytBugTrackerBundle:Issue:update.html.twig")
+     *
      * @param Request $request
+     *
      * @return array|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function createAction(Request $request)
@@ -77,7 +78,7 @@ class IssueController extends Controller
     }
 
     /**
-     * Edit user form
+     * Edit user form.
      *
      * @Route("/update/{id}", name="anyt_issue_update", requirements={"id"="\d+"})
      * @Acl(
@@ -87,7 +88,9 @@ class IssueController extends Controller
      *      class="AnytBugTrackerBundle:Issue"
      * )
      * @Template()
+     *
      * @param Issue $entity
+     *
      * @return array
      */
     public function updateAction(Issue $entity)
@@ -111,13 +114,14 @@ class IssueController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => 'Anyt/BugTrackerBundle/Entity/Issue'
+            'entity_class' => 'Anyt/BugTrackerBundle/Entity/Issue',
         ];
     }
 
     /**
-     * @param Issue $entity
+     * @param Issue  $entity
      * @param string $formAction
+     *
      * @return array
      */
     protected function update(Issue $entity, $formAction)
@@ -134,7 +138,7 @@ class IssueController extends Controller
             $entityManager->flush();
             if (!$this->getRequest()->get('_widgetContainer')) {
                 return $this->get('oro_ui.router')->redirectAfterSave(
-                    ['route' => 'anyt_issue_update', 'parameters' => ['id' => $entity->getId()],],
+                    ['route' => 'anyt_issue_update', 'parameters' => ['id' => $entity->getId()]],
                     ['route' => 'anyt_issue_index'],
                     $entity
                 );
@@ -146,7 +150,7 @@ class IssueController extends Controller
             'entity' => $entity,
             'form' => $form->createView(),
             'saved' => $saved,
-            'formAction' => $formAction
+            'formAction' => $formAction,
         ];
     }
 
@@ -154,7 +158,9 @@ class IssueController extends Controller
      * @Route("/widget/grid/{id}", name="anyt_issue_children_widget_items", requirements={"id"="\d+"}))
      * @AclAncestor("anyt_issue_view")
      * @Template("AnytBugTrackerBundle:Issue/widget:children.html.twig")
+     *
      * @param Issue $issue
+     *
      * @return array
      */
     public function childrenAction(Issue $issue)
@@ -166,7 +172,9 @@ class IssueController extends Controller
      * @Route("/owner/{userId}", name="anyt_issue_owner_items", requirements={"userId"="\d+"})
      * @AclAncestor("anyt_issue_view")
      * @Template("AnytBugTrackerBundle:Issue/widget:ownerItems.html.twig")
+     *
      * @param $userId
+     *
      * @return array
      */
     public function ownerItemsAction($userId)
@@ -178,7 +186,9 @@ class IssueController extends Controller
      * @Route("/assignee/{userId}", name="anyt_issue_assignee_items", requirements={"userId"="\d+"})
      * @AclAncestor("anyt_issue_view")
      * @Template("AnytBugTrackerBundle:Issue/widget:assigneeItems.html.twig")
+     *
      * @param $userId
+     *
      * @return array
      */
     public function assigneeItemsAction($userId)

@@ -42,7 +42,6 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  *          }
  *      }
  * )
- *
  */
 class Issue extends ExtendIssue implements Taggable
 {
@@ -176,7 +175,6 @@ class Issue extends ExtendIssue implements Taggable
      */
     protected $organization;
 
-
     /**
      * @var ArrayCollection|Issue[]
      *
@@ -246,6 +244,7 @@ class Issue extends ExtendIssue implements Taggable
 
     /**
      * @param string $code
+     *
      * @return Issue
      */
     public function setCode($code)
@@ -437,7 +436,7 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
-     * Add specified relatedIssue
+     * Add specified relatedIssue.
      *
      * @param Issue $relatedIssue
      *
@@ -453,7 +452,7 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
-     * Set relatedIssues collection
+     * Set relatedIssues collection.
      *
      * @param Collection $relatedIssues
      *
@@ -467,7 +466,7 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
-     * Remove specified relatedIssue
+     * Remove specified relatedIssue.
      *
      * @param Issue $relatedIssue
      *
@@ -571,9 +570,10 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
-     * Set organization
+     * Set organization.
      *
      * @param Organization $organization
+     *
      * @return Issue
      */
     public function setOrganization(Organization $organization = null)
@@ -584,7 +584,7 @@ class Issue extends ExtendIssue implements Taggable
     }
 
     /**
-     * Get organization
+     * Get organization.
      *
      * @return Organization
      */
@@ -592,7 +592,6 @@ class Issue extends ExtendIssue implements Taggable
     {
         return $this->organization;
     }
-
 
     public function isAllowedParent()
     {
@@ -685,6 +684,4 @@ class Issue extends ExtendIssue implements Taggable
         }
         $this->parent = $parent;
     }
-
-
 }

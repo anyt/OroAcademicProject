@@ -6,10 +6,8 @@ use Anyt\BugTrackerBundle\IssueCodeGenerator\GeneratorInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Anyt\BugTrackerBundle\Entity\Issue;
 
-
 /**
- * Class IssueCodeListener
- * @package Anyt\BugTrackerBundle\EventListener
+ * Class IssueCodeListener.
  */
 class IssueCodeListener
 {

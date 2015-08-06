@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Anyt\BugTrackerBundle\Model;
 
 use Oro\Bundle\ActivityBundle\Model\ActivityInterface;
@@ -11,7 +10,7 @@ class ExtendIssue implements ActivityInterface
     use ExtendActivity;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * The real implementation of this method is auto generated.
      *

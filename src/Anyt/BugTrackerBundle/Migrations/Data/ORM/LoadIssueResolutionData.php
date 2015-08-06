@@ -2,14 +2,12 @@
 
 namespace OroCRM\Bundle\CaseBundle\Migrations\Data\ORM;
 
-use Anyt\BugTrackerBundle\Entity\Issue;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Anyt\BugTrackerBundle\Entity\IssueResolution;
 
 class LoadIssueResolutionData extends AbstractFixture
 {
-
     protected static $types = [
         IssueResolution::TYPE_UNSEROLVED => 'Unresolved',
         IssueResolution::TYPE_FIXED => 'Fixed',
@@ -42,7 +40,6 @@ class LoadIssueResolutionData extends AbstractFixture
 
             $manager->persist($IssueResolution);
         }
-
 
         $manager->flush();
     }

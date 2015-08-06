@@ -14,7 +14,7 @@ class IssueApiTypeTest extends \PHPUnit_Framework_TestCase
     private $type;
 
     /**
-     * init environment
+     * init environment.
      */
     public function init($havePrivilege = true)
     {

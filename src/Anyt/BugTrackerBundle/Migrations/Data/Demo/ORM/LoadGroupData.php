@@ -1,13 +1,12 @@
 <?php
+
 namespace Anyt\BugTrackerBundle\Migrations\Data\Demo\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use Oro\Bundle\UserBundle\Entity\Group;
 use Oro\Bundle\OrganizationBundle\Entity\BusinessUnit;
 
@@ -30,24 +29,24 @@ class LoadGroupData extends AbstractFixture implements ContainerAwareInterface, 
     }
 
     /**
-     * Load sample groups
+     * Load sample groups.
      *
      * @param \Doctrine\Common\Persistence\ObjectManager $manager
      */
     public function load(ObjectManager $manager)
     {
         $entityManager = $this->container->get('doctrine.orm.entity_manager');
-        $organization   = $this->getReference('default_organization');
-        $defaultCrmBU   = $this->getBusinessUnit($manager, 'Acme, West');
-        $defaultCoreBU  = $this->getBusinessUnit($manager, 'Acme, East');
-        $defaultMainBU  = $this->getBusinessUnit($manager, 'Acme, General');
+        $organization = $this->getReference('default_organization');
+        $defaultCrmBU = $this->getBusinessUnit($manager, 'Acme, West');
+        $defaultCoreBU = $this->getBusinessUnit($manager, 'Acme, East');
+        $defaultMainBU = $this->getBusinessUnit($manager, 'Acme, General');
         $groups = array(
-            'Marketing Manager' =>  $defaultCrmBU,
-            'Executive Marketing' =>  $defaultCrmBU,
+            'Marketing Manager' => $defaultCrmBU,
+            'Executive Marketing' => $defaultCrmBU,
             'Sales Manager' => $defaultCoreBU,
             'Executive Sales' => $defaultCoreBU,
             'Promotion Manager' => $defaultMainBU,
-            'Executive Director' => $defaultMainBU
+            'Executive Director' => $defaultMainBU,
         );
 
         foreach ($groups as $group => $user) {
@@ -57,13 +56,13 @@ class LoadGroupData extends AbstractFixture implements ContainerAwareInterface, 
             $entityManager->persist($newGroup);
         }
 
-
         $entityManager->flush();
     }
 
     /**
      * @param ObjectManager $manager
      * @param $name
+     *
      * @return BusinessUnit
      */
     protected function getBusinessUnit(ObjectManager $manager, $name)

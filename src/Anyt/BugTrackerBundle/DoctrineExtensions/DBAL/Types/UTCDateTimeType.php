@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Anyt\BugTrackerBundle\DoctrineExtensions\DBAL\Types;
 
 use Doctrine\DBAL\Types\DateTimeType;
@@ -9,12 +8,12 @@ use Doctrine\DBAL\Types\ConversionException;
 
 class UTCDateTimeType extends DateTimeType
 {
-    static private $utc = null;
+    private static $utc = null;
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return null;
+            return;
         }
 
         if (is_null(self::$utc)) {
@@ -29,7 +28,7 @@ class UTCDateTimeType extends DateTimeType
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return null;
+            return;
         }
 
         if (is_null(self::$utc)) {

@@ -24,10 +24,10 @@ class IssueApiType extends IssueType
     {
         $resolver->setDefaults(
             array(
-                'data_class'           => 'Anyt\BugTrackerBundle\Entity\Issue',
-                'intention'            => 'issue',
+                'data_class' => 'Anyt\BugTrackerBundle\Entity\Issue',
+                'intention' => 'issue',
                 'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
-                'csrf_protection'      => false,
+                'csrf_protection' => false,
             )
         );
     }
