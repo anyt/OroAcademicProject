@@ -29,3 +29,4 @@ anyt:
         children.label:             Children
       user_owner_items.label:       Reported issues
       user_assignee_items.label:    Assigned issues
+      issue_grid.label:             Issues list

@@ -11,12 +11,21 @@ oro_menu_config:
             extras:
                 routes: ['/^anyt_issue_/']
                 description: Issues
+        issue_report:
+            label: Issues
+            route: oro_report_index
+            routeParameters:
+                reportGroupName: anyt
+                reportName:      issues_list
     tree:
         application_menu:
             children:
                 bt_tab:
                     children:
                         bt_tab_link: ~
+                reports_tab:
+                    children:
+                        issue_report: ~
 
 oro_titles:
     anyt_issue_index: Issues list

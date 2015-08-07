@@ -91,32 +91,39 @@ datagrid:
                 route: anyt_api_delete_issue
                 params:
                     - id
-#        sorters:
-#            columns:
-#                model:
-#                    data_name: i.model
-#                seats:
-#                    data_name: i.seats
-#                boughtAt:
-#                    data_name: i.boughtAt
-#                leasedUntil:
-#                    data_name: i.leasedUntil
-#            default:
-#                model: ASC
-#        filters:
-#            columns:
-#                model:
-#                    type: string
-#                    data_name: i.model
-#                seats:
-#                    type: number
-#                    data_name: i.seats
-#                boughtAt:
-#                    type: date
-#                    data_name: i.boughtAt
-#                leasedUntil:
-#                    type: date
-#                    data_name: i.leasedUntil
+        sorters:
+            columns:
+                code:
+                    data_name: i.code
+                summary:
+                    data_name: i.summary
+                type:
+                    data_name: i.type
+                created:
+                    data_name: i.created
+                updated:
+                    data_name: i.updated
+
+            default:
+                update: DESC
+        filters:
+            columns:
+                code:
+                    type: string
+                    data_name: i.code
+                summary:
+                    type: number
+                    data_name: i.summary
+                type:
+                    type: choice
+                    data_name: i.type
+                    options:
+                        field_options:
+                            choices:
+                                bug: anyt.bugtracker.issue.type.bug.label
+                                task: anyt.bugtracker.issue.type.task.label
+                                story: anyt.bugtracker.issue.type.story.label
+                                subtask: anyt.bugtracker.issue.type.subtask.label
         actions:
             view:
                 type:          navigate
@@ -137,6 +144,9 @@ datagrid:
                 link:          delete_link
                 icon:          trash
                 acl_resource:  anyt_issue_delete
+        options:
+            entityHint: issue
+            export: true
     issues-children-grid:
         extends: issue-base-view-grid
         source:
@@ -233,3 +243,11 @@ datagrid:
                       dir: desc
             bind_parameters:
                 - userId
+    orocrm_report-anyt-issues_list:
+        extends: issues-grid
+        pageTitle: anyt.bugtracker.issye.issue_grid.label
+        source:
+            acl_resource: oro_report_view
+        options:
+            entityHint: report data
+            export: true
