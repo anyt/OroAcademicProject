@@ -12,6 +12,8 @@ Anyt\BugTrackerBundle\Entity\Issue:
           - DateTime: ~
         type:
           - Choice: { callback: getTypes }
+        assignee:
+          - NotBlank: ~
 Anyt\BugTrackerBundle\Entity\IssuePriority:
     properties:
         name:

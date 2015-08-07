@@ -6,6 +6,8 @@ use Anyt\BugTrackerBundle\Exception\IssueTypeNotAllowedException;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Oro\Bundle\EmailBundle\Entity\EmailOwnerInterface;
+use Oro\Bundle\EmailBundle\Model\EmailHolderInterface;
 use Oro\Bundle\TagBundle\Entity\Taggable;
 use Oro\Bundle\UserBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,6 +18,10 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 
 /**
  * Issue.
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.ExcessiveClassLength)
  *
  * @ORM\Table(name="anyt_bt_issue")
  * @ORM\Entity
@@ -43,7 +49,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  *      }
  * )
  */
-class Issue extends ExtendIssue implements Taggable
+class Issue extends ExtendIssue implements Taggable, EmailHolderInterface, EmailOwnerInterface
 {
     const TYPE_BUG = 'bug';
     const TYPE_TAKS = 'task';
@@ -684,4 +690,58 @@ class Issue extends ExtendIssue implements Taggable
         }
         $this->parent = $parent;
     }
+
+    /**
+     * Gets an email address which can be used to send messages
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+            return $this->assignee->getEmail();
+    }
+
+    /**
+     * Get entity class name.
+     * TODO: This is a temporary solution for get 'view' route in twig.
+     *       Will be removed after EntityConfigBundle is finished
+     *
+     * @return string
+     */
+    public function getClass()
+    {
+        return __CLASS__;
+    }
+
+    /**
+     * Get names of fields contain email addresses
+     *
+     * @return string[]|null
+     */
+    public function getEmailFields()
+    {
+        return ['email'];
+    }
+
+    /**
+     * Get first name
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->assignee->getFirstName();
+    }
+
+    /**
+     * Get last name
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->assignee->getLastName();
+    }
+
+
 }
