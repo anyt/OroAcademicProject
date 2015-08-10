@@ -1,0 +1,59 @@
+definitions:
+    anyt_issue_add_owner_to_collaborators:
+        label:   Add user to collaborators
+        enabled: true
+        entity:  Anyt\BugTrackerBundle\Entity\Issue
+        actions_configuration:
+            - @tree:
+                conditions:
+                    @not_blank: [$owner]
+                actions:
+                    - @call_method:
+                        object: $.data
+                        method: addCollaborator
+                        method_parameters: [$owner]
+    anyt_issue_add_assignee_to_collaborators:
+        label:   Add user to collaborators
+        enabled: true
+        entity:  Anyt\BugTrackerBundle\Entity\Issue
+        actions_configuration:
+            - @tree:
+                conditions:
+                    @not_blank: [$assignee]
+                actions:
+                    - @call_method:
+                        object: $.data
+                        method: addCollaborator
+                        method_parameters: [$assignee]
+    oro_note_add_creator_to_issue_collaborators:
+        label:   Add note creator to collaborators
+        enabled: true
+        order:   100
+        entity:  Oro\Bundle\NoteBundle\Entity\Note
+        actions_configuration:
+            - @tree:
+                conditions:
+                    @and:
+                        - @not_blank: [$owner]
+                        - @instance_of: [$target, 'Anyt\BugTrackerBundle\Entity\Issue']
+                actions:
+                    - @call_method:
+                        object: $target
+                        method: addCollaborator
+                        method_parameters: [$owner]
+triggers:
+    anyt_issue_add_owner_to_collaborators:
+        -
+            event: create
+        -
+            event: update
+            field: owner
+    anyt_issue_add_assignee_to_collaborators:
+        -
+            event: create
+        -
+            event: update
+            field: assignee
+    oro_note_add_creator_to_issue_collaborators:
+        -
+            event: create

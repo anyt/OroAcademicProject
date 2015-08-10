@@ -251,3 +251,67 @@ datagrid:
         options:
             entityHint: report data
             export: true
+    issue-collaborators-grid:
+        extended_entity_name: %oro_user.entity.class%
+        options:
+            entityHint: user
+            entity_pagination: true
+        source:
+            acl_resource: oro_user_user_view
+            type: orm
+            query:
+                select:
+                    - c.id as id
+                    - c.username as username
+                    - c.email as email
+                    - c.firstName as firstName
+                    - c.lastName as lastName
+                    - c.createdAt as createdAt
+                    - c.updatedAt as updatedAt
+                    - c.enabled as enabled
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+                join:
+                    left:
+                        - { join: i.collaborators, alias: c}
+                where:
+                    and:
+                        - i.id = :issueId
+            bind_parameters:
+                - issueId
+        columns:
+            username:
+                label:         oro.user.username.label
+            email:
+                label:         oro.user.email.label
+            firstName:
+                label:         oro.user.first_name.label
+            lastName:
+                label:         oro.user.last_name.label
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updatedAt:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+            enabled:
+                label:         oro.user.enabled.label
+                frontend_type: select
+                choices:
+                   - Inactive
+                   - Active
+        properties:
+            id: ~
+            view_link:
+                type: url
+                route: oro_user_view
+                params:
+                    - id
+        actions:
+            view:
+                type:          navigate
+                label:         oro.grid.action.view
+                link:          view_link
+                icon:          eye-open
+                acl_resource:  oro_user_user_view
+                rowAction:     true

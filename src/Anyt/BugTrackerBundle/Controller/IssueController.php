@@ -155,7 +155,7 @@ class IssueController extends Controller
     }
 
     /**
-     * @Route("/widget/grid/{id}", name="anyt_issue_children_widget_items", requirements={"id"="\d+"}))
+     * @Route("/widget/children/{id}", name="anyt_issue_children_widget_items", requirements={"id"="\d+"}))
      * @AclAncestor("anyt_issue_view")
      * @Template("AnytBugTrackerBundle:Issue/widget:children.html.twig")
      *
@@ -164,6 +164,20 @@ class IssueController extends Controller
      * @return array
      */
     public function childrenAction(Issue $issue)
+    {
+        return ['entity' => $issue];
+    }
+
+    /**
+     * @Route("/widget/collaborators/{id}", name="anyt_issue_collaborators_widget_items", requirements={"id"="\d+"}))
+     * @AclAncestor("anyt_issue_view")
+     * @Template("AnytBugTrackerBundle:Issue/widget:collaborators.html.twig")
+     *
+     * @param Issue $issue
+     *
+     * @return array
+     */
+    public function collaboratorsAction(Issue $issue)
     {
         return ['entity' => $issue];
     }

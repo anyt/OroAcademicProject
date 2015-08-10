@@ -1,0 +1,6 @@
+services:
+    anyt_issue.expression.instance_of:
+        class: Anyt\BugTrackerBundle\ConfigExpression\IsInstanceOf
+        tags:
+            - { name: oro_workflow.condition, alias: instance_of }
+        arguments: [@oro_workflow.context_accessor]

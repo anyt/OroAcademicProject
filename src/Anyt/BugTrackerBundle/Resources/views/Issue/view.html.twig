@@ -92,6 +92,24 @@
         ]) %}
     {% endif %}
 
+    {% if entity.collaborators is not empty %}
+        {% set collaboratorsWidget %}
+            {{ oro_widget_render({
+                'widgetType': 'block',
+                'url': path('anyt_issue_collaborators_widget_items', {id: entity.id})
+            }) }}
+        {% endset %}
+
+        {% set dataBlocks = dataBlocks|merge([
+        {
+        'title': 'anyt.bugtracker.issue.collaborators.label'|trans,
+        'subblocks': [
+        {'data' : [collaboratorsWidget] }
+        ]
+        }
+        ]) %}
+    {% endif %}
+
 
 
     {% set id = 'issueView' %}
