@@ -315,3 +315,44 @@ datagrid:
                 icon:          eye-open
                 acl_resource:  oro_user_user_view
                 rowAction:     true
+    issue-recent-grid:
+        extends: issue-base-view-grid
+        source:
+            query:
+                select:
+                    - i.id
+                    - i.code
+                    - i.summary
+                    - i.type
+                    - ownerEntity.id as ownerId
+                    - CONCAT(ownerEntity.firstName, CONCAT(' ', ownerEntity.lastName)) as owner
+                    - assigneeEntity.id as assigneeId
+                    - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
+                    - priorityEntity.title as priority
+                    - resolutionEntity.title as resolution
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+                join:
+                    left:
+                        - { join: i.owner, alias: ownerEntity}
+                        - { join: i.assignee, alias: assigneeEntity}
+                        - { join: i.priority, alias: priorityEntity}
+                        - { join: i.resolution, alias: resolutionEntity}
+#                        - { join: i.collaborators, alias: collaboratorsCollection}
+                where:
+                    and:
+                        - :userId MEMBER OF i.collaborators
+#                        - i.status = 'active'
+                orderBy:
+                    - column: i.updated
+                      dir: desc
+            bind_parameters:
+                - userId
+    issue-recent-dashboard-grid:
+        extends: issue-recent-grid
+        options:
+            toolbarOptions:
+                hide: true
+                pageSize:
+                    items: [10]
+                    default_per_page: 10

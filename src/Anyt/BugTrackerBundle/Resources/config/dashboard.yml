@@ -1,0 +1,7 @@
+oro_dashboard_config:
+    widgets:
+        recent_issues:
+            label:      anyt.bugtracker.dashboard.recent_issues.title
+            route:      oro_dashboard_widget        # you can use existing controller to render your TWIG template
+            route_parameters: { bundle: AnytBugTrackerBundle, name: recentIssues }   # just specify a bundle and a TWIG template name
+            acl:        anyt_issue_view

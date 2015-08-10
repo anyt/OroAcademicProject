@@ -49,7 +49,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  *      }
  * )
  */
-class Issue extends ExtendIssue implements Taggable, EmailHolderInterface, EmailOwnerInterface
+class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
 {
     const TYPE_BUG = 'bug';
     const TYPE_TAKS = 'task';
@@ -700,48 +700,4 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface, Email
     {
             return $this->assignee->getEmail();
     }
-
-    /**
-     * Get entity class name.
-     * TODO: This is a temporary solution for get 'view' route in twig.
-     *       Will be removed after EntityConfigBundle is finished
-     *
-     * @return string
-     */
-    public function getClass()
-    {
-        return __CLASS__;
-    }
-
-    /**
-     * Get names of fields contain email addresses
-     *
-     * @return string[]|null
-     */
-    public function getEmailFields()
-    {
-        return ['email'];
-    }
-
-    /**
-     * Get first name
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->assignee->getFirstName();
-    }
-
-    /**
-     * Get last name
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->assignee->getLastName();
-    }
-
-
 }

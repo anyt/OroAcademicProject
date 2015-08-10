@@ -4,7 +4,6 @@ anyt:
         menu:
             task_list.description:  List of tasks
             my_tasks: My Tasks
-
         entity_label:               Issue
         entity_plural_label:        Issues
         entity_description:         Represent issue
@@ -30,3 +29,7 @@ anyt:
       user_owner_items.label:       Reported issues
       user_assignee_items.label:    Assigned issues
       issue_grid.label:             Issues list
+      dashboard:
+        recent_issues:
+          title:                    Recent issues
+          view_all:                 View All

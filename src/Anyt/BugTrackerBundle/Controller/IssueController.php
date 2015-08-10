@@ -209,4 +209,21 @@ class IssueController extends Controller
     {
         return ['userId' => $userId];
     }
+
+    /**
+     * @Route(
+     *      "/recent/{_format}",
+     *      name="anyt_issue_recent",
+     *      requirements={"_format"="html|json"},
+     *      defaults={"_format" = "html"}
+     * )
+     * @AclAncestor("anyt_issue_view")
+     * @Template
+     */
+    public function recentAction()
+    {
+        return [
+            'entity_class' => 'Anyt/BugTrackerBundle/Entity/Issue',
+        ];
+    }
 }
