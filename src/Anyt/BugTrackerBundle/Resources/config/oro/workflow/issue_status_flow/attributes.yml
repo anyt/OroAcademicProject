@@ -1,0 +1,20 @@
+workflows:
+    issue_status_flow:
+        attributes:
+            notes:
+                label: 'Notes'
+                type: string
+                property_path: issue.notes
+            assignee:
+                label: 'Assigned to'
+                type: entity
+                options:
+                    class: Oro\Bundle\UserBundle\Entity\User
+            resolution:
+                label: 'Resolution'
+                type: entity
+                options:
+                    class: Anyt\BugTrackerBundle\Entity\IssueResolution
+            status:
+                label: 'Status'
+                type: string

@@ -19,10 +19,6 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
 /**
  * Issue.
  *
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.ExcessiveClassLength)
- *
  * @ORM\Table(name="anyt_bt_issue")
  * @ORM\Entity
  * @Config(
@@ -45,6 +41,9 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  *          },
  *          "security"={
  *              "type"="ACL"
+ *          },
+ *          "workflow"={
+ *              "active_workflow"="issue_status_flow"
  *          }
  *      }
  * )
@@ -55,6 +54,13 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
     const TYPE_TAKS = 'task';
     const TYPE_STORY = 'story';
     const TYPE_SUBTASK = 'subtask';
+
+    const STATUS_OPEN = 'open';
+    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_RESOLVED = 'resolved';
+    const STATUS_CLOSED = 'closed';
+    const STATUS_REOPENED = 'reopened';
+
     /**
      * @var int
      *
@@ -105,6 +111,13 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      * @ORM\Column(name="type", type="string")
      */
     private $type;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string")
+     */
+    private $status;
 
     /**
      * @var User
@@ -195,6 +208,9 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      **/
     private $parent;
 
+    /**
+     *
+     */
     public function __construct()
     {
         parent::__construct();
@@ -384,6 +400,40 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
             self::TYPE_SUBTASK,
         ];
     }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return Issue
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatuses()
+    {
+        return [
+            self::STATUS_OPEN,
+            self::STATUS_IN_PROGRESS,
+            self::STATUS_CLOSED,
+            self::STATUS_REOPENED,
+        ];
+    }
+
+
 
     /**
      * @return ArrayCollection
@@ -599,21 +649,33 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
         return $this->organization;
     }
 
+    /**
+     * @return bool
+     */
     public function isAllowedParent()
     {
         return in_array($this->getType(), self::getAllowedParents(), true);
     }
 
+    /**
+     * @return array
+     */
     public static function getAllowedParents()
     {
         return [self::TYPE_STORY];
     }
 
+    /**
+     * @return bool
+     */
     public function isAllowedChild()
     {
         return in_array($this->getType(), self::getAllowedChildren(), true);
     }
 
+    /**
+     * @return array
+     */
     public static function getAllowedChildren()
     {
         return [self::TYPE_SUBTASK];
@@ -628,7 +690,7 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
     }
 
     /**
-     * @param User $collaborator
+     * @param Issue $child
      *
      * @return Issue
      */
