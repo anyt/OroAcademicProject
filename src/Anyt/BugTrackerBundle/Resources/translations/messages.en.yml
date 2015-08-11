@@ -13,6 +13,7 @@ anyt:
         created.label:              Created
         id.label:                   Id
         priority.label:             Priority
+        status.label:               Status
         related_issues.label:       Related issues
         owner.label:                Reporter
         resolution.label:           Resolution

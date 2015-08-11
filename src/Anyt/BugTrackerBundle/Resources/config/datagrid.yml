@@ -16,6 +16,11 @@ datagrid:
                 template: AnytBugTrackerBundle:Issue:Datagrid/Property/type.html.twig
             priority:
                 label: anyt.bugtracker.issue.priority.label
+            status:
+                type: twig
+                label: anyt.bugtracker.issue.status.label
+                frontend_type: html
+                template: AnytBugTrackerBundle:Issue:Datagrid/Property/status.html.twig
             resolution:
                 label: anyt.bugtracker.issue.resolution.label
             owner:
@@ -62,6 +67,8 @@ datagrid:
                     - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
                     - i.created
                     - i.updated
+                    - i.status
+                    - priorityEntity.weight as priorityWeight
                 from:
                     - { table: AnytBugTrackerBundle:Issue, alias: i }
                 join:
@@ -70,9 +77,6 @@ datagrid:
                         - { join: i.assignee, alias: assigneeEntity}
                         - { join: i.priority, alias: priorityEntity}
                         - { join: i.resolution, alias: resolutionEntity}
-                orderBy:
-                    - column: i.updated
-                      dir: desc
         columns:
             created:
                 label: Created
@@ -103,7 +107,10 @@ datagrid:
                     data_name: i.created
                 updated:
                     data_name: i.updated
-
+                status:
+                    data_name: i.status
+                priority:
+                    data_name: priorityWeight
             default:
                 update: DESC
         filters:
@@ -162,6 +169,7 @@ datagrid:
                     - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
                     - priorityEntity.title as priority
                     - resolutionEntity.title as resolution
+                    - i.status
                 from:
                     - { table: AnytBugTrackerBundle:Issue, alias: i }
                 join:
@@ -173,9 +181,6 @@ datagrid:
                 where:
                     and:
                         - i.parent = :id
-                orderBy:
-                    - column: i.updated
-                      dir: desc
             bind_parameters:
                 - id
         options:
@@ -198,6 +203,7 @@ datagrid:
                     - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
                     - priorityEntity.title as priority
                     - resolutionEntity.title as resolution
+                    - i.status
                 from:
                     - { table: AnytBugTrackerBundle:Issue, alias: i }
                 join:
@@ -209,9 +215,6 @@ datagrid:
                 where:
                     and:
                         - i.owner = :userId
-                orderBy:
-                    - column: i.updated
-                      dir: desc
             bind_parameters:
                 - userId
     issues-assignee-grid:
@@ -227,6 +230,7 @@ datagrid:
                     - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
                     - priorityEntity.title as priority
                     - resolutionEntity.title as resolution
+                    - i.status
                 from:
                     - { table: AnytBugTrackerBundle:Issue, alias: i }
                 join:
@@ -238,9 +242,6 @@ datagrid:
                 where:
                     and:
                         - i.assignee = :userId
-                orderBy:
-                    - column: i.updated
-                      dir: desc
             bind_parameters:
                 - userId
     orocrm_report-anyt-issues_list:
@@ -330,6 +331,7 @@ datagrid:
                     - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
                     - priorityEntity.title as priority
                     - resolutionEntity.title as resolution
+                    - i.status
                 from:
                     - { table: AnytBugTrackerBundle:Issue, alias: i }
                 join:
@@ -338,14 +340,9 @@ datagrid:
                         - { join: i.assignee, alias: assigneeEntity}
                         - { join: i.priority, alias: priorityEntity}
                         - { join: i.resolution, alias: resolutionEntity}
-#                        - { join: i.collaborators, alias: collaboratorsCollection}
                 where:
                     and:
                         - :userId MEMBER OF i.collaborators
-#                        - i.status = 'active'
-                orderBy:
-                    - column: i.updated
-                      dir: desc
             bind_parameters:
                 - userId
     issue-recent-dashboard-grid:
