@@ -7,7 +7,7 @@ Anyt\BugTrackerBundle\Entity\Issue:
         parameters:
             id: id
     title_fields: [summary]
-    fields: # status
+    fields:
         -
             name: summary
             target_type: text
@@ -16,6 +16,9 @@ Anyt\BugTrackerBundle\Entity\Issue:
             target_type: text
         -
             name: type # todo make labels translatable
+            target_type: text
+        -
+            name: status # todo make labels translatable
             target_type: text
         -
             name: priority

@@ -23,6 +23,7 @@
 {% set entityInfo = [
 {'title': 'anyt.bugtracker.issue.code.label'|trans, 'value': entity.code},
 {'title': 'anyt.bugtracker.issue.type.label'|trans, 'value': ('anyt.bugtracker.issue.type.' ~ entity.type ~ '.label')|trans},
+{'title': 'anyt.bugtracker.issue.status.label'|trans, 'value': ('anyt.bugtracker.issue.status.' ~ entity.type ~ '.label')|trans},
 {'title': 'anyt.bugtracker.issue.owner.label'|trans, 'value': ownerLink},
 {'title': 'anyt.bugtracker.issue.assignee.label'|trans, 'value': assigneeLink},
 {'title': 'anyt.bugtracker.issue.priority.label'|trans, 'value': entity.priority.title},
