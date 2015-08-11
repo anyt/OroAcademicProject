@@ -31,3 +31,5 @@ workflows:
                 order: 50
                 allowed_transitions:
                     - start_progress
+                    - resolve
+                    - close

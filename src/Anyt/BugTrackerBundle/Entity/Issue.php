@@ -215,6 +215,7 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
     {
         parent::__construct();
 
+        $this->status = self::STATUS_OPEN;
         $this->collaborators = new ArrayCollection();
         $this->relatedIssues = new ArrayCollection();
         $this->children = new ArrayCollection();
@@ -428,6 +429,7 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
         return [
             self::STATUS_OPEN,
             self::STATUS_IN_PROGRESS,
+            self::STATUS_RESOLVED,
             self::STATUS_CLOSED,
             self::STATUS_REOPENED,
         ];

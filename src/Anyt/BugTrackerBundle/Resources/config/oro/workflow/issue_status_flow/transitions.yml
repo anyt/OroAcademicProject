@@ -32,7 +32,7 @@ workflows:
                 is_unavailable_hidden: true
                 frontend_options:
                     icon: 'icon-ok'
-                    class: 'btn-close'
+                    class: 'btn-danger'
                 transition_definition: close_definition
                 form_options:
                     attribute_fields:
@@ -59,7 +59,7 @@ workflows:
                 step_to: open
                 frontend_options:
                     icon: 'icon-stop'
-                    class: 'btn-warning'
+                    class: 'btn-primary'
                 transition_definition: stop_progress_definition
                 form_options:
                     attribute_fields:
@@ -107,9 +107,10 @@ workflows:
             reopen:
                 label: 'Reopen'
                 step_to: reopened
+                is_unavailable_hidden: true
                 frontend_options:
                     icon: 'icon-edit'
-                    class: 'btn-warning'
+                    class: 'btn-info'
                 transition_definition: reopen_definition
                 form_options:
                     attribute_fields:

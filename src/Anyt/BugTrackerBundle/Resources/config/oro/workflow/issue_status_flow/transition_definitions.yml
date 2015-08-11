@@ -7,29 +7,38 @@ workflows:
                         - @equal: [$issue.status, 'open']
                         - @equal: [$issue.status, 'reopened']
                 post_actions:
-                   @assign_value: [$issue.status, 'in_progress']
+                   - @assign_value:
+                        - [$issue.status, 'in_progress']
             stop_progress_definition:
                 pre_conditions:
                     @equal: [$issue.status, 'in_progress']
                 post_actions:
-                    @assign_value: [$issue.status, 'open']
+                   - @assign_value:
+                        - [$issue.status, 'open']
             close_definition:
                 pre_conditions:
                     @or:
                         - @equal: [$issue.status, 'open']
+                        - @equal: [$issue.status, 'reopened']
                         - @equal: [$issue.status, 'in_progress']
                         - @equal: [$issue.status, 'resolved']
                 post_actions:
-                    @assign_value: [$issue.status, 'closed']
+                   - @assign_value:
+                        - [$issue.status, 'closed']
             resolve_definition:
                 pre_conditions:
                     @or:
                         - @equal: [$issue.status, 'open']
+                        - @equal: [$issue.status, 'reopened']
                         - @equal: [$issue.status, 'in_progress']
                 post_actions:
-                    @assign_value: [$issue.status, 'resolved']
+                   - @assign_value:
+                        - [$issue.status, 'resolved']
             reopen_definition:
                 pre_conditions:
-                    @equal: [$issue.status, 'closed']
+                    @or:
+                        - @equal: [$issue.status, 'closed']
+                        - @equal: [$issue.status, 'resolved']
                 post_actions:
-                    @assign_value: [$issue.status, 'reopened']
+                   - @assign_value:
+                        - [$issue.status, 'reopened']

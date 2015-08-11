@@ -10,11 +10,12 @@ workflows:
                 type: entity
                 options:
                     class: Oro\Bundle\UserBundle\Entity\User
+                property_path: issue.assignee
             resolution:
                 label: 'Resolution'
                 type: entity
                 options:
                     class: Anyt\BugTrackerBundle\Entity\IssueResolution
+                property_path: issue.resolution
             status:
-                label: 'Status'
-                type: string
+                property_path: issue.status
