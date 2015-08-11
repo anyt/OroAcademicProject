@@ -2,6 +2,10 @@ anyt_bugtracker_bundle:
         resource: "@AnytBugTrackerBundle/Controller/"
         type:     annotation
         prefix:   /issue
+anyt_bugtracker_dashboard:
+    resource:     "@AnytBugTrackerBundle/Controller/Dashboard"
+    type:         annotation
+    prefix:       /dashboard
 anyt_bugtracker_bundle_api:
     resource: "@AnytBugTrackerBundle/Resources/config/oro/routing_api.yml"
     type: rest

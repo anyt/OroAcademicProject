@@ -22,6 +22,11 @@ anyt:
         type.task.label:            Task
         type.story.label:           Story
         type.subtask.label:         Subtask
+        status.open.label:          Open
+        status.in_progress.label:   In progress
+        status.resolved.label:      Resolved
+        status.closed.label:        Closed
+        status.reopened.label:      Reopened
         updated.label:              Updated
         description.label:          Description
         parent.label:               Parent
@@ -33,3 +38,5 @@ anyt:
         recent_issues:
           title:                    Recent issues
           view_all:                 View All
+        issues_by_status:
+          title:     Issues by status

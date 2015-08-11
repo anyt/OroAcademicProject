@@ -20,7 +20,7 @@ use Oro\Bundle\OrganizationBundle\Entity\Organization;
  * Issue.
  *
  * @ORM\Table(name="anyt_bt_issue")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Anyt\BugTrackerBundle\Entity\Repository\IssueRepository")
  * @Config(
  *      routeName="anyt_issue_index",
  *      routeView="anyt_issue_view",
