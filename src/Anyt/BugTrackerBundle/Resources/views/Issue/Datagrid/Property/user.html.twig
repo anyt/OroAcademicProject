@@ -1,0 +1,9 @@
+{% if resource_granted('oro_user_user_view') and id %}
+    <a href="{{ path('oro_user_view', {id: id}) }}">
+        {{ value }}
+    </a>
+{% elseif value is not null %}
+    {{ value }}
+{% else %}
+    {{ 'N/A'|trans }}
+{% endif %}

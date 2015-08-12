@@ -1,0 +1,102 @@
+Anyt\BugTrackerBundle\Entity\Issue:
+    alias: anyt_issue
+    search_template: AnytBugTrackerBundle:Search:result.html.twig
+    label: BugTracker Issues
+    route:
+        name: anyt_issue_view
+        parameters:
+            id: id
+    title_fields: [summary]
+    fields:
+        -
+            name: summary
+            target_type: text
+        -
+            name: code
+            target_type: text
+        -
+            name: type # todo make labels translatable
+            target_type: text
+        -
+            name: status # todo make labels translatable
+            target_type: text
+        -
+            name: priority
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: title
+                    target_type: text
+                    target_fields: [priority]
+        -
+            name: resolution
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name: title
+                    target_type: text
+                    target_fields: [resolution]
+        -
+            name: owner
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name:                   username
+                    target_type:            text
+                    target_fields:          [owner]
+                -
+                    name:                   email
+                    target_type:            text
+                    target_fields:          [owner]
+                -
+                    name:                   namePrefix
+                    target_type:            text
+                    target_fields:          [owner]
+                -
+                    name:                   firstName
+                    target_type:            text
+                    target_fields:          [owner]
+                -
+                    name:                   middleName
+                    target_type:            text
+                    target_fields:          [owner]
+                -
+                    name:                   lastName
+                    target_type:            text
+                    target_fields:          [owner]
+                -
+                    name:                   nameSuffix
+                    target_type:            text
+                    target_fields:          [owner]
+        -
+            name: assignee
+            relation_type: many-to-one
+            relation_fields:
+                -
+                    name:                   username
+                    target_type:            text
+                    target_fields:          [assignee]
+                -
+                    name:                   email
+                    target_type:            text
+                    target_fields:          [assignee]
+                -
+                    name:                   namePrefix
+                    target_type:            text
+                    target_fields:          [assignee]
+                -
+                    name:                   firstName
+                    target_type:            text
+                    target_fields:          [assignee]
+                -
+                    name:                   middleName
+                    target_type:            text
+                    target_fields:          [assignee]
+                -
+                    name:                   lastName
+                    target_type:            text
+                    target_fields:          [assignee]
+                -
+                    name:                   nameSuffix
+                    target_type:            text
+                    target_fields:          [assignee]

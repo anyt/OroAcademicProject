@@ -1,0 +1,15 @@
+{% extends 'OroUIBundle:actions:index.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% set gridName = 'issues-grid' %}
+{% set pageTitle = 'anyt.bugtracker.issue.entity_plural_label'|trans %}
+
+{% block navButtons %}
+    {% if resource_granted('anyt_issue_create') %}
+        <div class="btn-group">
+            {{ UI.addButton({
+                'path': path('anyt_issue_create'),
+                'entity_label': 'anyt.bugtracker.issue.entity_label'|trans
+            }) }}
+        </div>
+    {% endif %}
+{% endblock %}
