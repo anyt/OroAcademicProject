@@ -390,19 +390,6 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
     }
 
     /**
-     * @return array
-     */
-    public static function getTypes()
-    {
-        return [
-            self::TYPE_BUG,
-            self::TYPE_TAKS,
-            self::TYPE_STORY,
-            self::TYPE_SUBTASK,
-        ];
-    }
-
-    /**
      * @return string
      */
     public function getStatus()
@@ -420,22 +407,6 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
 
         return $this;
     }
-
-    /**
-     * @return array
-     */
-    public static function getStatuses()
-    {
-        return [
-            self::STATUS_OPEN,
-            self::STATUS_IN_PROGRESS,
-            self::STATUS_RESOLVED,
-            self::STATUS_CLOSED,
-            self::STATUS_REOPENED,
-        ];
-    }
-
-
 
     /**
      * @return ArrayCollection

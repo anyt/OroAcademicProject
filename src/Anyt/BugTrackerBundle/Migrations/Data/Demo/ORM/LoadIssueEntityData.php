@@ -115,7 +115,12 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
         $owner = $this->getRandomEntity('OroUserBundle:User');
         $assignee = $this->getRandomEntity('OroUserBundle:User');
 
-        $types = Issue::getTypes();
+        $types = [
+            Issue::TYPE_BUG,
+            Issue::TYPE_TAKS,
+            Issue::TYPE_STORY,
+            Issue::TYPE_SUBTASK,
+        ];
         $issue = new Issue();
 
         $issue

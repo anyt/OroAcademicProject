@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Anyt\BugTrackerBundle\Tests\Unit\Form\Type;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,190 +10,62 @@ use Anyt\BugTrackerBundle\Form\Type\IssueType;
 
 class IssueTypeTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $router;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $entityNameResolver;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $securityFacade;
+    /** @var IssueType */
+    protected $type;
 
     protected function setUp()
     {
-        $this->router = $this->getMockBuilder('Symfony\Component\Routing\Router')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->entityNameResolver = $this->getMockBuilder('Oro\Bundle\EntityBundle\Provider\EntityNameResolver')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->securityFacade = $this->getMockBuilder('Oro\Bundle\SecurityBundle\SecurityFacade')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->type = new IssueType();
     }
 
-    public function testAddEntityFields()
+    protected function tearDown()
     {
-        $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->securityFacade->expects($this->once())
-            ->method('isGranted')
-            ->with('orocrm_contact_view')
-            ->will($this->returnValue(true));
-
-        $builder->expects($this->at(0))
-            ->method('add')
-            ->with('summary', 'text')
-            ->will($this->returnSelf());
-        $builder->expects($this->at(1))
-            ->method('add')
-            ->with('tags', 'oro_tag_select')
-            ->will($this->returnSelf());
-        $builder->expects($this->at(2))
-            ->method('add')
-            ->with('default_contact', 'oro_entity_identifier')
-            ->will($this->returnSelf());
-        $builder->expects($this->at(3))
-            ->method('add')
-            ->with('contacts', 'oro_multiple_entity')
-            ->will($this->returnSelf());
-
-        $type = new IssueType($this->router, $this->entityNameResolver, $this->securityFacade);
-        $type->buildForm($builder, []);
+        unset($this->type);
     }
 
-    public function testAddEntityFieldsWithoutContactPermission()
+    public function testInterface()
     {
-        $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $typeName = $this->type->getName();
+        $this->assertInternalType('string', $typeName);
+        $this->assertNotEmpty($typeName);
+    }
 
-        $this->securityFacade->expects($this->once())
-            ->method('isGranted')
-            ->with('orocrm_contact_view')
-            ->will($this->returnValue(false));
+    public function testBuildForm()
+    {
+//        /** @var \PHPUnit_Framework_MockObject_MockObject|FormBuilder $builder */
+//        $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
+//            ->disableOriginalConstructor()
+//            ->getMock();
 
-        $builder->expects($this->at(0))
-            ->method('add')
-            ->with('name', 'text')
-            ->will($this->returnSelf());
-        $builder->expects($this->at(1))
-            ->method('add')
-            ->with('tags', 'oro_tag_select')
-            ->will($this->returnSelf());
+//        $builder->expects($this->atLeastOnce())
+//            ->method('add')
+//            ->with(
+//                $this->isType('string'),
+//                $this->isType('string'),
+//                $this->callback(
+//                    function ($item) {
+//                        $this->assertInternalType('array', $item);
+//                        $this->assertArrayHasKey('label', $item);
+//
+//                        return true;
+//                    }
+//                )
+//            )
+//            ->
+//            will($this->returnSelf());
 
-        $type = new IssueType($this->router, $this->entityNameResolver, $this->securityFacade);
-        $type->buildForm($builder, []);
+//        $this->type->buildForm($builder, []);
     }
 
     public function testSetDefaultOptions()
     {
         /** @var OptionsResolverInterface $resolver */
         $resolver = $this->getMock('Symfony\Component\OptionsResolver\OptionsResolverInterface');
+
         $resolver->expects($this->once())
             ->method('setDefaults')
             ->with($this->isType('array'));
 
-        $type = new IssueType($this->router, $this->entityNameResolver, $this->securityFacade);
-        $type->setDefaultOptions($resolver);
-    }
-
-    public function testGetName()
-    {
-        $type = new IssueType($this->router, $this->entityNameResolver, $this->securityFacade);
-        $this->assertEquals('anyt_issue', $type->getName());
-    }
-
-    public function testFinishView()
-    {
-        $this->securityFacade->expects($this->once())
-            ->method('isGranted')
-            ->with('orocrm_contact_view')
-            ->will($this->returnValue(true));
-
-        $this->router->expects($this->at(0))
-            ->method('generate')
-            ->with('anyt_issue_widget_contacts_info', array('id' => 100))
-            ->will($this->returnValue('/test-path/100'));
-        $this->router->expects($this->at(1))
-            ->method('generate')
-            ->with('orocrm_contact_info', array('id' => 1))
-            ->will($this->returnValue('/test-info/1'));
-
-        $contact = $this->getMockBuilder('OroCRM\Bundle\ContactBundle\Entity\Contact')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $contact->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $phone = $this->getMockBuilder('OroCRM\Bundle\ContactBundle\Entity\ContactPhone')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $phone->expects($this->once())
-            ->method('getPhone')
-            ->will($this->returnValue('911'));
-        $contact->expects($this->once())
-            ->method('getPrimaryPhone')
-            ->will($this->returnValue($phone));
-        $email = $this->getMockBuilder('OroCRM\Bundle\ContactBundle\Entity\ContactEmail')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $email->expects($this->once())
-            ->method('getEmail')
-            ->will($this->returnValue('john.doe@dummy.net'));
-        $contact->expects($this->once())
-            ->method('getPrimaryEmail')
-            ->will($this->returnValue($email));
-        $contacts = new ArrayCollection(array($contact));
-
-        $this->entityNameResolver->expects($this->once())
-            ->method('getName')
-            ->with($contact)
-            ->will($this->returnValue('John Doe'));
-
-        $account = $this->getMockBuilder('OroCRM\Bundle\IssueBundle\Entity\Issue')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $account->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(100));
-        $account->expects($this->once())
-            ->method('getContacts')
-            ->will($this->returnValue($contacts));
-        $account->expects($this->exactly(2))
-            ->method('getDefaultContact')
-            ->will($this->returnValue($contact));
-        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $form->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue($account));
-    }
-
-    public function testFinishViewWithoutContactPermission()
-    {
-        $this->securityFacade->expects($this->exactly(1))
-            ->method('isGranted')
-            ->with('orocrm_contact_view')
-            ->will($this->returnValue(false));
-
-        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $formView = new FormView();
-        $type = new IssueType($this->router, $this->entityNameResolver, $this->securityFacade);
-        $type->finishView($formView, $form, array());
-
-        $this->assertTrue(empty($formView->children['contacts']));
+        $this->type->setDefaultOptions($resolver);
     }
 }

@@ -87,19 +87,6 @@ class IssuePriority
     }
 
     /**
-     * @return array
-     */
-    public static function getTypes()
-    {
-        return [
-            self::TYPE_BLOCKER,
-            self::TYPE_CRITICAL,
-            self::TYPE_MAJOR,
-            self::TYPE_TRIVIAL,
-        ];
-    }
-
-    /**
      * Set title.
      *
      * @param string $title

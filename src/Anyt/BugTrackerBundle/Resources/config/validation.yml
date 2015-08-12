@@ -11,9 +11,9 @@ Anyt\BugTrackerBundle\Entity\Issue:
         updated:
           - DateTime: ~
         type:
-          - Choice: { callback: getTypes }
+          - Choice: { choices: ['bug','task','story','subtask']}
         status:
-          - Choice: { callback: getStatuses }
+          - Choice: { choices: [''] }
         assignee:
           - NotBlank: ~
 Anyt\BugTrackerBundle\Entity\IssuePriority:

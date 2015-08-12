@@ -4,6 +4,7 @@
 namespace Anyt\BugTrackerBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
 class IssueRepository extends EntityRepository
@@ -11,17 +12,16 @@ class IssueRepository extends EntityRepository
     /**
      * Returns top $limit issues grouped by status
      *
-     * @param  AclHelper $aclHelper
      * @param  int $limit
-     * @return array     [itemCount, status]
+     * @return QueryBuilder
      */
-    public function getIssuesByStatus(AclHelper $aclHelper, $limit = 10)
+    public function getIssuesByStatus($limit = 10)
     {
         $qb = $this->createQueryBuilder('i')
             ->select('i.status as label', 'count(i.id) as itemCount')
             ->groupBy('i.status')
             ->setMaxResults($limit);
 
-        return $aclHelper->apply($qb)->getArrayResult();
+        return $qb;
     }
 }

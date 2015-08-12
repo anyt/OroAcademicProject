@@ -84,23 +84,6 @@ class IssueResolution
     }
 
     /**
-     * @return array
-     */
-    public static function getTypes()
-    {
-        return [
-            self::TYPE_UNSEROLVED,
-            self::TYPE_FIXED,
-            self::TYPE_WONT_FIX,
-            self::TYPE_DUPLICATE,
-            self::TYPE_INCOMPLETE,
-            self::TYPE_CANNOT_REPRODUCE,
-            self::TYPE_DONE,
-            self::TYPE_WONT_DO,
-        ];
-    }
-
-    /**
      * Set title.
      *
      * @param string $title

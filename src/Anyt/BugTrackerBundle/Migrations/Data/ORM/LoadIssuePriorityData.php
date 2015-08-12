@@ -1,6 +1,6 @@
 <?php
 
-namespace OroCRM\Bundle\CaseBundle\Migrations\Data\ORM;
+namespace Anyt\BugTrackerBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -15,11 +15,16 @@ class LoadIssuePriorityData extends AbstractFixture
     {
         $priorityRepository = $manager->getRepository('AnytBugTrackerBundle:IssuePriority');
 
-        $types = IssuePriority::getTypes();
+        $types = [
+            IssuePriority::TYPE_BLOCKER,
+            IssuePriority::TYPE_CRITICAL,
+            IssuePriority::TYPE_MAJOR,
+            IssuePriority::TYPE_TRIVIAL,
+        ];
 
         foreach ($types as $weight => $priorityType) {
             /** @var IssuePriority $issuePriority */
-            $issuePriority = $priorityRepository->findOneBy(array('name' => $priorityType));
+            $issuePriority = $priorityRepository->findOneBy(['name' => $priorityType]);
             if (!$issuePriority) {
                 $issuePriority = new IssuePriority();
                 $issuePriority

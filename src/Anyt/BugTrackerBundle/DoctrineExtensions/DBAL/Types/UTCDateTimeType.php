@@ -8,32 +8,42 @@ use Doctrine\DBAL\Types\ConversionException;
 
 class UTCDateTimeType extends DateTimeType
 {
+    /**
+     * @var null|\DateTimeZone
+     */
     private static $utc = null;
 
+    /**
+     * @param mixed $value
+     * @param AbstractPlatform $platform
+     * @return mixed|null|void
+     */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return;
+            return null;
         }
 
-        if (is_null(self::$utc)) {
-            self::$utc = new \DateTimeZone('UTC');
-        }
+        $this->setUTC();
 
         $value->setTimeZone(self::$utc);
 
         return $value->format($platform->getDateTimeFormatString());
     }
 
+    /**
+     * @param mixed $value
+     * @param AbstractPlatform $platform
+     * @return \DateTime|void
+     * @throws ConversionException
+     */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
-            return;
+            return null;
         }
 
-        if (is_null(self::$utc)) {
-            self::$utc = new \DateTimeZone('UTC');
-        }
+        $this->setUTC();
 
         $val = \DateTime::createFromFormat($platform->getDateTimeFormatString(), $value, self::$utc);
 
@@ -42,5 +52,12 @@ class UTCDateTimeType extends DateTimeType
         }
 
         return $val;
+    }
+
+    private function setUTC()
+    {
+        if (is_null(self::$utc)) {
+            self::$utc = new \DateTimeZone('UTC');
+        }
     }
 }

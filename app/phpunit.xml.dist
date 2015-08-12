@@ -22,15 +22,30 @@
     -->
 
     <filter>
-        <whitelist>
+        <whitelist processUncoveredFilesFromWhitelist="true" addUncoveredFilesFromWhitelist="true">
             <directory>../src</directory>
             <exclude>
-                <directory>../src/*Bundle/Resources</directory>
-                <directory>../src/*Bundle/Tests</directory>
-                <directory>../src/*/*Bundle/Resources</directory>
-                <directory>../src/*/*Bundle/Tests</directory>
+                <directory>../vendor</directory>
+                <directory>../src/Acme</directory>
+                <directory>../src/*/tests</directory>
+                <directory>../src/*/Component/*/Tests</directory>
+                <directory>../src/*/src/*/Component/*/Tests</directory>
+                <directory>../src/*/src/*/Bundle/TestFrameworkBundle</directory>
+                <directory>../src/*/Bundle/*Bundle/DataFixtures</directory>
+                <directory>../src/*/Bundle/*Bundle/Migrations</directory>
                 <directory>../src/*/Bundle/*Bundle/Resources</directory>
                 <directory>../src/*/Bundle/*Bundle/Tests</directory>
+                <directory>../src/*/Bundle/*Bundle/vendor</directory>
+                <directory>../src/*/src/*/Bundle/*Bundle/DataFixtures</directory>
+                <directory>../src/*/src/*/Bundle/*Bundle/Migrations</directory>
+                <directory>../src/*/src/*/Bundle/*Bundle/Resources</directory>
+                <directory>../src/*/src/*/Bundle/*Bundle/Tests</directory>
+                <directory>../src/*/src/*/Bundle/*Bundle/vendor</directory>
+                <directory suffix="Bundle.php">../src/*/src/*/Bundle/*Bundle</directory>
+                <directory suffix="Bundle.php">../src/*/Bundle/*Bundle</directory>
+                <directory suffix="install.php">../src/*/Bundle/*Bundle</directory>
+                <directory suffix="uninstall.php">../src/*/Bundle/*Bundle</directory>
+                <directory suffix="update.php">../src/*/Bundle/*Bundle</directory>
             </exclude>
         </whitelist>
     </filter>

@@ -29,10 +29,7 @@ class DashboardController extends Controller
     {
         $data = $this->getDoctrine()
             ->getRepository('AnytBugTrackerBundle:Issue')
-            ->getIssuesByStatus(
-                $this->get('oro_security.acl_helper'),
-                10
-            );
+            ->getIssuesByStatus(10)->getQuery()->getArrayResult();
 
         if (!empty($data)) { // Translate labels
             /** @var TranslatorInterface $translator */
