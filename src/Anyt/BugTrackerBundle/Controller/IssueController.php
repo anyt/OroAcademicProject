@@ -137,6 +137,10 @@ class IssueController extends Controller
             $entityManager->persist($entity);
             $entityManager->flush();
             if (!$this->getRequest()->get('_widgetContainer')) {
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    $this->get('translator')->trans('anyt.bugtracker.issue.controller.saved_message')
+                );
                 return $this->get('oro_ui.router')->redirectAfterSave(
                     ['route' => 'anyt_issue_update', 'parameters' => ['id' => $entity->getId()]],
                     ['route' => 'anyt_issue_index'],

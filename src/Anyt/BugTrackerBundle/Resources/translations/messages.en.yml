@@ -32,6 +32,8 @@ anyt:
         description.label:          Description
         parent.label:               Parent
         children.label:             Children
+        controller:
+              saved_message:        Issue saved.
       user_owner_items.label:       Reported issues
       user_assignee_items.label:    Assigned issues
       issue_grid.label:             Issues list

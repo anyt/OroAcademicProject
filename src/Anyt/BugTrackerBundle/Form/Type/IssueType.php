@@ -11,13 +11,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class IssueType extends AbstractType
 {
+
+    const  NAME = 'anyt_issue';
+
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('summary', null, ['label' => 'anyt.bugtracker.issue.summary.label'])
-            ->add('description', null, ['label' => 'anyt.bugtracker.issue.description.label'])
+            ->add('summary', 'text', ['label' => 'anyt.bugtracker.issue.summary.label'])
+            ->add('description', 'textarea', ['label' => 'anyt.bugtracker.issue.description.label'])
             ->add('assignee', 'oro_user_select', ['label' => 'anyt.bugtracker.issue.assignee.label'])
-//          @todo can implement this after the search index only ->add('relatedIssues', 'oro_multiple_entity')
+//          @todo ->add('relatedIssues') like users in Acl Group entity
             ->add(
                 'priority',
                 'entity',
@@ -38,10 +44,11 @@ class IssueType extends AbstractType
             ->add(
                 'tags',
                 'oro_tag_select',
-                array(
+                [
                     'label' => 'oro.tag.entity_plural_label',
-                )
-            );
+                ]
+            )
+        ;
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
@@ -50,7 +57,7 @@ class IssueType extends AbstractType
                 $issue = $event->getData();
                 $form = $event->getForm();
                 // display type field only for new issues without predefined type
-                if (null === $issue->getType() && null === $issue->getId()) {
+                if (null === $issue || (null === $issue->getType() && null === $issue->getId())) {
                     $form->add(
                         'type',
                         'choice',
@@ -68,17 +75,37 @@ class IssueType extends AbstractType
         );
     }
 
+    /**
+     * @param string $dataClass
+     *
+     * @return $this
+     */
+    public function setDataClass($dataClass)
+    {
+        $this->dataClass = $dataClass;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => 'Anyt\BugTrackerBundle\Entity\Issue',
-            )
+            ]
         );
     }
 
+    /**
+     * Returns the name of this type.
+     *
+     * @return string The name of this type
+     */
     public function getName()
     {
-        return 'anyt_issue';
+        return self::NAME;
     }
 }

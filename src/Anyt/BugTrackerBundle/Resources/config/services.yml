@@ -1,5 +1,10 @@
 parameters:
     anyt.issue.code.generator.class: Anyt\BugTrackerBundle\IssueCodeGenerator\BasicGenerator
+    anyt.issue.manager.api.class:       Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+    anyt.type.issue.api.class:          Anyt\BugTrackerBundle\Form\Type\IssueApiType
+    anyt.issue.entity.class:            Anyt\BugTrackerBundle\Entity\Issue
+    anyt.handler.issue.class:           Anyt\BugTrackerBundle\Form\Handler\IssueHandler
+
 services:
     anyt.issue.code.listener:
         class: Anyt\BugTrackerBundle\EventListener\IssueCodeListener
@@ -13,19 +18,22 @@ services:
     anyt.issue.code.generator:
         class: '%anyt.issue.code.generator.class%'
 
-
+    # Issue API
     anyt.issue.manager.api:
-        class: Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+        class:                                      %anyt.issue.manager.api.class%
         parent: oro_soap.manager.entity_manager.abstract
         arguments:
-            - Anyt\BugTrackerBundle\Entity\Issue
-            - "@doctrine.orm.entity_manager"
-    anyt.form.type.issue.api:
-        class:                                      Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
-        parent: oro_soap.manager.entity_manager.abstract
-        arguments:
-            - %orocrm_account.account.entity.class%
+            - %anyt.issue.entity.class%
             - @doctrine.orm.entity_manager
+
+    anyt.form.type.issue.api:
+        class:                                      %anyt.type.issue.api.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+        tags:
+            - { name: form.type, alias: issue }
 
     anyt.form.issue.api:
         class:                                      Symfony\Component\Form\Form
@@ -34,7 +42,7 @@ services:
         arguments: ["issue", "issue", null]
 
     anyt.form.handler.issue.api:
-        class:                                      Anyt\BugTrackerBundle\Form\Handler\IssueHandler
+        class:                                      %anyt.handler.issue.class%
         scope: request
         arguments:
             - @anyt.form.issue.api

@@ -23,12 +23,12 @@ class IssueApiType extends IssueType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => 'Anyt\BugTrackerBundle\Entity\Issue',
                 'intention' => 'issue',
                 'extra_fields_message' => 'This form should not contain extra fields: "{{ extra_fields }}"',
                 'csrf_protection' => false,
-            )
+            ]
         );
     }
 

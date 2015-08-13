@@ -362,7 +362,7 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @return Issue
      */
-    public function setAssignee(User $assignee)
+    public function setAssignee($assignee)
     {
         $this->assignee = $assignee;
 
@@ -523,7 +523,7 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @return Issue
      */
-    public function setPriority(IssuePriority $priority)
+    public function setPriority($priority)
     {
         $this->priority = $priority;
 
@@ -543,7 +543,7 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @return Issue
      */
-    public function setResolution(IssueResolution $resolution)
+    public function setResolution($resolution)
     {
         $this->resolution = $resolution;
 
@@ -591,7 +591,7 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @return Issue
      */
-    public function setOwner(User $owner)
+    public function setOwner($owner)
     {
         $this->owner = $owner;
 

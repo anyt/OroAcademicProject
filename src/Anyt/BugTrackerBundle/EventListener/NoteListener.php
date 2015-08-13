@@ -42,6 +42,9 @@ class NoteListener
         }
     }
 
+    /**
+     * @param $entity
+     */
     private function updateIssue($entity)
     {
         if ($entity instanceof Note && $entity->getTarget() instanceof Issue) {
@@ -49,6 +52,7 @@ class NoteListener
             $issue = $entity->getTarget();
             $issue->setUpdated(new \DateTime('now', new \DateTimeZone('UTC')));
 
+            /** @var \Doctrine\ORM\Mapping\ClassMetadata $classMetadata */
             $classMetadata = $this->em->getMetadataFactory()->getMetadataFor(get_class($issue));
 
             $this->uow->recomputeSingleEntityChangeSet($classMetadata, $issue);

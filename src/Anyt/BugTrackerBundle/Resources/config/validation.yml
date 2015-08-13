@@ -12,8 +12,10 @@ Anyt\BugTrackerBundle\Entity\Issue:
           - DateTime: ~
         type:
           - Choice: { choices: ['bug','task','story','subtask']}
+          - NotBlank: ~
         status:
-          - Choice: { choices: [''] }
+          - Choice: { choices: ['open', 'in_progress', 'resolved', 'closed', 'reopened'] }
+          - NotBlank: ~
         assignee:
           - NotBlank: ~
 Anyt\BugTrackerBundle\Entity\IssuePriority:
