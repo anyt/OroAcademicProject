@@ -2,6 +2,7 @@
 
 namespace Anyt\BugTrackerBundle\Tests\Functional;
 
+use Anyt\BugTrackerBundle\Entity\Issue;
 use Symfony\Component\DomCrawler\Form;
 
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -12,6 +13,22 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class ControllersTest extends WebTestCase
 {
+
+    /**
+     * @var array
+     */
+    protected $issueCreateData = [
+
+        'anyt_issue[summary]' => 'Issue_summary',
+        'anyt_issue[description]' => 'test',
+        'anyt_issue[type]' => 'story',
+        'anyt_issue[assignee]' => 1,
+        'anyt_issue[owner]' => 1,
+        'anyt_issue[priority]' => 1,
+        'anyt_issue[resolution]' => 1
+
+    ];
+
     protected function setUp()
     {
         $this->initClient(
@@ -32,13 +49,7 @@ class ControllersTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->getUrl('anyt_issue_create'));
         /** @var Form $form */
         $form = $crawler->selectButton('Save and Close')->form();
-        $form['anyt_issue[summary]'] = 'Issue_summary';
-        $form['anyt_issue[description]'] = 'test';
-        $form['anyt_issue[type]'] = 'story';
-        $form['anyt_issue[assignee]'] = 1;
-        $form['anyt_issue[owner]'] = 1;
-        $form['anyt_issue[priority]'] = 1;
-        $form['anyt_issue[resolution]'] = 1;
+        $form->setValues($this->issueCreateData);
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);

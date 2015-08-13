@@ -14,7 +14,7 @@ class RestIssueTest extends WebTestCase
      * @var array
      */
     protected $issueCreateData = [
-        'summary' => 'Issue_name',
+        'summary' => 'Issue_summary',
         'description' => 'test',
         'type' => 'story',
         'owner' => '1',

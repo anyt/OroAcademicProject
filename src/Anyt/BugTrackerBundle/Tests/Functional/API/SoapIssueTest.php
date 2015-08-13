@@ -10,6 +10,7 @@ use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
  */
 class SoapIssueTest extends WebTestCase
 {
+
     /**
      * @var array
      */
@@ -23,137 +24,84 @@ class SoapIssueTest extends WebTestCase
         'resolution' => '1'
     ];
 
+
     protected function setUp()
     {
         $this->initClient([], $this->generateWsseAuthHeader());
         $this->initSoapClient();
     }
 
-
     /**
-     * @return integer
+     * @return array
      */
     public function testCreate()
     {
-        $result = $this->soapClient->createIssue($this->issueCreateData);
 
-        $this->assertGreaterThan(0, $result, $this->soapClient->__getLastResponse());
+        $request = $this->issueCreateData;
+        $result = $this->soapClient->createIssue($request);
+        $this->assertTrue((bool)$result, $this->soapClient->__getLastResponse());
 
-        return $result;
+        $request['id'] = $result;
+
+        return $request;
     }
 
-//    /**
-//     * @depends testCreate
-//     * @param integer $id
-//     */
-//    public function testCget($id)
-//    {
-//        $result = $this->soapClient->getIssues();
-//        $result = $this->valueToArray($result);
-//        $issues = $result['item'];
-//
-//        $this->assertCount(4, $issues);
-//
-//        $this->assertArrayIntersectEquals(
-//            array(
-//                'id' => $id,
-//                'subject' => $this->issueCreateData['subject'],
-//                'description' => $this->issueCreateData['description'],
-//                'owner' => self::$adminUserId,
-//                'relatedContact' => null,
-//                'relatedAccount' => null,
-//                'source' => IssueSource::SOURCE_OTHER,
-//                'status' => IssueStatus::STATUS_OPEN,
-//                'priority' => IssuePriority::PRIORITY_NORMAL,
-//                'updatedAt' => null,
-//                'closedAt' => null,
-//            ),
-//            $issues[0]
-//        );
-//
-//        $this->assertNotEmpty($issues[0]['createdAt']);
-//        $this->assertNotEmpty($issues[0]['reportedAt']);
-//    }
-//
-//    /**
-//     * @depends testCreate
-//     * @param integer $id
-//     * @return array
-//     */
-//    public function testGet($id)
-//    {
-//        $result = $this->soapClient->getIssue($id);
-//        $issue = $this->valueToArray($result);
-//
-//        $this->assertArrayIntersectEquals(
-//            array(
-//                'id' => $id,
-//                'subject' => $this->issueCreateData['subject'],
-//                'description' => $this->issueCreateData['description'],
-//                'owner' => self::$adminUserId,
-//                'relatedContact' => null,
-//                'relatedAccount' => null,
-//                'source' => IssueSource::SOURCE_OTHER,
-//                'status' => IssueStatus::STATUS_OPEN,
-//                'priority' => IssuePriority::PRIORITY_NORMAL,
-//                'updatedAt' => null,
-//                'closedAt' => null,
-//            ),
-//            $issue
-//        );
-//
-//        $this->assertNotEmpty($issue['createdAt']);
-//        $this->assertNotEmpty($issue['reportedAt']);
-//
-//        return $issue;
-//    }
-//
-//    /**
-//     * @depends testGet
-//     * @param array $originalIssue
-//     * @return integer
-//     */
-//    public function testUpdate(array $originalIssue)
-//    {
-//        $id = $originalIssue['id'];
-//
-//        $updateData = [
-//            'subject' => 'Updated subject',
-//            'description' => 'Updated description',
-//            'resolution' => 'Updated resolution',
-//            'status' => IssueStatus::STATUS_CLOSED,
-//            'priority' => IssuePriority::PRIORITY_LOW,
-//            'source' => IssueSource::SOURCE_WEB,
-//            'relatedContact' => self::$contactId,
-//            'assignedTo' => self::$adminUserId,
-//        ];
-//
-//        $result = $this->soapClient->updateIssue($id, $updateData);
-//        $this->assertTrue($result, $this->soapClient->__getLastResponse());
-//
-//        $updatedIssue = $this->soapClient->getIssue($id);
-//        $updatedIssue = $this->valueToArray($updatedIssue);
-//
-//        $this->assertNotEmpty($updatedIssue['updatedAt']);
-//        $this->assertNotEmpty($updatedIssue['closedAt']);
-//
-//        $expectedIssue = array_merge($originalIssue, $updateData);
-//        $expectedIssue['updatedAt'] = $updatedIssue['updatedAt'];
-//        $expectedIssue['closedAt'] = $updatedIssue['closedAt'];
-//
-//        return $id;
-//    }
-//
-//    /**
-//     * @param integer $id
-//     * @depends testCreate
-//     */
-//    public function testDelete($id)
-//    {
-//        $result = $this->soapClient->deleteIssue($id);
-//        $this->assertTrue($result);
-//
-//        $this->setExpectedException('\SoapFault', 'Record with ID "' . $id . '" can not be found');
-//        $this->soapClient->getIssue($id);
-//    }
+    /**
+     * @param array $request
+     * @depends testCreate
+     * @return array
+     */
+    public function testGet(array $request)
+    {
+        $issues = $this->soapClient->getIssues(1, 1000);
+        $issues = $this->valueToArray($issues);
+        $issueName = $request['summary'];
+        $issue = $issues['item'];
+        if (isset($issue[0])) {
+            $issue = array_filter(
+                $issue,
+                function ($a) use ($issueName) {
+                    return $a['summary'] == $issueName;
+                }
+            );
+            $issue = reset($issue);
+        }
+
+        $this->assertEquals($request['summary'], $issue['summary']);
+        $this->assertEquals($request['id'], $issue['id']);
+    }
+
+    /**
+     * @param array $request
+     * @depends testCreate
+     */
+    public function testUpdate(array $request)
+    {
+        $issueUpdate = $request;
+        unset($issueUpdate['id']);
+        $issueUpdate['summary'] .= '_Updated';
+
+        $result = $this->soapClient->updateIssue($request['id'], $issueUpdate);
+        $this->assertTrue($result);
+
+        $issue = $this->soapClient->getIssue($request['id']);
+        $issue = $this->valueToArray($issue);
+
+        $this->assertEquals($issueUpdate['summary'], $issue['summary']);
+
+        return $request;
+    }
+
+    /**
+     * @param array $request
+     * @depends testUpdate
+     */
+    public function testDelete(array $request)
+    {
+        $result = $this->soapClient->deleteIssue($request['id']);
+        $this->assertTrue($result);
+
+        $this->setExpectedException('\SoapFault', 'Record with ID "' . $request['id'] . '" can not be found');
+        $this->soapClient->getIssue($request['id']);
+    }
 }
