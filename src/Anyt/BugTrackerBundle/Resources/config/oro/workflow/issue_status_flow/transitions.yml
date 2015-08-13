@@ -1,0 +1,120 @@
+workflows:
+    issue_status_flow:
+        transitions:
+            start_progress:
+                label: 'Start progress'
+                step_to: in_progress
+                is_start: true
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: 'icon-play'
+                    class: 'btn-primary'
+                transition_definition: start_progress_definition
+
+                form_options:
+                    attribute_fields:
+                        notes:
+                            form_type: oro_rich_text
+                            options:
+                                required: false
+                        resolution:
+                            form_type: entity
+                            options:
+                                class: Anyt\BugTrackerBundle\Entity\IssueResolution
+                                property: title
+                                required: true
+                                constraints:
+                                    - NotBlank: ~
+            close:
+                label: 'Close'
+                step_to: closed
+                is_start: true
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: 'icon-ok'
+                    class: 'btn-danger'
+                transition_definition: close_definition
+                form_options:
+                    attribute_fields:
+                        notes:
+                            form_type: oro_rich_text
+                            options:
+                                required: false
+                        resolution:
+                            form_type: entity
+                            options:
+                                class: Anyt\BugTrackerBundle\Entity\IssueResolution
+                                property: title
+                                required: true
+                                constraints:
+                                    - NotBlank: ~
+                        assignee:
+                            form_type: oro_user_select
+                            options:
+                                required: true
+                                constraints:
+                                    - NotBlank: ~
+            stop_progress:
+                label: 'Stop progress'
+                step_to: open
+                frontend_options:
+                    icon: 'icon-stop'
+                    class: 'btn-primary'
+                transition_definition: stop_progress_definition
+                form_options:
+                    attribute_fields:
+                        notes:
+                            form_type: oro_rich_text
+                            options:
+                                required: false
+                        resolution:
+                            form_type: entity
+                            options:
+                                class: Anyt\BugTrackerBundle\Entity\IssueResolution
+                                property: title
+                                required: true
+                                constraints:
+                                    - NotBlank: ~
+            resolve:
+                label: 'Resolve'
+                step_to: resolved
+                is_start: true
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: 'icon-ok'
+                    class: 'btn-success'
+                transition_definition: resolve_definition
+                form_options:
+                    attribute_fields:
+                        notes:
+                            form_type: oro_rich_text
+                            options:
+                                required: false
+                        resolution:
+                            form_type: entity
+                            options:
+                                class: Anyt\BugTrackerBundle\Entity\IssueResolution
+                                property: title
+                                required: true
+                                constraints:
+                                    - NotBlank: ~
+                        assignee:
+                            form_type: oro_user_select
+                            options:
+                                required: true
+                                constraints:
+                                    - NotBlank: ~
+            reopen:
+                label: 'Reopen'
+                step_to: reopened
+                is_unavailable_hidden: true
+                frontend_options:
+                    icon: 'icon-edit'
+                    class: 'btn-info'
+                transition_definition: reopen_definition
+                form_options:
+                    attribute_fields:
+                        notes:
+                            form_type: oro_rich_text
+                            options:
+                                required: false

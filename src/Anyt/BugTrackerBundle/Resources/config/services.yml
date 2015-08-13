@@ -1,0 +1,52 @@
+parameters:
+    anyt.issue.code.generator.class: Anyt\BugTrackerBundle\IssueCodeGenerator\BasicGenerator
+    anyt.issue.manager.api.class:       Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
+    anyt.type.issue.api.class:          Anyt\BugTrackerBundle\Form\Type\IssueApiType
+    anyt.issue.entity.class:            Anyt\BugTrackerBundle\Entity\Issue
+    anyt.handler.issue.class:           Anyt\BugTrackerBundle\Form\Handler\IssueHandler
+
+services:
+    anyt.issue.code.listener:
+        class: Anyt\BugTrackerBundle\EventListener\IssueCodeListener
+        arguments: [@anyt.issue.code.generator]
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+    anyt.issue.note.listener:
+        class: Anyt\BugTrackerBundle\EventListener\NoteListener
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+    anyt.issue.code.generator:
+        class: '%anyt.issue.code.generator.class%'
+
+    # Issue API
+    anyt.issue.manager.api:
+        class:                                      %anyt.issue.manager.api.class%
+        parent: oro_soap.manager.entity_manager.abstract
+        arguments:
+            - %anyt.issue.entity.class%
+            - @doctrine.orm.entity_manager
+
+    anyt.form.type.issue.api:
+        class:                                      %anyt.type.issue.api.class%
+        arguments:
+            - @router
+            - @oro_locale.formatter.name
+            - @oro_security.security_facade
+        tags:
+            - { name: form.type, alias: issue }
+
+    anyt.form.issue.api:
+        class:                                      Symfony\Component\Form\Form
+        factory_method: createNamed
+        factory_service: form.factory
+        arguments: ["issue", "issue", null]
+
+    anyt.form.handler.issue.api:
+        class:                                      %anyt.handler.issue.class%
+        scope: request
+        arguments:
+            - @anyt.form.issue.api
+            - @request
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: oro_tag.tag_manager }

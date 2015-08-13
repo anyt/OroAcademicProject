@@ -1,0 +1,5 @@
+services:
+    anyt.form.type.issue:
+        class: Anyt\BugTrackerBundle\Form\Type\IssueType
+        tags:
+            - { name: form.type, alias: anyt_issue }

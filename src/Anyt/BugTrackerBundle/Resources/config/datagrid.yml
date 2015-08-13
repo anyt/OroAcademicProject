@@ -1,0 +1,355 @@
+datagrid:
+    issue-base-view-grid:
+        extended_entity_name: Anyt\BugTrackerBundle\Entity\Issue
+        source:
+            acl_resource: anyt_issue_view
+            type: orm
+        columns:
+            code:
+                label: anyt.bugtracker.issue.code.label
+            summary:
+                label: anyt.bugtracker.issue.summary.label
+            type:
+                type: twig
+                label: anyt.bugtracker.issue.type.label
+                frontend_type: html
+                template: AnytBugTrackerBundle:Issue:Datagrid/Property/type.html.twig
+            priority:
+                label: anyt.bugtracker.issue.priority.label
+            status:
+                type: twig
+                label: anyt.bugtracker.issue.status.label
+                frontend_type: html
+                template: AnytBugTrackerBundle:Issue:Datagrid/Property/status.html.twig
+            resolution:
+                label: anyt.bugtracker.issue.resolution.label
+            owner:
+                type: twig
+                label: anyt.bugtracker.issue.owner.label
+                frontend_type: html
+                template: AnytBugTrackerBundle:Issue:Datagrid/Property/owner.html.twig
+            assignee:
+                type: twig
+                label: anyt.bugtracker.issue.assignee.label
+                frontend_type: html
+                template: AnytBugTrackerBundle:Issue:Datagrid/Property/assignee.html.twig
+        properties:
+            id: ~
+            view_link:
+                type: url
+                route: anyt_issue_view
+                params:
+                    - id
+        actions:
+            view:
+                type:          navigate
+                label:         View
+                link:          view_link
+                icon:          eye-open
+                acl_resource:  anyt_issue_view
+                rowAction:     true
+        options:
+            entityHint: issue
+    issues-grid:
+        extends: issue-base-view-grid
+        source:
+            query:
+                select:
+                    - i.id
+                    - i.code
+                    - i.summary
+                    - i.type
+                    - priorityEntity.title as priority
+                    - resolutionEntity.title as resolution
+                    - ownerEntity.id as ownerId
+                    - CONCAT(ownerEntity.firstName, CONCAT(' ', ownerEntity.lastName)) as owner
+                    - assigneeEntity.id as assigneeId
+                    - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
+                    - i.created
+                    - i.updated
+                    - i.status
+                    - priorityEntity.weight as priorityWeight
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+                join:
+                    left:
+                        - { join: i.owner, alias: ownerEntity}
+                        - { join: i.assignee, alias: assigneeEntity}
+                        - { join: i.priority, alias: priorityEntity}
+                        - { join: i.resolution, alias: resolutionEntity}
+        columns:
+            created:
+                label: Created
+                frontend_type: datetime
+            updated:
+                label: Updated
+                frontend_type: datetime
+        properties:
+            update_link:
+                type: url
+                route: anyt_issue_update
+                params:
+                    - id
+            delete_link:
+                type: url
+                route: anyt_api_delete_issue
+                params:
+                    - id
+        sorters:
+            columns:
+                code:
+                    data_name: i.code
+                summary:
+                    data_name: i.summary
+                type:
+                    data_name: i.type
+                created:
+                    data_name: i.created
+                updated:
+                    data_name: i.updated
+                status:
+                    data_name: i.status
+                priority:
+                    data_name: priorityWeight
+            default:
+                update: DESC
+        filters:
+            columns:
+                code:
+                    type: string
+                    data_name: i.code
+                summary:
+                    type: number
+                    data_name: i.summary
+                type:
+                    type: choice
+                    data_name: i.type
+                    options:
+                        field_options:
+                            choices:
+                                bug: anyt.bugtracker.issue.type.bug.label
+                                task: anyt.bugtracker.issue.type.task.label
+                                story: anyt.bugtracker.issue.type.story.label
+                                subtask: anyt.bugtracker.issue.type.subtask.label
+        actions:
+            view:
+                type:          navigate
+                label:         View
+                link:          view_link
+                icon:          eye-open
+                acl_resource:  anyt_issue_view
+                rowAction:     true
+            update:
+                type:          navigate
+                label:         Update
+                link:          update_link
+                icon:          edit
+                acl_resource:  anyt_issue_update
+            delete:
+                type:          delete
+                label:         Delete
+                link:          delete_link
+                icon:          trash
+                acl_resource:  anyt_issue_delete
+        options:
+            entityHint: issue
+            export: true
+    issues-children-grid:
+        extends: issue-base-view-grid
+        source:
+            query:
+                select:
+                    - i.id
+                    - i.code
+                    - i.summary
+                    - i.type
+                    - ownerEntity.id as ownerId
+                    - CONCAT(ownerEntity.firstName, CONCAT(' ', ownerEntity.lastName)) as owner
+                    - assigneeEntity.id as assigneeId
+                    - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
+                    - priorityEntity.title as priority
+                    - resolutionEntity.title as resolution
+                    - i.status
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+                join:
+                    left:
+                        - { join: i.owner, alias: ownerEntity}
+                        - { join: i.assignee, alias: assigneeEntity}
+                        - { join: i.priority, alias: priorityEntity}
+                        - { join: i.resolution, alias: resolutionEntity}
+                where:
+                    and:
+                        - i.parent = :id
+            bind_parameters:
+                - id
+        options:
+            toolbarOptions:
+                hide: true
+                pagination:
+                    hide: true
+    issues-owner-grid:
+        extends: issue-base-view-grid
+        source:
+            query:
+                select:
+                    - i.id
+                    - i.code
+                    - i.summary
+                    - i.type
+                    - ownerEntity.id as ownerId
+                    - CONCAT(ownerEntity.firstName, CONCAT(' ', ownerEntity.lastName)) as owner
+                    - assigneeEntity.id as assigneeId
+                    - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
+                    - priorityEntity.title as priority
+                    - resolutionEntity.title as resolution
+                    - i.status
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+                join:
+                    left:
+                        - { join: i.owner, alias: ownerEntity}
+                        - { join: i.assignee, alias: assigneeEntity}
+                        - { join: i.priority, alias: priorityEntity}
+                        - { join: i.resolution, alias: resolutionEntity}
+                where:
+                    and:
+                        - i.owner = :userId
+            bind_parameters:
+                - userId
+    issues-assignee-grid:
+        extends: issue-base-view-grid
+        source:
+            query:
+                select:
+                    - i.id
+                    - i.code
+                    - i.summary
+                    - i.type
+                    - assigneeEntity.id as assigneeId
+                    - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
+                    - priorityEntity.title as priority
+                    - resolutionEntity.title as resolution
+                    - i.status
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+                join:
+                    left:
+                        - { join: i.owner, alias: ownerEntity}
+                        - { join: i.assignee, alias: assigneeEntity}
+                        - { join: i.priority, alias: priorityEntity}
+                        - { join: i.resolution, alias: resolutionEntity}
+                where:
+                    and:
+                        - i.assignee = :userId
+            bind_parameters:
+                - userId
+    orocrm_report-anyt-issues_list:
+        extends: issues-grid
+        pageTitle: anyt.bugtracker.issye.issue_grid.label
+        source:
+            acl_resource: oro_report_view
+        options:
+            entityHint: report data
+            export: true
+    issue-collaborators-grid:
+        extended_entity_name: %oro_user.entity.class%
+        options:
+            entityHint: user
+            entity_pagination: true
+        source:
+            acl_resource: oro_user_user_view
+            type: orm
+            query:
+                select:
+                    - c.id as id
+                    - c.username as username
+                    - c.email as email
+                    - c.firstName as firstName
+                    - c.lastName as lastName
+                    - c.createdAt as createdAt
+                    - c.updatedAt as updatedAt
+                    - c.enabled as enabled
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+                join:
+                    left:
+                        - { join: i.collaborators, alias: c}
+                where:
+                    and:
+                        - i.id = :issueId
+            bind_parameters:
+                - issueId
+        columns:
+            username:
+                label:         oro.user.username.label
+            email:
+                label:         oro.user.email.label
+            firstName:
+                label:         oro.user.first_name.label
+            lastName:
+                label:         oro.user.last_name.label
+            createdAt:
+                label:         oro.ui.created_at
+                frontend_type: datetime
+            updatedAt:
+                label:         oro.ui.updated_at
+                frontend_type: datetime
+            enabled:
+                label:         oro.user.enabled.label
+                frontend_type: select
+                choices:
+                   - Inactive
+                   - Active
+        properties:
+            id: ~
+            view_link:
+                type: url
+                route: oro_user_view
+                params:
+                    - id
+        actions:
+            view:
+                type:          navigate
+                label:         oro.grid.action.view
+                link:          view_link
+                icon:          eye-open
+                acl_resource:  oro_user_user_view
+                rowAction:     true
+    issue-recent-grid:
+        extends: issue-base-view-grid
+        source:
+            query:
+                select:
+                    - i.id
+                    - i.code
+                    - i.summary
+                    - i.type
+                    - ownerEntity.id as ownerId
+                    - CONCAT(ownerEntity.firstName, CONCAT(' ', ownerEntity.lastName)) as owner
+                    - assigneeEntity.id as assigneeId
+                    - CONCAT(assigneeEntity.firstName, CONCAT(' ', assigneeEntity.lastName)) as assignee
+                    - priorityEntity.title as priority
+                    - resolutionEntity.title as resolution
+                    - i.status
+                from:
+                    - { table: AnytBugTrackerBundle:Issue, alias: i }
+                join:
+                    left:
+                        - { join: i.owner, alias: ownerEntity}
+                        - { join: i.assignee, alias: assigneeEntity}
+                        - { join: i.priority, alias: priorityEntity}
+                        - { join: i.resolution, alias: resolutionEntity}
+                where:
+                    and:
+                        - :userId MEMBER OF i.collaborators
+            bind_parameters:
+                - userId
+    issue-recent-dashboard-grid:
+        extends: issue-recent-grid
+        options:
+            toolbarOptions:
+                hide: true
+                pageSize:
+                    items: [10]
+                    default_per_page: 10
