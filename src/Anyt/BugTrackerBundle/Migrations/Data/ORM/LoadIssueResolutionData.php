@@ -8,6 +8,9 @@ use Anyt\BugTrackerBundle\Entity\IssueResolution;
 
 class LoadIssueResolutionData extends AbstractFixture
 {
+    /**
+     * @var array
+     */
     protected static $types = [
         IssueResolution::TYPE_UNSEROLVED => 'Unresolved',
         IssueResolution::TYPE_FIXED => 'Fixed',
@@ -28,17 +31,17 @@ class LoadIssueResolutionData extends AbstractFixture
 
         $types = self::$types;
 
-        foreach ($types as $weight => $resolutionType) {
-            /** @var IssueResolution $IssueResolution */
-            $IssueResolution = $priorityRepository->findOneBy(array('name' => $resolutionType));
-            if (!$IssueResolution) {
-                $IssueResolution = new IssueResolution();
-                $IssueResolution
+        foreach ($types as $resolutionType) {
+            /** @var IssueResolution $issueResolution */
+            $issueResolution = $priorityRepository->findOneBy(['name' => $resolutionType]);
+            if (!$issueResolution) {
+                $issueResolution = new IssueResolution();
+                $issueResolution
                     ->setName($resolutionType)
                     ->setTitle(ucfirst($resolutionType));
             }
 
-            $manager->persist($IssueResolution);
+            $manager->persist($issueResolution);
         }
 
         $manager->flush();

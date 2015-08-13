@@ -18,6 +18,7 @@ class IssueCodeListener
 
     /**
      * IssueCodeListener constructor.
+     * @param GeneratorInterface $generator
      */
     public function __construct(GeneratorInterface $generator)
     {

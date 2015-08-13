@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -17,7 +18,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
     /**
      * @var array
      */
-    protected static $fixtureText = array(
+    protected static $fixtureText = [
         'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.',
         'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
         'Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.',
@@ -38,17 +39,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
         'Sed lectus. Donec mollis hendrerit risus. Phasellus nec sem in justo pellentesque facilisis. Etiam imperdiet.',
         'Phasellus leo dolor, tempus non, auctor et, hendrerit quis, nisi. Curabitur ligula sapien, tincidunt non.',
         'Praesent congue erat at massa. Sed cursus turpis vitae tortor. Donec posuere vulputate arcu.',
-    );
-
-    /**
-     * @todo
-     *
-     * @var array
-     */
-    protected static $relatedEntities = array(
-        'AnytBugTrackerBundle:Contact' => 'setRelatedContact',
-        'AnytBugTrackerBundle:Account' => 'setRelatedAccount',
-    );
+    ];
 
     /**
      * @var EntityManager
@@ -75,9 +66,9 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
      */
     public function getDependencies()
     {
-        return array(
+        return [
             'Anyt\BugTrackerBundle\Migrations\Data\Demo\ORM\LoadUserData',
-        );
+        ];
     }
 
     /**
@@ -89,12 +80,6 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
         $this->organization = $this->getReference('default_organization');
 
         for ($i = 0; $i < self::ISSUES_COUNT; ++$i) {
-            //            $summary = self::$fixtureText[$i];
-//
-//            if ($manager->getRepository('AnytBugTrackerBundle:IssueEntity')->findOneBySummary($summary)) {
-//                // Case with this title is already exist
-//                continue;
-//            }
 
             $issue = $this->createIssueEntity();
             $this->entityManager->persist($issue);
@@ -104,7 +89,6 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
     }
 
     /**
-     * @param string $subject
      *
      * @return Issue|null
      */
@@ -156,7 +140,7 @@ class LoadIssueEntityData extends AbstractFixture implements DependentFixtureInt
                 ->getSingleResult();
         }
 
-        return;
+        return null;
     }
 
     /**

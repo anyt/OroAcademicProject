@@ -77,14 +77,13 @@ class LoadUserData extends AbstractFixture implements ContainerAwareInterface, D
             ->addGroup($salesGroup)
             ->setEmail('sale@example.com')
             ->setOrganization($organization)
-            ->addOrganization($organization)
             ->setBusinessUnits(
                 new ArrayCollection(
-                    array(
+                    [
                         $this->getBusinessUnit($manager, 'Acme, General'),
                         $this->getBusinessUnit($manager, 'Acme, East'),
                         $this->getBusinessUnit($manager, 'Acme, West'),
-                    )
+                    ]
                 )
             );
 

@@ -23,6 +23,9 @@ class LoadGroupData extends AbstractFixture implements ContainerAwareInterface, 
         return ['Anyt\BugTrackerBundle\Migrations\Data\Demo\ORM\LoadBusinessUnitData'];
     }
 
+    /**
+     * @param ContainerInterface|null $container
+     */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
@@ -40,14 +43,14 @@ class LoadGroupData extends AbstractFixture implements ContainerAwareInterface, 
         $defaultCrmBU = $this->getBusinessUnit($manager, 'Acme, West');
         $defaultCoreBU = $this->getBusinessUnit($manager, 'Acme, East');
         $defaultMainBU = $this->getBusinessUnit($manager, 'Acme, General');
-        $groups = array(
+        $groups = [
             'Marketing Manager' => $defaultCrmBU,
             'Executive Marketing' => $defaultCrmBU,
             'Sales Manager' => $defaultCoreBU,
             'Executive Sales' => $defaultCoreBU,
             'Promotion Manager' => $defaultMainBU,
             'Executive Director' => $defaultMainBU,
-        );
+        ];
 
         foreach ($groups as $group => $user) {
             $newGroup = new Group($group);
