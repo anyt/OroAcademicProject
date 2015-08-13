@@ -197,14 +197,14 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
     /**
      * @var ArrayCollection|Issue[]
      *
-     * @ORM\OneToMany(targetEntity="Anyt\BugTrackerBundle\Entity\Issue", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Anyt\BugTrackerBundle\Entity\Issue", mappedBy="parent", cascade={"remove"})
      */
     protected $children;
 
     // ...
     /**
      * @ORM\ManyToOne(targetEntity="Anyt\BugTrackerBundle\Entity\Issue", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $parent;
 

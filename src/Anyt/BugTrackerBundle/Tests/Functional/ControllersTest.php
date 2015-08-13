@@ -57,6 +57,7 @@ class ControllersTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         $this->assertContains('Issue saved.', $crawler->html());
+
     }
 
     /**
@@ -111,6 +112,35 @@ class ControllersTest extends WebTestCase
      * @depends testUpdate
      * @param $id
      */
+    public function testCreateSubtask($id)
+    {
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('anyt_issue_view', ['id' => $id])
+        );
+        $link = $crawler->selectLink('Create Subtask')->link();
+
+        $crawler = $this->client->click($link);
+        $form = $crawler->selectButton('Save and Close')->form();
+
+        $formData = $this->issueCreateData;
+
+        $formData['anyt_issue[summary]'] = 'Subtask_summary';
+        unset($formData['anyt_issue[type]']);
+        $form->setValues($formData);
+
+        $this->client->followRedirects(true);
+        $crawler = $this->client->submit($form);
+
+        $result = $this->client->getResponse();
+        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        $this->assertContains('Issue saved.', $crawler->html());
+    }
+
+    /**
+     * @depends testUpdate
+     * @param $id
+     */
     public function testDelete($id)
     {
         $this->client->request(
@@ -128,37 +158,5 @@ class ControllersTest extends WebTestCase
 
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 404);
-    }
-
-
-    public function testChildrenAction()
-    {
-        $this->markTestIncomplete();
-
-    }
-
-    public function testCollaboratorsAction()
-    {
-        $this->markTestIncomplete();
-
-    }
-
-
-    public function testOwnerItemsAction()
-    {
-        $this->markTestIncomplete();
-
-    }
-
-    public function testAssigneeItemsAction()
-    {
-        $this->markTestIncomplete();
-
-    }
-
-    public function testRecentAction()
-    {
-        $this->markTestIncomplete();
-
     }
 }

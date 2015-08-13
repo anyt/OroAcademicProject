@@ -74,6 +74,7 @@ class SoapIssueTest extends WebTestCase
     /**
      * @param array $request
      * @depends testCreate
+     * @return array
      */
     public function testUpdate(array $request)
     {

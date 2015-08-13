@@ -3,7 +3,6 @@
 
 namespace Anyt\BugTrackerBundle\Tests\Unit\EventListener;
 
-
 use Anyt\BugTrackerBundle\Entity\Issue;
 use Anyt\BugTrackerBundle\EventListener\IssueCodeListener;
 use Anyt\BugTrackerBundle\IssueCodeGenerator\BasicGenerator;
@@ -34,7 +33,7 @@ class IssueCodeListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->args = $this->getMockBuilder('Doctrine\ORM\Event\LifecycleEventArgs')
             ->disableOriginalConstructor()
-            ->getMock();;
+            ->getMock();
     }
 
     public function testPostPersist()
