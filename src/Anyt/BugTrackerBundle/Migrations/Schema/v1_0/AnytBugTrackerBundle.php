@@ -117,11 +117,11 @@ class AnytBugTrackerBundle implements Migration
     protected function createAnytBtIssueToIssuesTable(Schema $schema)
     {
         $table = $schema->createTable('anyt_bt_issue_to_issues');
-        $table->addColumn('ticket_id', 'integer', []);
-        $table->addColumn('user_id', 'integer', []);
-        $table->setPrimaryKey(['ticket_id', 'user_id']);
-        $table->addIndex(['ticket_id'], 'IDX_A398D88C700047D2', []);
-        $table->addIndex(['user_id'], 'IDX_A398D88CA76ED395', []);
+        $table->addColumn('issue_from_id', 'integer', []);
+        $table->addColumn('issue_to_id', 'integer', []);
+        $table->setPrimaryKey(['issue_from_id', 'issue_to_id']);
+        $table->addIndex(['issue_from_id'], 'IDX_A398D88C700047D2', []);
+        $table->addIndex(['issue_to_id'], 'IDX_A398D88CA76ED395', []);
     }
 
     /**
@@ -202,13 +202,13 @@ class AnytBugTrackerBundle implements Migration
         $table = $schema->getTable('anyt_bt_issue_to_issues');
         $table->addForeignKeyConstraint(
             $schema->getTable('anyt_bt_issue'),
-            ['ticket_id'],
+            ['issue_from_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
         $table->addForeignKeyConstraint(
             $schema->getTable('anyt_bt_issue'),
-            ['user_id'],
+            ['issue_to_id'],
             ['id'],
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );

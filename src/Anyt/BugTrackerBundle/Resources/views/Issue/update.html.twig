@@ -1,20 +1,22 @@
 {% extends 'OroUIBundle:actions:update.html.twig' %}
 {% form_theme form with ['OroFormBundle:Form:fields.html.twig', 'OroTagBundle:Form:fields.html.twig'] %}
+{% import 'OroDataGridBundle::macros.html.twig' as dataGrid %}
+{% set gridName = 'issue-related-grid' %}
 
-{% if form.vars.value.id %}
-    {% set formAction = path('anyt_issue_update', { 'id': form.vars.value.id }) %}
+{% if entity.id %}
+    {% set formAction = path('anyt_issue_update', { 'id': entity.id }) %}
 {% else %}
     {% set formAction = path('anyt_issue_create', app.request.query.all()) %}
 {% endif %}
 
 {% block navButtons %}
-    {% if form.vars.value.id and resource_granted('DELETE', form.vars.value) %}
+    {% if entity.id and resource_granted('DELETE', entity) %}
         {{ UI.deleteButton({
-            'dataUrl': path('anyt_api_delete_issue', {'id': form.vars.value.id}),
+            'dataUrl': path('anyt_api_delete_issue', {'id': entity.id}),
             'dataRedirect': path('anyt_issue_index'),
             'aCss': 'no-hash remove-button',
             'id': 'btn-remove-tag',
-            'dataId': form.vars.value.id,
+            'dataId': entity.id,
             'entity_label': 'anyt.bugtracker.issue.entity_label'|trans
         }) }}
         {{ UI.buttonSeparator() }}
@@ -28,12 +30,12 @@
 {% endblock navButtons %}
 
 {% block pageHeader %}
-    {% if form.vars.value.id %}
+    {% if entity.id %}
         {% set breadcrumbs = {
-        'entity':      form.vars.value,
+        'entity':      entity,
         'indexPath':   path('anyt_issue_index'),
         'indexLabel': 'anyt.bugtracker.issue.entity_label'|trans,
-        'entityTitle': form.vars.value.summary
+        'entityTitle': entity.summary
         } %}
         {{ parent() }}
     {% else %}
@@ -45,27 +47,43 @@
 {% block content_data %}
     {% set id = 'issue-edit' %}
     {% set data = [
-    form_row(form.summary),
-    form_row(form.description),
-    form_row(form.assignee),
-    form_row(form.priority),
-    form_row(form.resolution),
-    form_row(form.tags),
+        form_row(form.summary),
+        form_row(form.description),
+        form_row(form.assignee),
+        form_row(form.priority),
+        form_row(form.resolution),
+        form_row(form.tags),
+        form_widget(form.appendRelatedIssues, {'id': 'issueAppendRelatedIssues'}),
+        form_widget(form.removeRelatedIssues, {'id': 'issueRemoveRelatedIssues'})
     ] %}
     {% if form.type is defined %}
         {% set data = [form_row(form.type)]|merge(data) %}
     {% endif %}
     {% set dataBlocks = [{
-    'title': 'General'|trans,
-    'class': 'active',
-    'subblocks': [{
-    'title': '',
-    'data': data
-    }]
+        'title': 'General'|trans,
+        'class': 'active',
+        'subblocks': [{
+            'title': '',
+            'data': data
+        }]
     }] %}
+
+
+    {% set dataBlocks = dataBlocks|merge([{
+        'title' : 'anyt.bugtracker.issue.related_issues.label'|trans,
+        'subblocks':
+        [
+        {
+            'title' : null,
+            'useSpan': false,
+            'data' : [dataGrid.renderGrid(gridName, {issue_id: entity.id}, { cssClass: 'inner-grid' })]
+        }
+        ]
+    }]) %}
+    {#[dataGrid.renderGrid(gridName, {issue_id: entity.id}, { cssClass: 'inner-grid' })]#}
     {% set data = {
-    'formErrors': form_errors(form)? form_errors(form) : null,
-    'dataBlocks': dataBlocks,
+        'formErrors': form_errors(form)? form_errors(form) : null,
+        'dataBlocks': dataBlocks,
     } %}
     {{ parent() }}
 {% endblock content_data %}

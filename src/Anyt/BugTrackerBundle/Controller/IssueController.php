@@ -114,7 +114,7 @@ class IssueController extends Controller
     public function indexAction()
     {
         return [
-            'entity_class' => 'Anyt/BugTrackerBundle/Entity/Issue',
+            'entity_class' => $this->container->getParameter('anyt.issue.entity.class'),
         ];
     }
 

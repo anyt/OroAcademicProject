@@ -3,6 +3,8 @@ parameters:
     anyt.issue.manager.api.class:       Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager
     anyt.type.issue.api.class:          Anyt\BugTrackerBundle\Form\Type\IssueApiType
     anyt.issue.entity.class:            Anyt\BugTrackerBundle\Entity\Issue
+    anyt.issue_priority.entity.class:            Anyt\BugTrackerBundle\Entity\IssuePriority
+    anyt.issue_resolution.entity.class:            Anyt\BugTrackerBundle\Entity\IssueResolution
     anyt.handler.issue.class:           Anyt\BugTrackerBundle\Form\Handler\IssueHandler
 
 services:

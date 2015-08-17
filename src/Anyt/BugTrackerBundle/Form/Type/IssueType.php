@@ -23,7 +23,26 @@ class IssueType extends AbstractType
             ->add('summary', 'text', ['label' => 'anyt.bugtracker.issue.summary.label'])
             ->add('description', 'textarea', ['label' => 'anyt.bugtracker.issue.description.label'])
             ->add('assignee', 'oro_user_select', ['label' => 'anyt.bugtracker.issue.assignee.label'])
-//          @todo ->add('relatedIssues') like users in Acl Group entity
+            ->add(
+                'appendRelatedIssues',
+                'oro_entity_identifier',
+                [
+                    'class'    => 'Anyt\BugTrackerBundle\Entity\Issue',
+                    'required' => false,
+                    'mapped'   => false,
+                    'multiple' => true,
+                ]
+            )
+            ->add(
+                'removeRelatedIssues',
+                'oro_entity_identifier',
+                [
+                    'class'    => 'Anyt\BugTrackerBundle\Entity\Issue',
+                    'required' => false,
+                    'mapped'   => false,
+                    'multiple' => true,
+                ]
+            )
             ->add(
                 'priority',
                 'entity',

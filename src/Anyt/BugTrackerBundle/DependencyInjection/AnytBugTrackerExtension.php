@@ -26,5 +26,6 @@ class AnytBugTrackerExtension extends Extension
         $loader->load('services.yml');
         $loader->load('form.yml');
         $loader->load('conditions.yml');
+        $loader->load('importexport.yml');
     }
 }

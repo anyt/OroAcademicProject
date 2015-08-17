@@ -67,6 +67,13 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     private $id;
 
@@ -74,12 +81,27 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      * @var string
      *
      * @ORM\Column(name="summary", type="string", length=255)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=10
+     *          }
+     *      }
+     * )
      */
     private $summary;
 
     /**
      * @var string
      * @ORM\Column(name="code", type="string", length=64, nullable=true)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=20,
+     *              "identity"=true
+     *          }
+     *      }
+     * )
      */
     private $code;
 
@@ -87,6 +109,13 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=30
+     *          }
+     *      }
+     * )
      */
     private $description;
 
@@ -95,6 +124,13 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     private $created;
 
@@ -102,6 +138,13 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      * @var \DateTime
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     private $updated;
 
@@ -109,6 +152,13 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      * @var string
      *
      * @ORM\Column(name="type", type="string")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=40
+     *          }
+     *      }
+     * )
      */
     private $type;
 
@@ -116,6 +166,13 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      * @var string
      *
      * @ORM\Column(name="status", type="string")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=50
+     *          }
+     *      }
+     * )
      */
     private $status;
 
@@ -124,6 +181,14 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_assignee_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=60,
+     *              "full"=false
+     *          }
+     *      }
+     * )
      */
     protected $assignee;
 
@@ -135,6 +200,14 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *      joinColumns={@ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")}
      * )
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=70,
+     *              "full"=false
+     *          }
+     *      }
+     * )
      */
     protected $collaborators;
 
@@ -143,8 +216,16 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @ORM\ManyToMany(targetEntity="Issue")
      * @ORM\JoinTable(name="anyt_bt_issue_to_issues",
-     *      joinColumns={@ORM\JoinColumn(name="ticket_id", referencedColumnName="id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")}
+     *      joinColumns={@ORM\JoinColumn(name="issue_from_id", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="issue_to_id", referencedColumnName="id", onDelete="CASCADE")}
+     * )
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=80,
+     *              "full"=false
+     *          }
+     *      }
      * )
      */
     protected $relatedIssues;
@@ -154,6 +235,14 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @ORM\ManyToOne(targetEntity="IssuePriority", inversedBy="issues")
      * @ORM\JoinColumn(name="priority_id", referencedColumnName="id")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=90,
+     *              "full"=false
+     *          }
+     *      }
+     * )
      */
     protected $priority;
 
@@ -162,6 +251,14 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @ORM\ManyToOne(targetEntity="IssueResolution", inversedBy="issues")
      * @ORM\JoinColumn(name="resolution_id", referencedColumnName="id")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=100,
+     *              "full"=false
+     *          }
+     *      }
+     * )
      */
     protected $resolution;
 
@@ -171,6 +268,10 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *      defaultValues={
      *          "merge"={
      *              "display"=true
+     *          },
+     *          "importexport"={
+     *              "order"=110,
+     *              "full"=false
      *          }
      *      }
      * )
@@ -183,6 +284,14 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\UserBundle\Entity\User")
      * @ORM\JoinColumn(name="user_owner_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=120,
+     *              "full"=false
+     *          }
+     *      }
+     * )
      */
     protected $owner;
 
@@ -191,6 +300,14 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      *
      * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
      * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=130,
+     *              "full"=false
+     *          }
+     *      }
+     * )
      */
     protected $organization;
 
@@ -198,6 +315,13 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
      * @var ArrayCollection|Issue[]
      *
      * @ORM\OneToMany(targetEntity="Anyt\BugTrackerBundle\Entity\Issue", mappedBy="parent", cascade={"remove"})
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
      */
     protected $children;
 
@@ -205,6 +329,14 @@ class Issue extends ExtendIssue implements Taggable, EmailHolderInterface
     /**
      * @ORM\ManyToOne(targetEntity="Anyt\BugTrackerBundle\Entity\Issue", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "order"=140,
+     *              "full"=false
+     *          }
+     *      }
+     * )
      **/
     private $parent;
 

@@ -1,0 +1,55 @@
+parameters:
+    anyt.importexport.template_fixture.issue.class: Anyt\BugTrackerBundle\ImportExport\TemplateFixture\IssueFixture
+    anyt.importexport.template_fixture.issue_priority.class: Anyt\BugTrackerBundle\ImportExport\TemplateFixture\IssuePriorityFixture
+    anyt.importexport.template_fixture.issue_resolution.class: Anyt\BugTrackerBundle\ImportExport\TemplateFixture\IssueResolutionFixture
+
+services:
+    anyt.importexport.data_converter:
+        parent: oro_importexport.data_converter.configurable
+
+    anyt.importexport.template_fixture.data_converter.issue:
+        parent: oro_importexport.data_converter.template_fixture.configurable
+
+    # Strategy
+    anyt.importexport.strategy.issue.add_or_replace:
+        parent: oro_importexport.strategy.configurable_add_or_replace
+
+    # Import processor
+    anyt.importexport.processor.import:
+        parent: oro_importexport.processor.import_abstract
+        calls:
+             - [setDataConverter, [@anyt.importexport.data_converter]]
+             - [setStrategy, [@anyt.importexport.strategy.issue.add_or_replace]]
+        tags:
+            - { name: oro_importexport.processor, type: import, entity: %anyt.issue.entity.class%, alias: anyt.add_or_replace }
+            - { name: oro_importexport.processor, type: import_validation, entity: %anyt.issue.entity.class%, alias: anyt.add_or_replace }
+
+    # Export processor
+    anyt.importexport.processor.export:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, [@anyt.importexport.data_converter]]
+        tags:
+            - { name: oro_importexport.processor, type: export, entity: %anyt.issue.entity.class%, alias: anyt_issue }
+
+    anyt.importexport.processor.issue.export_template:
+        parent: oro_importexport.processor.export_abstract
+        calls:
+            - [setDataConverter, [@anyt.importexport.template_fixture.data_converter.issue]]
+        tags:
+            - { name: oro_importexport.processor, type: export_template, entity: %anyt.issue.entity.class%, alias: anyt_issue }
+
+    anyt.importexport.template_fixture.issue:
+        class: %anyt.importexport.template_fixture.issue.class%
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    anyt.importexport.template_fixture.issue_priority:
+        class: %anyt.importexport.template_fixture.issue_priority.class%
+        tags:
+            - { name: oro_importexport.template_fixture }
+
+    anyt.importexport.template_fixture.issue_resolution:
+        class: %anyt.importexport.template_fixture.issue_resolution.class%
+        tags:
+            - { name: oro_importexport.template_fixture }

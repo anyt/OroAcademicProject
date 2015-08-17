@@ -15,7 +15,9 @@ anyt:
         priority.label:             Priority
         status.label:               Status
         related_issues.label:       Related issues
+        is_related.label:           Is related
         owner.label:                Reporter
+        organization.label:         Organization
         resolution.label:           Resolution
         summary.label:              Summary
         type.label:                 Type
